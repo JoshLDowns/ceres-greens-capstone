@@ -1,10 +1,12 @@
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const app = express();
 const bodyParser = require('body-parser');
 const port = process.env.PORT || 5000;
-const Influx = require('influx');
-const http = require('http');
+const {InfluxDB, Point, HttpError, FluxTableMetaData} = require('@influxdata/influxdb-client');
+const {hostname} = require('os');
+//const http = require('http');
 
 app.use(express.static(path.join(__dirname, '/client/build')));
 
@@ -15,43 +17,58 @@ app.use(express.static(path.join(__dirname, '/client/build')));
 
 // ------------------------------------------------------------------------------------- //
 
-// ----- this is our database set-up ----- can't test until we get the log in info ----- //
+// ----------------- Writes data to InfluxDB example ----------------------------------- //
 
-/*const influx = new Influx.InfluxDB({
-    host: //link to our database,
-    database: //name of the database we are using,
-    schema: [
-      {
-        measurement: // this will be our 'collection'.. it's the table name,
-        fields: {
-          //this is where our main data will live in the schema
-        },
-        tags: [
-          //used to organize the data
-        ]
-      }
-    ]
+const writeApi = new InfluxDB({url: process.env.URL, token: process.env.TOKEN}).getWriteApi(process.env.ORG, process.env.BUCKET);
+writeApi.useDefaultTags({location: hostname()})
+
+const point1= new Point('temperature')
+  .tag('example', 'write.ts')
+  .floatField('value', 20 + Math.round(100 * Math.random()) / 10)
+writeApi.writePoint(point1)
+console.log(` ${point1}`)
+
+const point2 = new Point('temperature')
+  .tag('example', 'write.ts')
+  .floatField('value', 20 + Math.round(100 * Math.random()) / 10)
+writeApi.writePoint(point2)
+console.log(` ${point2}`)
+
+writeApi
+  .close()
+  .then(()=> {
+    console.log('Finished ...')
   })
-
-  influx.getDatabaseNames()
-  .then(names => {
-    if (!names.includes(//database name)) {
-      return influx.createDatabase(//database name);
+  .catch(e => {
+    console.error(e)
+    if (e instanceof HttpError && e.statusCode === 401) {
+      console.log('Run ./onboarding.js to setup a new InfluxDB database.')
     }
+    console.log('\nFinished ERROR')
   })
-  .then(() => {
-    http.createServer(app).listen(port, function () {
-      console.log(`Listening on ${port} 3000`)
-    })
-  })
-  .catch(err => {
-    console.error(`Error creating Influx database!`);
-  })
-  */
+
+// ------------------------------------------------------------------------------------- //
 
 
-// ----------------------------------------------------------------------------------- //
+// const queryApi = new InfluxDB({url: process.env.URL, token: process.env.TOKEN}).getQueryApi(process.env.ORG);
+// const fluxQuery = `from(bucket:"test_bucket") |> range(start:0) |> filter(fn: (r) => r._measuerment == "temperature")`
 
+// console.log('*** QUERY ROWS ***')
+// queryApi.queryRows(fluxQuery, {
+//   next(row, tableMeta) {
+//     const o = tableMeta.toObject(row)
+//     console.log(
+//       `${o._time} ${o._measuerment} in '${o.location}' (${o.example}): ${o._field}=${o._value}`
+//     )
+//   },
+//   error(error) {
+//     console.error(error)
+//     console.log('\n Finished ERROR')
+//   },
+//   complete() {
+//     console.log('\nFinished SUCCESS')
+//   }
+// })
 
 
 app.get('*', (req, res) => {
