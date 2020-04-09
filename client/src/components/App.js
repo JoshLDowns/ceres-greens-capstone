@@ -11,7 +11,10 @@ class App extends React.Component {
     return (
       <div id='body'>
         {/* anything static to the page will go here */}
-        <h1>I'm The Landing Page!</h1>
+        <div id='temp-header'>
+          <p>~ Link to User Config Page ~</p>
+          <p>~ Clock Display ~</p>
+        </div>
         <div>
           <Route exact path='/' >
             <StaticData />
