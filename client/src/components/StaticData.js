@@ -1,4 +1,5 @@
 import React from 'react'
+import Gauge from 'react-svg-gauge'
 
 class StaticData extends React.Component {
     constructor(props) {
@@ -196,7 +197,7 @@ class StaticData extends React.Component {
                 }))
             })
         }, 10000)
-        setInterval(()=>{
+        setInterval(() => {
             fetch('/manage').then(res => res.json()).then((obj) => {
                 this.setState({
                     fans: obj.fans,
@@ -277,6 +278,16 @@ class StaticData extends React.Component {
 
     }
 
+    changeGaugeColor = (value) => {
+        if (value > this.state.funcRanges.wLow && value <= this.state.funcRanges.normal) {
+            return 'rgb(75,190,50)'
+        } else if ((value > this.state.funcRanges.normal && value <= this.state.funcRanges.wHigh) || (value <= this.state.funcRanges.wLow && value > this.state.funcRanges.vLow)) {
+            return 'rgb(210, 200, 75)'
+        } else if (value > this.state.funcRanges.wHigh || value <= this.state.funcRanges.vLow) {
+            return 'rgb(250, 90, 90)'
+        }
+    }
+
     render() {
 
         return (
@@ -284,7 +295,7 @@ class StaticData extends React.Component {
                 <div id='sensors'>
                     <div id='sensor-top'>
                         <div id='sensor-critical'>
-                            <SensorOne sensor={this.state.sensor1.num} tempTrend={this.state.sensor1.tempTrend} tempColor={this.state.sensor1.tempColor} temperature={this.state.sensor1.temperature} humTrend={this.state.sensor1.humTrend} humColor={this.state.sensor1.humColor} humidity={this.state.sensor1.humidity} />
+                            <SensorOne sensor={this.state.sensor1.num} tempRanges={this.state.tempRanges} humRanges={this.state.humRanges} tempTrend={this.state.sensor1.tempTrend} tempColor={this.state.sensor1.tempColor} temperature={this.state.sensor1.temperature} humTrend={this.state.sensor1.humTrend} humColor={this.state.sensor1.humColor} humidity={this.state.sensor1.humidity} />
                         </div>
                         <div id='sensor-mid'>
                             <div className='mid-sensors' id='sensor-mid-1'>
@@ -312,19 +323,19 @@ class StaticData extends React.Component {
                         <div className='manage-header'>
                             <h2>Fans</h2>
                         </div>
-                        {this.state.fans ? this.state.fans.map((fan, i)=>(<p className='manage-data' key={i}>{fan}</p>)) : <p>...Loading</p>}
+                        {this.state.fans ? this.state.fans.map((fan, i) => (<p className='manage-data' key={i}>{fan}</p>)) : <p>...Loading</p>}
                     </div>
                     <div id='lights' className='manage-cell'>
-                    <div className='manage-header'>
+                        <div className='manage-header'>
                             <h2>Lighting</h2>
                         </div>
-                        {this.state.lighting ? this.state.lighting.map((light, i)=>(<p className='manage-data' key={i}>{light}</p>)) : <p>...Loading</p>}
+                        {this.state.lighting ? this.state.lighting.map((light, i) => (<p className='manage-data' key={i}>{light}</p>)) : <p>...Loading</p>}
                     </div>
                     <div id='pumps' className='manage-cell'>
-                    <div className='manage-header'>
+                        <div className='manage-header'>
                             <h2>Pumps</h2>
                         </div>
-                        {this.state.pumps ? this.state.pumps.map((pump, i)=>(<p className='manage-data' key={i}>{pump}</p>)) : <p>...Loading</p>}
+                        {this.state.pumps ? this.state.pumps.map((pump, i) => (<p className='manage-data' key={i}>{pump}</p>)) : <p>...Loading</p>}
                     </div>
                 </div>
             </div>
@@ -365,6 +376,10 @@ function SensorOne(props) {
         <div className='dashboard-cell'>
             <div className='sensor-header'>
                 <h2>{props.sensor}</h2>
+            </div>
+            <div className='gauges'>
+                <Gauge id='s1-temp' min={props.tempRanges.criticalLow - 4} max={props.tempRanges.warningHigh + 4} value={parseFloat(props.temperature)} width={250} height={175} label={`Temperature °F ${tempTrend}`} />
+                <Gauge id='s1-hum' min={props.humRanges.criticalLow - 4} max={props.humRanges.warningHigh + 4} value={parseFloat(props.humidity)} width={250} height={175} label={`Humidity % rh ${humTrend}`} />
             </div>
             <h3><span style={{ color: props.tempColor }}>{props.temperature}°F {tempTrend}</span> <span> - </span> <span style={{ color: props.humColor }}>{props.humidity}% rh {humTrend}</span></h3>
         </div>
