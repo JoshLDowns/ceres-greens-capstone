@@ -166,3 +166,156 @@ h3 {
     font-family: monospace;
     font-size: 1.4rem;
 }
+
+/* Query form formatting */
+
+#user {
+    width: 100%;
+    height: auto;
+    display: flex;
+}
+
+#query-form {
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#query-params {
+    width: Calc(98% + 6px);
+    border: 2px solid black;
+    margin-left: 20px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    background-color: slategray;
+}
+
+#calendar-time {
+    width: 100%;
+    margin-left: 20px;
+    display: flex;
+    justify-content: space-around;
+    height: auto;
+}
+
+.cal-time {
+    width: 45%;
+    height: auto;
+    padding: 2%;
+    border: 2px solid black;
+}
+
+.query-field {
+    display: flex;
+    justify-content: space-around;
+    border-bottom: 2px dashed black;
+}
+
+.query-field p {
+    margin: 5px 0 5px 0;
+}
+
+#form-measurements {
+    display: flex;
+    justify-content: space-between;
+    width: Calc(98% - 14px);
+    border: 2px solid black;
+    margin-left: 20px;
+    margin-top: 10px;
+    padding: 10px;
+}
+
+#measurement-radio {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 35%;
+    height: 100%;
+}
+
+/* ------------------------------------ */
+
+
+/* Time wheel formatting for query form */
+.time-wheel {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    height: 150px;
+    overflow: hidden;
+}
+
+.time-scroll {
+    position: absolute;
+    top: 0;
+    width: Calc(100% + 20px);
+    overflow: auto;
+    height: 150px;
+}
+
+.time-click {
+    border-bottom: 1px dashed black;
+    background: slategray;
+    margin: 1px 0 1px 0;
+    padding: 0;
+}
+
+.time-click p {
+    margin: 0;
+    padding: 10px;
+    pointer-events: none;
+}
+
+.time-click:hover {
+    background-color: whitesmoke;
+    cursor: pointer;
+}
+/* ------------------------------------ */
+
+/* Sensor wheel formatting for query form */
+.sensor-wheel {
+    position: relative;
+    width: 60%;
+    text-align: center;
+    height: 150px;
+    overflow: hidden;
+}
+
+.sensor-scroll {
+    position: absolute;
+    top: 0;
+    width: Calc(100% + 20px);
+    overflow: auto;
+    height: 150px;
+}
+
+.sensor-click {
+    border-bottom: 1px dashed black;
+    background: slategray;
+    margin: 1px 0 1px 0;
+    padding: 0;
+}
+
+.sensor-click p {
+    margin: 0;
+    padding: 10px;
+    pointer-events: none;
+}
+
+.sensor-click:hover {
+    background-color: whitesmoke;
+    cursor: pointer;
+}
+/* ------------------------------------ */
+
+
+#test-times {
+    display: flex
+}
+
+.testTime:hover { 
+    color: gray;
+    cursor: pointer;
+}

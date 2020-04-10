@@ -6,7 +6,7 @@ const {InfluxDB} = require('@influxdata/influxdb-client');
 
 async function buildSensorObject() {
   const queryApi = new InfluxDB({url: process.env.URL, token: process.env.TOKENTWO}).getQueryApi(process.env.ORG);
-  const fluxQuery = `from(bucket:"perm_data") |> range(start: -1h, stop: -10m) |> filter(fn: (r) => r._measurement == "sensor1") |> filter(fn: (r) => r._field == "temperature")` 
+  const fluxQuery = `from(bucket:"perm_data") |> range(start: 2020-04-09T16:00:00Z, stop: 2020-04-09T17:00:00Z) |> filter(fn: (r) => r._measurement == "sensor1") |> filter(fn: (r) => r._field == "temperature" or r._field == "humidity")` 
   
 
   console.log('*** QUERY ROWS ***')
