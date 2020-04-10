@@ -1,0 +1,23 @@
+.drawer-button {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 30px;
+    width: 40px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    box-sizing: border-box;
+    margin-left: 1rem;
+}
+
+.drawer-button:focus {
+    outline: none;
+}
+
+.button-line {
+    width: 30px;
+    height: 2px;
+    background: white;
+}
