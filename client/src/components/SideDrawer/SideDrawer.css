@@ -1,0 +1,51 @@
+.side-drawer {
+    height: 100%;
+    background: rgb(12,83,105);
+    background: linear-gradient(180deg, rgba(12,83,105,1) 21%, black 100%);
+    box-shadow: 2px 0px 5px rgba(0,0,0,0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 70%;
+    max-width: 400px;
+    z-index: 200;
+    padding: 0;
+}
+
+.side-drawer ul {
+    height: 100%;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0;
+}
+
+.side-drawer li {
+    margin: 1rem;
+    border: 2px  white solid;
+  border-radius: 5px;
+    width: 70%;
+    height: 6vh;
+    text-align: center;
+    padding: 2rem;
+}
+
+.side-drawer li:hover {
+    background-color: rgb(79,81,82);
+}
+
+.side-drawer a {
+    font-family: "Baloo Bhai", cursive;
+    color: white;
+    text-decoration: none;
+    font-size: 1.4rem;
+    
+  
+    
+}
+
+.side-drawer a:hover,
+.side-drawer a:active {
+    color: black;
+}
