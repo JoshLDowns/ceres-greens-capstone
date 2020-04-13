@@ -45,18 +45,18 @@ class UserData extends React.Component {
                 queryObj.x.push(format(new Date(item['_time']), 'MM/dd/yyyy HH:mm:ss'))
                 queryObj.y.push(item['_value'])
             })
-            if (queryObj.x.length > 2016) {
-
-            } else if (queryObj.x.length > 288) {
-
-            } else if (queryObj.x.length > 24) {
-                
-            } else {
+            //if (queryObj.x.length > 2016) {
+//
+            //} else if (queryObj.x.length > 288) {
+//
+            //} else if (queryObj.x.length > 24) {
+            //    
+            //} else {
                 this.setState({
                     data: queryObj,
                     chartModal: true
                 })
-            }
+            //}
         })
     }
 
