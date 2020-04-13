@@ -314,6 +314,10 @@ h3 {
 }
 /* ------------------------------------ */
 
+#chart-modal {
+    width: 50vw;
+    height: 50vh;
+}
 
 #test-times {
     display: flex

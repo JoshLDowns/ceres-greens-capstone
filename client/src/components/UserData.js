@@ -3,6 +3,7 @@ import CalendarSelect from './CalendarSelect.js'
 import set from 'date-fns/set'
 import format from 'date-fns/format'
 import setHours from 'date-fns/setHours'
+import { Line } from 'react-chartjs-2'
 import TimeWheel from './TimeWheel.js'
 import SensorWheel from './SensorWheel.js'
 import MeasurementRadio from './MeasurementRadio.js'
@@ -18,11 +19,14 @@ class UserData extends React.Component {
             query: undefined,
             data: undefined,
             measurement: '',
-            sensor: undefined
+            sensor: undefined,
+            chart: false
         }
     }
 
     submitQuery = () => {
+        let tempXAr;
+        let tempYAr;
         let queryString = this.buildQueryString()
         let queryObj = {
             sensor: `Sensor ${this.state.sensor[6]}${this.state.sensor[7] ? this.state.sensor[7] : ''}`,
@@ -37,18 +41,27 @@ class UserData extends React.Component {
             },
             body: JSON.stringify({ queryString: queryString, sensor: `${this.state.sensor}`, measurement: `${this.state.measurement}` })
         }).then(res => res.json()).then((obj) => {
-            obj.forEach((item)=> {
+            obj.forEach((item) => {
                 queryObj.x.push(format(new Date(item['_time']), 'MM/dd/yyyy HH:mm:ss'))
                 queryObj.y.push(item['_value'])
             })
-            this.setState({
-                data: JSON.stringify(queryObj)
-            })
+            if (queryObj.x.length > 2016) {
+
+            } else if (queryObj.x.length > 288) {
+
+            } else if (queryObj.x.length > 24) {
+                
+            } else {
+                this.setState({
+                    data: queryObj,
+                    chartModal: true
+                })
+            }
         })
     }
 
     handleRadio = (event) => {
-        this.setState ({
+        this.setState({
             measurement: event.target.value
         })
     }
@@ -89,6 +102,12 @@ class UserData extends React.Component {
         })
     }
 
+    closeModal = () => {
+        this.setState({
+            chartModal: false
+        })
+    }
+
     buildQueryString = () => {
         let startDate = this.state.startDate;
         let endDate = this.state.endDate;
@@ -114,28 +133,28 @@ class UserData extends React.Component {
                 <div id='query-form'>
                     <div id='query-params'>
                         <div id='query-dates' className='query-field'>
-                        <p>Start Date: {this.state.startDate && (this.state.startDate).toLocaleDateString()}</p>
-                        <p>End Date: {this.state.endDate && (this.state.endDate).toLocaleDateString()}</p>
+                            <p>Start Date: {this.state.startDate && (this.state.startDate).toLocaleDateString()}</p>
+                            <p>End Date: {this.state.endDate && (this.state.endDate).toLocaleDateString()}</p>
                         </div>
                         <div id='query-times' className='query-field'>
-                        <p>Start Time: {this.state.startTime && format(setHours(new Date(), parseFloat(this.state.startTime.slice(6))), 'hh a')}</p>
-                        <p>End Time: {this.state.endTime && format(setHours(new Date(), parseFloat(this.state.endTime.slice(4))), 'hh a')}</p>
+                            <p>Start Time: {this.state.startTime && format(setHours(new Date(), parseFloat(this.state.startTime.slice(6))), 'hh a')}</p>
+                            <p>End Time: {this.state.endTime && format(setHours(new Date(), parseFloat(this.state.endTime.slice(4))), 'hh a')}</p>
                         </div>
                         <div id='query-measurements' className='query-field'>
-                        <p>Sensor: {this.state.sensor}</p>
-                        <p>Measurement: {this.state.measurement}</p>
+                            <p>Sensor: {this.state.sensor}</p>
+                            <p>Measurement: {this.state.measurement}</p>
                         </div>
                         <button onClick={this.submitQuery}>Submit</button>
                     </div>
                     <div id='calendar-time'>
                         <div id='range-start' className='cal-time'>
                             <h2>Start Date</h2>
-                            <CalendarSelect handleDayClick={this.handleStartDayClick} disabled={[{after: new Date}]}/>
+                            <CalendarSelect handleDayClick={this.handleStartDayClick} disabled={[{ after: new Date }]} />
                             <TimeWheel period='start' handleClick={this.handleStartTimeClick} />
                         </div>
                         <div id='range-start' className='cal-time'>
                             <h2>End Date</h2>
-                            <CalendarSelect handleDayClick={this.handleEndDayClick} disabled={[{before: this.state.startDate, after: new Date}]}/>
+                            <CalendarSelect handleDayClick={this.handleEndDayClick} disabled={[{ before: this.state.startDate, after: new Date }]} />
                             <TimeWheel period='end' handleClick={this.handleEndTimeClick} />
                         </div>
                     </div>
@@ -145,11 +164,21 @@ class UserData extends React.Component {
                     </div>
                 </div>
                 <div id='test-query'>
-                  <p>{this.state.data}</p>
+                    {this.state.chartModal && <ChartModal data={this.state.data} closeModal={this.closeModal} />}
                 </div>
             </div >
         )
     }
+}
+
+function ChartModal(props) {
+
+    return (
+        <div id='chart-modal'>
+            <Line options={{ responsive: true }} data={{ labels: props.data.x, datasets: [{ label: `${props.data.sensor}: ${props.data.measurement}`, backgroundColor: "slategrey", data: props.data.y }] }} />
+            <button onClick={props.closeModal}>Close</button>
+        </div>
+    )
 }
 
 export default UserData
