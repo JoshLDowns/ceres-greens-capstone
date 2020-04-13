@@ -277,13 +277,23 @@ class StaticData extends React.Component {
         }
 
     }
-
-    changeGaugeColor = (value) => {
-        if (value > this.state.funcRanges.wLow && value <= this.state.funcRanges.normal) {
+// Gauge color change functions
+    changeGaugeColorTemp = (temp) => {
+        if (temp > this.state.tempRanges.warningLow && temp <= this.state.tempRanges.normal) {
             return 'rgb(75,190,50)'
-        } else if ((value > this.state.funcRanges.normal && value <= this.state.funcRanges.wHigh) || (value <= this.state.funcRanges.wLow && value > this.state.funcRanges.vLow)) {
+        } else if ((temp > this.state.tempRanges.normal && temp <= this.state.tempRanges.warningHigh) || (temp <= this.state.tempRanges.warningLow && temp > this.state.tempRanges.criticalLow)) {
             return 'rgb(210, 200, 75)'
-        } else if (value > this.state.funcRanges.wHigh || value <= this.state.funcRanges.vLow) {
+        } else if (temp > this.state.tempRanges.warningHigh || temp <= this.state.tempRanges.criticalLow) {
+            return 'rgb(250, 90, 90)'
+        }
+    }
+
+    changeGaugeColorHum = (hum) => {
+        if (hum > this.state.humRanges.warningLow && hum <= this.state.humRanges.normal) {
+            return 'rgb(75,190,50)'
+        } else if ((hum > this.state.humRanges.normal && hum <= this.state.humRanges.warningHigh) || (hum <= this.state.humRanges.warningLow && hum > this.state.humRanges.criticalLow)) {
+            return 'rgb(210, 200, 75)'
+        } else if (hum > this.state.humRanges.warningHigh || hum <= this.state.humRanges.criticalLow) {
             return 'rgb(250, 90, 90)'
         }
     }
@@ -378,8 +388,8 @@ function SensorOne(props) {
                 <h2>{props.sensor}</h2>
             </div>
             <div className='gauges'>
-                <Gauge id='s1-temp' min={props.tempRanges.criticalLow - 4} max={props.tempRanges.warningHigh + 4} value={parseFloat(props.temperature)} width={250} height={175} label={`Temperature °F ${tempTrend}`} />
-                <Gauge id='s1-hum' min={props.humRanges.criticalLow - 4} max={props.humRanges.warningHigh + 4} value={parseFloat(props.humidity)} width={250} height={175} label={`Humidity % rh ${humTrend}`} />
+                <Gauge id='s1-temp' min={props.tempRanges.criticalLow - 4} max={props.tempRanges.warningHigh + 4} value={parseFloat(props.temperature)} color={this.changeGaugeColorTemp()} backgroundColor='grey' width={250} height={175} label={`Temperature °F ${tempTrend}`} />
+                <Gauge id='s1-hum' min={props.humRanges.criticalLow - 4} max={props.humRanges.warningHigh + 4} value={parseFloat(props.humidity)} color={this.changeGaugeColorHum()} backgroundColor='grey' width={250} height={175} label={`Humidity % rh ${humTrend}`} />
             </div>
             <h3><span style={{ color: props.tempColor }}>{props.temperature}°F {tempTrend}</span> <span> - </span> <span style={{ color: props.humColor }}>{props.humidity}% rh {humTrend}</span></h3>
         </div>
