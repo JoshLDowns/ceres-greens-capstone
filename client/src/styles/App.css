@@ -174,31 +174,35 @@ h3 {
 /* Query form formatting */
 
 #user {
+    position: relative;
     width: 100%;
-    height: auto;
+    height: 90vh;
     display: flex;
+    justify-content: space-around;
+    margin-top: 15px;
 }
 
 #query-form {
     width: 45%;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     align-items: center;
 }
 
 #query-params {
     width: Calc(98% + 6px);
     border: 2px solid black;
-    margin-left: 20px;
     margin-bottom: 10px;
     display: flex;
     flex-direction: column;
-    background-color: slategray;
+    background-color: rgb(20, 50, 60);
+    color: rgb(100, 240, 165);
+    font-weight: bold;
 }
 
 #calendar-time {
     width: 100%;
-    margin-left: 20px;
     display: flex;
     justify-content: space-around;
     height: auto;
@@ -209,6 +213,14 @@ h3 {
     height: auto;
     padding: 2%;
     border: 2px solid black;
+}
+
+.DayPicker {
+    width: Calc(100% - 4px);
+    background-color: rgb(20, 50, 60);
+    border: 2px solid black;
+    color: rgb(100, 240, 165);
+    font-weight: bold;
 }
 
 .query-field {
@@ -226,18 +238,96 @@ h3 {
     justify-content: space-between;
     width: Calc(98% - 14px);
     border: 2px solid black;
-    margin-left: 20px;
     margin-top: 10px;
     padding: 10px;
+}
+
+input[type='radio'] {
+    -ms-transform: scale(1.25); 
+    -webkit-transform: scale(1.25); 
+    transform: scale(1.25);
+}
+
+#radio-form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    font-weight: bold;
 }
 
 #measurement-radio {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    width: 35%;
+    width: 25%;
     height: 100%;
 }
+
+#form-submit {
+    background-color: slategray;
+    border: 2px solid rgb(20, 100, 135);
+    font-weight: bold;
+    color: black;
+    font-size: 1.25rem;
+}
+
+#form-submit:disabled {
+    color: gray;
+    background-color: lightgray;
+}
+
+/* Sensor List */
+#all-sensors {
+    position: relative;
+    overflow: hidden;
+    width: 45%;
+    height: 100%;
+    border: 2px solid black;
+}
+
+#all-sensor-scroll {
+    position: absolute;
+    overflow: auto;
+    top: 0;
+    width: Calc(100% + 20px);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sensor-list-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 95%;
+    height: 100px;
+    background-color: slategray;
+    border: 2px solid black;
+    margin: 5px 0 5px 0;
+}
+
+.sensor-list-container:hover {
+    cursor: pointer;
+    background-color: whitesmoke;
+}
+
+.sensor-list-item {
+    display: flex;
+    width: 95%;
+    height: 100%;
+    justify-content: space-between;
+    align-items: center;
+    pointer-events: none;
+}
+
+.sensor-list-item p {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+
 
 /* ------------------------------------ */
 
@@ -272,6 +362,10 @@ h3 {
     pointer-events: none;
 }
 
+.selected-time {
+    background-color: whitesmoke;
+}
+
 .time-click:hover {
     background-color: whitesmoke;
     cursor: pointer;
@@ -281,10 +375,30 @@ h3 {
 /* Sensor wheel formatting for query form */
 .sensor-wheel {
     position: relative;
-    width: 60%;
+    width: 70%;
     text-align: center;
     height: 150px;
     overflow: hidden;
+}
+
+.wheel-fade-top {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 25px;
+    z-index: 5;
+    pointer-events: none;
+    background-image: linear-gradient(to bottom, rgb(75,75,75), rgb(112, 128, 144, 0));
+}
+
+.wheel-fade-bottom {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 25px;
+    z-index: 5;
+    pointer-events: none;
+    background-image: linear-gradient(to top, rgb(75,75,75), rgb(112, 128, 144, 0));
 }
 
 .sensor-scroll {
@@ -308,22 +422,45 @@ h3 {
     pointer-events: none;
 }
 
+.selected-sensor {
+    background-color: whitesmoke;
+}
+
 .sensor-click:hover {
     background-color: whitesmoke;
     cursor: pointer;
 }
 /* ------------------------------------ */
 
+
+/* ------ Chart Modal Formatting ------ */
 #chart-modal {
-    width: 50vw;
-    height: 50vh;
+    position: absolute;
+    z-index: 10;
+    top: 10vh;
+    left: 12.5vw;
+    background: whitesmoke;
+    border: 5px solid black;
+    width: 75vw;
+    height: 75vh;
 }
 
-#test-times {
-    display: flex
+#chart-head {
+    height: 10%;
+    border-bottom: 3px dashed slategray;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+    min-height: 50px;
+    padding: 0 10px 0 10px;
 }
 
-.testTime:hover { 
-    color: gray;
-    cursor: pointer;
+#chart {
+    height: Calc(90% - 40px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
 }

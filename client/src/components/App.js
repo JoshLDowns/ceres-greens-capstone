@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import StaticData from './StaticData.js';
 import UserData from './UserData.js';
 import '../styles/App.css';
