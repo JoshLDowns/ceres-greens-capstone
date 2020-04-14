@@ -330,8 +330,10 @@ h3 {
     background-color: rgb(20, 50, 60);
     color: rgb(100, 240, 165);
     padding: 3px;
+    margin-top: 1px;
 }
 
-#s1-temp{
-    
+#s1-temp.valueLabelStyle{
+    color: red;
+    font-weight: bolder;
 }
