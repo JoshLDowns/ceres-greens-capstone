@@ -497,10 +497,10 @@ function SensorOne(props) {
                 <div className='sensor-header'>
                     <h2>{props.sensor.num}</h2>
                 </div>
-                {/*<div className='gauges'>
-                <Gauge id='s1-temp' min={props.tempRanges.criticalLow - 4} max={props.tempRanges.warningHigh + 4} value={parseFloat(props.temperature)} width={250} height={175} label={`Temperature °F ${trendOne}`} />
-                <Gauge id='s1-hum' min={props.humRanges.criticalLow - 4} max={props.humRanges.warningHigh + 4} value={parseFloat(props.humidity)} width={250} height={175} label={`Humidity % rh ${trendTwo}`} />
-            </div>*/}
+                <div className='gauges'>
+                <Gauge id='s1-temp' min={this.state.ranges.tempRanges.criticalLow - 4} max={this.state.ranges.tempRanges.warningHigh + 4} value={parseFloat(props.temperature)} width={250} height={175} label={`Temperature °F ${trendOne}`} />
+                <Gauge id='s1-hum' min={this.state.ranges.humRanges.criticalLow - 4} max={this.state.ranges.humRanges.warningHigh + 4} value={parseFloat(props.humidity)} width={250} height={175} label={`Humidity % rh ${trendTwo}`} />
+            </div>
                 <h3><span style={{ color: props.sensor.tempColor }}>{props.sensor.temperature}°F {trendOne}</span> <span> - </span> <span style={{ color: props.sensor.humColor }}>{props.sensor.humidity}% rh {trendTwo}</span></h3>
             </div>
         )
@@ -531,6 +531,10 @@ function SensorTwo(props) {
                 <div className='sensor-header'>
                     <h2>{props.sensor.num}</h2>
                 </div>
+                {/*<div className='gaugesSide'>
+                <Gauge id='s1-temp' min={props.tempRanges.criticalLow - 4} max={props.tempRanges.warningHigh + 4} value={parseFloat(props.temperature)} width={250} height={175} label={`Temperature °F ${trendOne}`} />
+                <Gauge id='s1-hum' min={props.humRanges.criticalLow - 4} max={props.humRanges.warningHigh + 4} value={parseFloat(props.humidity)} width={250} height={175} label={`Humidity % rh ${trendTwo}`} />
+            </div>*/}
                 <h3><span style={{ color: props.sensor.tempColor }}>{props.sensor.temperature}°F {trendOne}</span> <span> - </span> <span style={{ color: props.sensor.humColor }}>{props.sensor.humidity}% rh {trendTwo}</span></h3>
             </div>
         )
@@ -540,6 +544,10 @@ function SensorTwo(props) {
                 <div className='sensor-header'>
                     <h2>{props.sensor.num}</h2>
                 </div>
+                 {/*<div className='gaugesSide'>
+                <Gauge id='s1-EC' min={props.ECRanges.criticalLow - 4} max={props.tempRanges.warningHigh + 4} value={parseFloat(props.temperature)} width={250} height={175} label={`Temperature °F ${trendOne}`} />
+                <Gauge id='s1-pH' min={props.humRanges.criticalLow - 4} max={props.humRanges.warningHigh + 4} value={parseFloat(props.humidity)} width={250} height={175} label={`Humidity % rh ${trendTwo}`} />
+            </div>*/}
                 <h3><span style={{ color: props.sensor.ECColor }}>{props.sensor.EC} EC {trendOne}</span> <span> - </span> <span style={{ color: props.sensor.pHColor }}>{props.sensor.pH} pH {trendTwo}</span></h3>
             </div>
         )
@@ -557,6 +565,10 @@ function SensorThree(props) {
                 <div className='sensor-header'>
                     <h2>{props.sensor.num}</h2>
                 </div>
+                {/*<div className='gaugesSide'>
+                <Gauge id='s1-temp' min={props.tempRanges.criticalLow - 4} max={props.tempRanges.warningHigh + 4} value={parseFloat(props.temperature)} width={250} height={175} label={`Temperature °F ${trendOne}`} />
+                <Gauge id='s1-hum' min={props.humRanges.criticalLow - 4} max={props.humRanges.warningHigh + 4} value={parseFloat(props.humidity)} width={250} height={175} label={`Humidity % rh ${trendTwo}`} />
+            </div>*/}
                 <h3><span style={{ color: props.sensor.tempColor }}>{props.sensor.temperature}°F {trendOne}</span> <span> - </span> <span style={{ color: props.sensor.humColor }}>{props.sensor.humidity}% rh {trendTwo}</span></h3>
             </div>
         )
@@ -566,6 +578,10 @@ function SensorThree(props) {
                 <div className='sensor-header'>
                     <h2>{props.sensor.num}</h2>
                 </div>
+                 {/*<div className='gaugesSide'>
+                <Gauge id='s1-EC' min={props.ECRanges.criticalLow - 4} max={props.tempRanges.warningHigh + 4} value={parseFloat(props.temperature)} width={250} height={175} label={`Temperature °F ${trendOne}`} />
+                <Gauge id='s1-pH' min={props.humRanges.criticalLow - 4} max={props.humRanges.warningHigh + 4} value={parseFloat(props.humidity)} width={250} height={175} label={`Humidity % rh ${trendTwo}`} />
+            </div>*/}
                 <h3><span style={{ color: props.sensor.ECColor }}>{props.sensor.EC} EC {trendOne}</span> <span> - </span> <span style={{ color: props.sensor.pHColor }}>{props.sensor.pH} pH {trendTwo}</span></h3>
             </div>
         )
@@ -583,6 +599,7 @@ function SensorFour(props) {
                 <div className='sensor-header'>
                     <h2>{props.sensor.num}</h2>
                 </div>
+
                 <h3><span style={{ color: props.sensor.tempColor }}>{props.sensor.temperature}°F {trendOne}</span> <span> - </span> <span style={{ color: props.sensor.humColor }}>{props.sensor.humidity}% rh {trendTwo}</span></h3>
             </div>
         )
