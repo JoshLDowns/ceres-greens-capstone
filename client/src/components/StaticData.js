@@ -401,13 +401,23 @@ class StaticData extends React.Component {
         }
 
     }
-
-    changeGaugeColor = (value) => {
-        if (value > this.state.funcRanges.wLow && value <= this.state.funcRanges.normal) {
+// Gauge color change functions
+    changeGaugeColorTemp = (temp) => {
+        if (temp > this.state.tempRanges.warningLow && temp <= this.state.tempRanges.normal) {
             return 'rgb(75,190,50)'
-        } else if ((value > this.state.funcRanges.normal && value <= this.state.funcRanges.wHigh) || (value <= this.state.funcRanges.wLow && value > this.state.funcRanges.vLow)) {
+        } else if ((temp > this.state.tempRanges.normal && temp <= this.state.tempRanges.warningHigh) || (temp <= this.state.tempRanges.warningLow && temp > this.state.tempRanges.criticalLow)) {
             return 'rgb(210, 200, 75)'
-        } else if (value > this.state.funcRanges.wHigh || value <= this.state.funcRanges.vLow) {
+        } else if (temp > this.state.tempRanges.warningHigh || temp <= this.state.tempRanges.criticalLow) {
+            return 'rgb(250, 90, 90)'
+        }
+    }
+
+    changeGaugeColorHum = (hum) => {
+        if (hum > this.state.humRanges.warningLow && hum <= this.state.humRanges.normal) {
+            return 'rgb(75,190,50)'
+        } else if ((hum > this.state.humRanges.normal && hum <= this.state.humRanges.warningHigh) || (hum <= this.state.humRanges.warningLow && hum > this.state.humRanges.criticalLow)) {
+            return 'rgb(210, 200, 75)'
+        } else if (hum > this.state.humRanges.warningHigh || hum <= this.state.humRanges.criticalLow) {
             return 'rgb(250, 90, 90)'
         }
     }

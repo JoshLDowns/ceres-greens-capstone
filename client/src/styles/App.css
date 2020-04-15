@@ -486,4 +486,17 @@ input[type='radio'] {
     justify-content: center;
     align-items: center;
     padding: 20px;
+    }
+.testTime:hover { 
+    color: gray;
+    cursor: pointer;
+}
+
+/*--------------Gauges--------------*/
+.gauges{
+    border: 3px solid rgb(20, 100, 135);
+    background-color: rgb(20, 50, 60);
+    color: rgb(100, 240, 165);
+    padding: 3px;
+    margin-top: 1px;
 }
