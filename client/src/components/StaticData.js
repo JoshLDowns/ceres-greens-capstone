@@ -434,7 +434,7 @@ class StaticData extends React.Component {
                 <div id='sensors'>
                     <div id='sensor-top'>
                         <div id='sensor-critical'>
-                            <SensorOne sensor={this.state.sensor1} />
+                            <SensorOne sensor={this.state.sensor1} ranges={this.state.ranges} />
                         </div>
                         <div id='sensor-mid'>
                             <div className='mid-sensors' id='sensor-mid-1'>
@@ -518,8 +518,8 @@ function SensorOne(props) {
                     <h2>{props.sensor.num}</h2>
                 </div>
                 <div className='gauges'>
-                <Gauge id='s1-temp' min={this.state.ranges.tempRanges.criticalLow - 4} max={this.state.ranges.tempRanges.warningHigh + 4} value={parseFloat(props.temperature)} width={250} height={175} label={`Temperature °F ${trendOne}`} />
-                <Gauge id='s1-hum' min={this.state.ranges.humRanges.criticalLow - 4} max={this.state.ranges.humRanges.warningHigh + 4} value={parseFloat(props.humidity)} width={250} height={175} label={`Humidity % rh ${trendTwo}`} />
+                <Gauge id='s1-temp' min={props.ranges.tempRanges.criticalLow - 4} max={props.ranges.tempRanges.warningHigh + 4} value={parseFloat(props.sensor.temperature)} width={250} height={175} label={`Temperature °F ${trendOne}`} />
+                <Gauge id='s1-hum' min={props.ranges.humRanges.criticalLow - 4} max={props.ranges.humRanges.warningHigh + 4} value={parseFloat(props.sensor.humidity)} width={250} height={175} label={`Humidity % rh ${trendTwo}`} />
             </div>
                 <h3><span style={{ color: props.sensor.tempColor }}>{props.sensor.temperature}°F {trendOne}</span> <span> - </span> <span style={{ color: props.sensor.humColor }}>{props.sensor.humidity}% rh {trendTwo}</span></h3>
             </div>
