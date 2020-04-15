@@ -13,14 +13,13 @@ const HomeHeader = (props) => {
         <div className="home-header">
             <DrawerButton click={props.drawerClickHandler}/>
         <div className="links">
-            <Link to={"/"}>
+            {/*<Link to={"/"}>
                 <button id="home-button">Home</button>
-            </Link>
-            <Link to={'/StaticData'}>
+    </Link>*/}
+            <Link to={'/'}>
                 <button id="static-button">Static Data</button>
             </Link>
-        
-            <Link to={'/UserData'}>
+            <Link to={'/user'}>
                 <button id="user-button">User Data</button>
             </Link>
             </div>

@@ -84,6 +84,8 @@ class StaticData extends React.Component {
                 pHColor: undefined,
                 trendTwo: undefined
             },
+            intervalSensors: undefined,
+            intervalMachines: undefined,
             previousData: undefined,
             fans: undefined,
             lighting: undefined,
@@ -93,7 +95,6 @@ class StaticData extends React.Component {
 
     componentDidMount() {
         fetch('/getRanges').then(res => res.json()).then((obj) => {
-            console.log(obj);
             this.setState({
                 ranges: obj
             })
@@ -121,7 +122,7 @@ class StaticData extends React.Component {
                     humidity: sensorObjMount.sensor2.humidity ? sensorObjMount.sensor2.humidity : undefined,
                     humColor: sensorObjMount.sensor2.humidity ? this.determineHumColor(sensorObjMount.sensor2.humidity) : undefined,
                     pH: sensorObjMount.sensor2.pH ? sensorObjMount.sensor2.pH : undefined,
-                    pHColor: sensorObjMount.sensor2.pH ? this.determinePHColor(sensorObjMount.sensor2.pH, sensorObjMount.sensor1.originalKey) : undefined,
+                    pHColor: sensorObjMount.sensor2.pH ? this.determinePHColor(sensorObjMount.sensor2.pH, sensorObjMount.sensor2.originalKey) : undefined,
                 },
                 sensor3: {
                     num: sensorObjMount.sensor3.num,
@@ -177,7 +178,7 @@ class StaticData extends React.Component {
                 pumps: obj.pumps
             })
         })
-        setInterval(() => {
+        let sensInt = setInterval(() => {
             fetch('/api').then(res => res.json()).then((data) => {
                 let sensorObjInt = this.buildSensors(data, this.state.previousData)
                 this.setState({
@@ -263,7 +264,7 @@ class StaticData extends React.Component {
                 })
             })
         }, 10000)
-        setInterval(() => {
+        let machInt = setInterval(() => {
             fetch('/manage').then(res => res.json()).then((obj) => {
                 this.setState({
                     fans: obj.fans,
@@ -272,6 +273,10 @@ class StaticData extends React.Component {
                 })
             })
         }, 60000)
+        this.setState({
+            intervalSensors: sensInt,
+            intervalMachines: machInt
+        })
     }
 
     buildSensors = (data, oldData) => {
@@ -405,6 +410,11 @@ class StaticData extends React.Component {
         } else if (value > this.state.funcRanges.wHigh || value <= this.state.funcRanges.vLow) {
             return 'rgb(250, 90, 90)'
         }
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.state.intervalMachines)
+        clearInterval(this.state.intervalSensors)
     }
 
     render() {

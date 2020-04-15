@@ -25,7 +25,8 @@ class UserData extends React.Component {
             sensor: undefined,
             chartModal: false,
             clickChartModal: false,
-            ranges: {}
+            ranges: {},
+            interval: undefined
         }
     }
 
@@ -72,7 +73,7 @@ class UserData extends React.Component {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ sensor: `${event.target.id}`, type: 'ECpH'})
+                body: JSON.stringify({ sensor: `${event.target.id}`, type: 'ECpH' })
             }).then(res => res.json()).then((obj) => {
                 console.log(obj)
                 obj.forEach((item) => {
@@ -95,6 +96,7 @@ class UserData extends React.Component {
     submitQuery = () => {
         let tempXAr = [];
         let tempYAr = [];
+        let tempYLength;
         let queryString = this.buildQueryString()
         let queryObj = {
             sensor: this.state.sensor.includes('sensor') ? `Sensor ${this.state.sensor[6]}${this.state.sensor[7] ? this.state.sensor[7] : ''}` : this.state.sensor.includes('zone') ? `Zone ${this.state.sensor[4]}` : 'Germ Room',
@@ -109,34 +111,51 @@ class UserData extends React.Component {
             },
             body: JSON.stringify({ queryString: queryString, sensor: `${this.state.sensor}`, measurement: `${this.state.measurement}` })
         }).then(res => res.json()).then((obj) => {
+            console.log(obj)
             obj.forEach((item) => {
                 queryObj.x.push(format(new Date(item['_time']), 'MM/dd/yyyy HH:mm:ss'))
                 queryObj.y.push(item['_value'])
             })
-            if (queryObj.x.length > 2016) {
-                while (queryObj.x.length > 0) {
-                    tempYAr.push(parseFloat(((queryObj.y.splice(0, 12).reduce((a, b) => parseFloat(a) + parseFloat(b))) / (queryObj.y.length >= 12 ? 12 : queryObj.y.length)).toFixed(2)))
-                    tempXAr.push(queryObj.x.splice(0, 12)[11])
+            let newObj = queryObj
+            return newObj
+        }).then((obj) => {
+            console.log(obj);
+            let lastDivisor;
+            if (obj.x.length > 2016) {
+                lastDivisor = obj.x.length % 12
+                console.log(lastDivisor)
+                while (obj.x.length > 0) {
+                    tempYLength = obj.y.length;
+                    tempYAr.push(parseFloat(((obj.y.splice(0, 12).reduce((a, b) => parseFloat(a) + parseFloat(b))) / (tempYLength >= 12 ? 12 : lastDivisor)).toFixed(2)))
+                    tempXAr.push(obj.x.length >= 12 ? obj.x.splice(0, 12)[11] : obj.x.splice(0)[lastDivisor - 1])
                 }
-                queryObj.x = tempXAr.map((value) => value)
-                queryObj.y = tempYAr.map((value) => value)
-            } else if (queryObj.x.length > 288) {
-                while (queryObj.x.length > 0) {
-                    tempYAr.push(parseFloat(((queryObj.y.splice(0, 6).reduce((a, b) => parseFloat(a) + parseFloat(b))) / (queryObj.y.length >= 6 ? 6 : queryObj.y.length)).toFixed(2)))
-                    tempXAr.push(queryObj.x.splice(0, 6)[5])
+                obj.x = tempXAr.map((value) => value)
+                obj.y = tempYAr.map((value) => value)
+            } else if (obj.x.length > 288) {
+                lastDivisor = obj.x.length % 6
+                console.log(lastDivisor)
+                while (obj.x.length > 0) {
+                    tempYLength = obj.y.length;
+                    tempYAr.push(parseFloat(((obj.y.splice(0, 6).reduce((a, b) => parseFloat(a) + parseFloat(b))) / (tempYLength >= 6 ? 6 : lastDivisor)).toFixed(2)))
+                    tempXAr.push(obj.x.length >= 6 ? obj.x.splice(0, 6)[5] : obj.x.splice(0)[lastDivisor - 1])
                 }
-                queryObj.x = tempXAr.map((value) => value)
-                queryObj.y = tempYAr.map((value) => value)
-            } else if (queryObj.x.length > 24) {
-                while (queryObj.x.length > 0) {
-                    tempYAr.push(parseFloat(((queryObj.y.splice(0, 3).reduce((a, b) => parseFloat(a) + parseFloat(b))) / (queryObj.y.length >= 3 ? 3 : queryObj.y.length)).toFixed(2)))
-                    tempXAr.push(queryObj.x.splice(0, 3)[2])
+                obj.x = tempXAr.map((value) => value)
+                obj.y = tempYAr.map((value) => value)
+            } else if (obj.x.length > 24) {
+                lastDivisor = obj.x.length % 3
+                console.log(lastDivisor)
+                while (obj.x.length > 0) {
+                    tempYLength = obj.y.length;
+                    //console.log(obj.slice(0,3))
+                    tempYAr.push(parseFloat(((obj.y.splice(0, 3).reduce((a, b) => parseFloat(a) + parseFloat(b))) / (tempYLength >= 3 ? 3 : lastDivisor)).toFixed(2)))
+                    tempXAr.push(obj.x.length >= 3 ? obj.x.splice(0, 3)[2] : obj.x.splice(0)[lastDivisor - 1])
+                    //tempXAr.push(obj.x.splice(0, 3)[2])
                 }
-                queryObj.x = tempXAr.map((value) => value)
-                queryObj.y = tempYAr.map((value) => value)
+                obj.x = tempXAr.map((value) => value)
+                obj.y = tempYAr.map((value) => value)
             }
             this.setState({
-                data: queryObj,
+                data: obj,
                 chartModal: true
             })
 
@@ -289,7 +308,7 @@ class UserData extends React.Component {
     }
 
     isDisabled = () => {
-        if(this.state.sensor === undefined || this.state.startTime === undefined || this.state.endTime === undefined || this.state.measurement==='') {
+        if (this.state.sensor === undefined || this.state.startTime === undefined || this.state.endTime === undefined || this.state.measurement === '') {
             return true
         }
         return false
@@ -312,7 +331,7 @@ class UserData extends React.Component {
                 prevSensorData: data
             })
         })
-        setInterval(() => {
+        let newInt = setInterval(() => {
             fetch('/api').then(res => res.json()).then((data) => {
                 let sensorArrayMount = this.buildSensors(data, this.state.prevSensorData);
                 this.setState({
@@ -321,6 +340,13 @@ class UserData extends React.Component {
                 })
             })
         }, 10000)
+        this.setState({
+            interval: newInt
+        })
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.state.interval)
     }
 
     render() {
@@ -358,7 +384,7 @@ class UserData extends React.Component {
                     </div>
                     <div id='form-measurements'>
                         <SensorWheel handleClick={this.handleSensorClick} sensor={this.state.sensor} />
-                        <MeasurementRadio handleRadio={this.handleRadio} option={this.state.measurement} sensor={this.state.sensor}/>
+                        <MeasurementRadio handleRadio={this.handleRadio} option={this.state.measurement} sensor={this.state.sensor} />
                     </div>
                 </div>
                 <div id='all-sensors'>
@@ -438,8 +464,15 @@ function SensorListItem(props) {
         return (
             <div className='sensor-list-item'>
                 <p>{props.sensorObj.sensor}</p>
-                <div className='sensor-item-t-h'>
-                    <p><span style={{ color: props.sensorObj.tempColor }}>{props.sensorObj.temperature}°F {trendOne}</span> <span> - </span> <span style={{ color: props.sensorObj.humColor }}>{props.sensorObj.humidity}% rh {trendTwo}</span></p>
+                <div className='sensor-item-container'>
+                    <div className='sensor-item-measurement'>
+                        <p>Temp - {trendOne}</p>
+                        <p><span style={{ color: props.sensorObj.tempColor }}>{props.sensorObj.temperature}°F</span></p>
+                    </div>
+                    <div className='sensor-item-measurement'>
+                        <p>Humidity - {trendTwo}</p>
+                        <p><span style={{ color: props.sensorObj.humColor }}>{props.sensorObj.humidity}% rh</span></p>
+                    </div>
                 </div>
             </div>
         )
@@ -447,8 +480,15 @@ function SensorListItem(props) {
         return (
             <div className='sensor-list-item'>
                 <p>{props.sensorObj.sensor}</p>
-                <div className='sensor-item-t-h'>
-                    <p><span style={{ color: props.sensorObj.ECColor }}>{props.sensorObj.EC} EC {trendOne}</span> <span> - </span> <span style={{ color: props.sensorObj.pHColor }}>{props.sensorObj.pH} pH {trendTwo}</span></p>
+                <div className='sensor-item-container'>
+                    <div className='sensor-item-measurement'>
+                        <p>EC - {trendOne}</p>
+                        <p><span style={{ color: props.sensorObj.ECColor }}>{props.sensorObj.EC}</span></p>
+                    </div>
+                    <div className='sensor-item-measurement'>
+                        <p>pH - {trendTwo}</p>
+                        <p><span style={{ color: props.sensorObj.pHColor }}>{props.sensorObj.pH}</span></p>
+                    </div>
                 </div>
             </div>
         )

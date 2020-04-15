@@ -1,19 +1,7 @@
-
 body{
     height: auto;
     width: auto;
     background-color: rgb(75,75,75);
-}
-
-#temp-header {
-    display: flex;
-    justify-content: space-between;
-    padding: 0 3% 0 3%;
-    border-bottom: 5px solid rgb(20, 100, 135);
-    background-color: rgb(20, 50, 60);
-    margin-bottom: 2%;
-    font-weight: 600;
-    color: rgb(100, 240, 165);
 }
 
 h2 {
@@ -22,7 +10,6 @@ h2 {
 }
 
 h3 {
-    margin-top: 5%;
     padding: 10px;
     background-color: rgb(20, 50, 60);
     border: 3px solid rgb(20, 100, 135)
@@ -33,6 +20,7 @@ h3 {
     justify-content: space-around;
     height: 87.5vh;
     width: 100%;
+    margin-top: 20px;
 }
 
 #sensors {
@@ -64,6 +52,7 @@ h3 {
 }
 
 #sensor-critical h3 {
+    margin-top: 5%;
     font-size: 3rem;
 }
 
@@ -81,6 +70,7 @@ h3 {
 }
 
 #sensor-mid h3 {
+    margin-top: 5%;
     font-size: 1.8rem;
 }
 
@@ -103,7 +93,9 @@ h3 {
 }
 
 #sensor-bottom h3 {
+    margin-top: 2%;
     font-size: 1.5rem;
+    margin-bottom: 17.5%;
 }
 
 .bottom-sensors {
@@ -310,7 +302,7 @@ input[type='radio'] {
 
 .sensor-list-container:hover {
     cursor: pointer;
-    background-color: whitesmoke;
+    background-color: rgb(20, 100, 135);
 }
 
 .sensor-list-item {
@@ -323,10 +315,31 @@ input[type='radio'] {
 }
 
 .sensor-list-item p {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: bold;
 }
 
+.sensor-item-container {
+    width: 75%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.sensor-item-measurement {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 45%;
+    height: 90%;
+    border: 2px solid rgb(20, 100, 135);
+    background-color: rgb(20, 50, 60);
+    color: rgb(100, 240, 165)
+}
+
+.sensor-item-measurement p {
+    margin: 4px;
+}
 
 
 /* ------------------------------------ */
@@ -354,6 +367,7 @@ input[type='radio'] {
     background: slategray;
     margin: 1px 0 1px 0;
     padding: 0;
+    font-weight: bold;
 }
 
 .time-click p {
@@ -363,11 +377,13 @@ input[type='radio'] {
 }
 
 .selected-time {
-    background-color: whitesmoke;
+    background-color: rgb(20, 50, 60);
+    color: rgb(100, 240, 165);
 }
 
 .time-click:hover {
-    background-color: whitesmoke;
+    background-color: rgb(20, 50, 60);
+    color: rgb(100, 240, 165);
     cursor: pointer;
 }
 /* ------------------------------------ */
@@ -414,6 +430,7 @@ input[type='radio'] {
     background: slategray;
     margin: 1px 0 1px 0;
     padding: 0;
+    font-weight: bold;
 }
 
 .sensor-click p {
@@ -423,11 +440,13 @@ input[type='radio'] {
 }
 
 .selected-sensor {
-    background-color: whitesmoke;
+    background-color: rgb(20, 50, 60);
+    color: rgb(100, 240, 165);
 }
 
 .sensor-click:hover {
-    background-color: whitesmoke;
+    background-color: rgb(20, 50, 60);
+    color: rgb(100, 240, 165);
     cursor: pointer;
 }
 /* ------------------------------------ */
@@ -454,6 +473,10 @@ input[type='radio'] {
     overflow: hidden;
     min-height: 50px;
     padding: 0 10px 0 10px;
+    background-color: rgb(20, 50, 60);
+    color: rgb(100, 240, 165);
+    font-size: 1.75rem;
+    font-weight: bold;
 }
 
 #chart {
