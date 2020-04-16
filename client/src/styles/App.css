@@ -629,13 +629,15 @@ input[type='radio'] {
     cursor: pointer;
 }
 
-/*--------------Gauges--------------*/
+/*----------------Gauges----------------*/
 .gauges{
+    display: flex;
     border: 3px solid rgb(20, 100, 135);
     background-color: rgb(20, 50, 60);
     color: rgb(100, 240, 165);
     padding: 3px;
     margin-top: 1px;
+    
 }
 
 .chart-close-container {
@@ -738,4 +740,8 @@ input[type='radio'] {
         height: 125px;
         width: 40%;
     }
+}
+.Gauge.s1-temp{
+    font-family:'calibri';
+    font-size: 'smaller';
 }
