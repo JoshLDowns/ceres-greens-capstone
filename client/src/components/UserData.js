@@ -227,8 +227,8 @@ class UserData extends React.Component {
         })
 
         for (let sensor in data) {
-            if (data[sensor].temperature) {
-
+            //if (data[sensor].temperature) {
+            if (sensor.includes('sensor')) {
                 if (!oldData) {
                     sensorArray.push({ sensor: modKeys[count], temperature: data[sensor].temperature, trendOne: undefined, tempColor: this.determineTempColor(data[sensor].temperature), humidity: data[sensor].humidity, trendTwo: undefined, humColor: this.determineHumColor(data[sensor].humidity) })
                     count++;

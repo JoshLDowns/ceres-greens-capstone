@@ -1,3 +1,4 @@
+//initial variable declaration and imports
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
@@ -5,75 +6,22 @@ const app = express();
 const bodyParser = require('body-parser');
 const port = process.env.PORT || 5000;
 const { InfluxDB } = require('@influxdata/influxdb-client');
+const mongoose = require('mongoose');
+mongoose.connect(`mongodb+srv://joshldowns:${process.env.PASSWORD}@josh-d-blog-archive-wxvci.mongodb.net/ceres-greens?retryWrites=true&w=majority`, {useNewUrlParser: true, useUnifiedTopology: true})
 
+//initializes twilio account
 const twilio = require('twilio')(
   process.env.TWILIO_ACCOUNT_SID,
   process.env.TWILIO_AUTH_TOKEN
 )
 
-let ranges = {
-  tempRanges: {
-    criticalLow: 64,
-    warningLow: 66,
-    normal: 70,
-    warningHigh: 72
-  },
-  humRanges: {
-    criticalLow: 50,
-    warningLow: 52,
-    normal: 56,
-    warningHigh: 58
-  },
-  germRmECRanges: {
-    criticalLow: .4,
-    warningLow: .6,
-    normal: 1,
-    warningHigh: 1.2
-  },
-  germRmpHRanges: {
-    criticalLow: 5.8,
-    warningLow: 5.9,
-    normal: 6.3,
-    warningHigh: 6.4
-  },
-  zone1ECRanges: {
-    criticalLow: .8,
-    warningLow: .9,
-    normal: 1.4,
-    warningHigh: 1.6
-  },
-  zone1pHRanges: {
-    criticalLow: 5.7,
-    warningLow: 5.8,
-    normal: 6.1,
-    warningHigh: 6.3
-  },
-  zone2ECRanges: {
-    criticalLow: .8,
-    warningLow: 1,
-    normal: 1.2,
-    warningHigh: 1.4
-  },
-  zone2pHRanges: {
-    criticalLow: 5.6,
-    warningLow: 5.8,
-    normal: 6.2,
-    warningHigh: 6.4
-  },
-  zone3ECRanges: {
-    criticalLow: 1.6,
-    warningLow: 1.8,
-    normal: 2.4,
-    warningHigh: 2.6
-  },
-  zone3pHRanges: {
-    criticalLow: 5.6,
-    warningLow: 5.8,
-    normal: 6.2,
-    warningHigh: 6.4
-  }
-}
+//declares the ranges variable that is set on launch
+let ranges;
 
+//declares the initial numbers variable that is set on launch
+let numbers;
+
+// when a text is sent, it sets that sensor to true so there won't be multiple text messages
 const hitCritical = {
   sensor: false,
   sensor2: false,
@@ -97,6 +45,7 @@ const hitCritical = {
   zone3: false
 }
 
+//simulated machines, this would eventually live in it's own database
 const fans = {
   section_1_2_11_12: { on: false, offSchedule: false },
   section_3_4_13_14: { on: true, offSchedule: false },
@@ -120,31 +69,95 @@ const pumps = {
   section_7_8: { on: false, offSchedule: false },
   section_9_10: { on: true, offSchedule: false },
 }
+//------------------------------------------------------------//
 
+//initialze the mongo database connection
+const newDataBase = mongoose.connection;
+
+newDataBase.on('error', (err)=>{console.log('Something went wrong:',err)});
+newDataBase.once('open', ()=>{console.log('Connected...')});
+
+//schema for temperature, humidity, EC, and pH ranges in mongoDB
+const rangesSchema = new mongoose.Schema({
+  ranges: {
+    tempRanges: {
+      criticalLow: Number,
+      warningLow: Number,
+      normal: Number,
+      warningHigh: Number
+    },
+    humRanges: {
+      criticalLow: Number,
+      warningLow: Number,
+      normal: Number,
+      warningHigh: Number
+    },
+    germRmECRanges: {
+      criticalLow: Number,
+      warningLow: Number,
+      normal: Number,
+      warningHigh: Number
+    },
+    germRmpHRanges: {
+      criticalLow: Number,
+      warningLow: Number,
+      normal: Number,
+      warningHigh: Number
+    },
+    zone1ECRanges: {
+      criticalLow: Number,
+      warningLow: Number,
+      normal: Number,
+      warningHigh: Number
+    },
+    zone1pHRanges: {
+      criticalLow: Number,
+      warningLow: Number,
+      normal: Number,
+      warningHigh: Number
+    },
+    zone2ECRanges: {
+      criticalLow: Number,
+      warningLow: Number,
+      normal: Number,
+      warningHigh: Number
+    },
+    zone2pHRanges: {
+      criticalLow: Number,
+      warningLow: Number,
+      normal: Number,
+      warningHigh: Number
+    },
+    zone3ECRanges: {
+      criticalLow: Number,
+      warningLow: Number,
+      normal: Number,
+      warningHigh: Number
+    },
+    zone3pHRanges: {
+      criticalLow: Number,
+      warningLow: Number,
+      normal: Number,
+      warningHigh: Number
+    }
+  }
+})
+
+const Ranges = mongoose.model('Ranges', rangesSchema, 'ranges')
+
+//schema for phone numbers in mongoDB
+const numberSchema = new mongoose.Schema({
+  numbers: [{name: String, email: String, number: String}]
+})
+
+const Numbers = mongoose.model('Numbers', numberSchema, 'sms')
+
+//setting express and body parser usage
 app.use(express.static(path.join(__dirname, '/client/build')));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
-function SMS(variable, value, sensor) {
-  const numbers = ['+18023428093', '+18023380386', '+18022338198', '+19076120335']
-  const body = `${sensor} has a CRITICAL reading\n${variable}: ${value}`
-
-  Promise.all(
-    numbers.map(number => {
-      return twilio.messages.create({
-        to: number,
-        from: process.env.TWILIO_NUMBER,
-        body: body
-      });
-    })
-  )
-    .then(messages => {
-      console.log('Messages sent!');
-    })
-    .catch(err => console.error(err));
-
-}
-
+//path handlers
 app.get('/api', getSensorData)
 app.get('/manage', getManagementData)
 app.get('/getRanges', getRanges)
@@ -152,6 +165,7 @@ app.get('/getRanges', getRanges)
 app.post('/query', queryInflux)
 app.post('/clickQuery', clickQueryInflux)
 
+//machine schedule simulations, eventually these will be determined by full schedules living in a database
 function fanSchedule() {
   for (let fan in fans) {
     if (!fans[fan].offSchedule) {
@@ -174,12 +188,35 @@ function lightSchedule() {
     lighting[light].on = !lighting[light].on
   }
 }
+//------------------------------------------------------------------------------------------------------//
 
+//Sends SMS message based on sensor in critical range
+function SMS(variable, value, sensor, numbers) {
+  //const body = `${sensor} has a CRITICAL reading\n${variable}: ${value}`
+
+  Promise.all(
+    numbers.map(number => {
+      return twilio.messages.create({
+        to: number.number,
+        from: process.env.TWILIO_NUMBER,
+        body: `Hey ${number.name}! ${sensor} has a CRITICAL reading\n${variable}: ${value}`
+      });
+    })
+  )
+    .then(messages => {
+      console.log('Messages sent!');
+    })
+    .catch(err => console.error(err));
+
+}
+
+//builds an object that can be sent back to the application to be used for displaying sensor information
 async function getSensorData(req, res) {
 
   const queryApi = new InfluxDB({ url: process.env.URL, token: process.env.TOKEN }).getQueryApi(process.env.ORG);
   const fluxQuery = `from(bucket:"test_bucket") |> range(start: -10s)`
 
+  //initializes the shape of the object, this will not be procedurally generated, because it is how we want it to look on the other side of the application
   let sensorObj = {
     sensor1: { temperature: [], humidity: [] },
     sensor2: { temperature: [], humidity: [] },
@@ -203,6 +240,7 @@ async function getSensorData(req, res) {
     zone3: { EC: [], pH: [] }
   }
 
+  //queries Influx, pushes values to the correct array in the predefined object
   await queryApi.queryRows(fluxQuery, {
     next(row, tableMeta) {
       const o = tableMeta.toObject(row)
@@ -216,11 +254,13 @@ async function getSensorData(req, res) {
       console.log('\nFinished SUCCESS')
       for (let item in sensorObj) {
         if (sensorObj[item].temperature) {
-
+          //determines length to use as divisor when computing averages of each array
           let tempLength = sensorObj[item].temperature.length;
           let humidLength = sensorObj[item].humidity.length;
           //creates average temperature to send to client
           sensorObj[item].temperature = sensorObj[item].temperature.length > 1 ? parseFloat(((sensorObj[item].temperature.reduce((a, b) => a + b)) / tempLength).toFixed(2)) : sensorObj[item].temperature[0]
+          
+          //if temperatures are in critical ranges, it turns on the fans
           if (sensorObj[item].temperature < ranges.tempRanges.criticalLow || sensorObj[item].temperature > ranges.tempRanges.warningHigh) {
             if (sensorObj[item].temperature > ranges.tempRanges.warningHigh) {
               if (item === 'sensor1' || item === 'sensor2' || item === 'sensor11' || item === 'sensor12') {
@@ -245,24 +285,29 @@ async function getSensorData(req, res) {
                 fans['section_9_10'].offSchedule ? null : fans['section_9_10'].offSchedule = true;
               }
             }
+            //sends sms if temperature is in critical range
 
-            //   SMS('Temperature', sensorObj[item].temperature, item)
+            //   SMS('Temperature', sensorObj[item].temperature, item, numbers)
             //   hitCritical[item] = true
             //   setTimeout(()=>{hitCritical[item] = false}, 3600000)
 
           }
+          //creates average humidity to send to client
           sensorObj[item].humidity = sensorObj[item].humidity.length > 1 ? parseFloat(((sensorObj[item].humidity.reduce((a, b) => a + b)) / humidLength).toFixed(2)) : sensorObj[item].humidity[0]
+          //sends sms if humidity is in critical range
 
           // if (sensorObj[item].humidity < ranges.humRanges.criticalLow || sensorObj[item].humidity > ranges.humRanges.warningHigh) {
-          //   SMS('Humidity', sensorObj[item].humidity, item)
+          //   SMS('Humidity', sensorObj[item].humidity, item, numbers)
           //   hitCritical[item] = true
           //   setTimeout(()=>{hitCritical[item] = false}, 3600000)
           // }
         } else {
+          //determines length to use as divisor when computing averages of each array
           let ECLength = sensorObj[item].EC.length;
           let pHLength = sensorObj[item].pH.length;
           //creates average EC to send to client
           sensorObj[item].EC = sensorObj[item].EC.length > 1 ? parseFloat(((sensorObj[item].EC.reduce((a, b) => a + b)) / ECLength).toFixed(2)) : sensorObj[item].EC[0]
+          //creates average pH to send to client
           sensorObj[item].pH = sensorObj[item].pH.length > 1 ? parseFloat(((sensorObj[item].pH.reduce((a, b) => a + b)) / pHLength).toFixed(2)) : sensorObj[item].pH[0]
         }
       }
@@ -271,11 +316,12 @@ async function getSensorData(req, res) {
   })
 }
 
-function getRanges(req, res) {
+//sends current ranges on initial client mount
+async function getRanges(req, res) {
   res.type('application/json').send(JSON.stringify(ranges));
 }
 
-
+//sends current machine state, states will eventually live in their own databases
 function getManagementData(req, res) {
   let manageObj = {
     fans: [`Section 1-2-11-12: ${fans['section_1_2_11_12'].on ? 'on' : 'off'}`, `Section 3-4-13-14: ${fans['section_3_4_13_14'].on ? 'on' : 'off'}`, `Section 5-6-15-16: ${fans['section_5_6_15_16'].on ? 'on' : 'off'}`, `Section 7-8: ${fans['section_7_8'].on ? 'on' : 'off'}`, `Section 9-10: ${fans['section_9_10'].on ? 'on' : 'off'}`],
@@ -336,6 +382,18 @@ async function clickQueryInflux(req, res) {
     }
   })
 }
+
+//sets ranges variable at server launch to the current ranges in Mongo Database
+async function getStartData() {
+  let firstRanges = await Ranges.find({})
+  ranges = firstRanges[0].ranges
+  let firstNumbers = await Numbers.find({})
+  numbers = firstNumbers[0].numbers
+  newDataBase.close()
+}
+
+//calls at server launch
+getStartData()
 
 setInterval(() => fanSchedule(), 120000)
 setInterval(() => pumpSchedule(), 300000)
