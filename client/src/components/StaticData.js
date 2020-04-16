@@ -360,66 +360,61 @@ class StaticData extends React.Component {
 
     determineTempColor = (temp) => {
         if (temp > this.state.ranges.tempRanges.warningLow && temp <= this.state.ranges.tempRanges.normal) {
-            return 'rgb(75,190,50)'
-        } else if ((temp > this.state.ranges.tempRanges.normal && temp <= this.state.ranges.tempRanges.warningHigh) || (temp <= this.state.ranges.tempRanges.warningLow && temp > this.state.ranges.tempRanges.criticalLow)) {
-            return 'rgb(210, 200, 75)'
-        } else if (temp > this.state.ranges.tempRanges.warningHigh || temp <= this.state.ranges.tempRanges.criticalLow) {
-            return 'rgb(250, 90, 90)'
+            return 'rgb(10, 222, 7)'//green//
+        } else if (temp > this.state.ranges.tempRanges.normal && temp <= this.state.ranges.tempRanges.warningHigh) {
+            return 'rgb(237, 237, 7)'//yellow//
+        } else if (temp > this.state.ranges.tempRanges.warningHigh) {
+            return 'rgb(237, 7, 7)'//red//
+        } else if (temp <= this.state.ranges.tempRanges.warningLow && temp > this.state.ranges.tempRanges.criticalLow) {
+            return 'rgb(197, 7, 222)'//purple//
+        } else if (temp <= this.state.ranges.tempRanges.criticalLow) {
+            return 'rgb(7, 7, 222)' //blue//
         }
 
     }
 
     determineHumColor = (hum) => {
         if (hum > this.state.ranges.humRanges.warningLow && hum <= this.state.ranges.humRanges.normal) {
-            return 'rgb(75,190,50)'
-        } else if ((hum > this.state.ranges.humRanges.normal && hum <= this.state.ranges.humRanges.warningHigh) || (hum <= this.state.ranges.humRanges.warningLow && hum > this.state.ranges.humRanges.criticalLow)) {
-            return 'rgb(210, 200, 75)'
-        } else if (hum > this.state.ranges.humRanges.warningHigh || hum <= this.state.ranges.humRanges.criticalLow) {
-            return 'rgb(250, 90, 90)'
+            return 'rgb(10, 222, 7)'//green//
+        } else if (hum > this.state.ranges.humRanges.normal && hum <= this.state.ranges.humRanges.warningHigh) {
+            return 'rgb(237, 237, 7)'//yellow//
+        } else if (hum > this.state.ranges.humRanges.warningHigh) {
+            return 'rgb(237, 7, 7)'//red//
+        } else if (hum <= this.state.ranges.humRanges.warningLow && hum > this.state.ranges.humRanges.criticalLow) {
+            return 'rgb(197, 7, 222)'//purple//
+        } else if (hum <= this.state.ranges.humRanges.criticalLow) {
+            return 'rgb(7, 7, 222)' //blue//
         }
 
     }
 
     determineECColor = (EC, name) => {
         if (EC > this.state.ranges[`${name}ECRanges`].warningLow && EC <= this.state.ranges[`${name}ECRanges`].normal) {
-            return 'rgb(75,190,50)'
-        } else if ((EC > this.state.ranges[`${name}ECRanges`].normal && EC <= this.state.ranges[`${name}ECRanges`].warningHigh) || (EC <= this.state.ranges[`${name}ECRanges`].warningLow && EC > this.state.ranges[`${name}ECRanges`].criticalLow)) {
-            return 'rgb(210, 200, 75)'
-        } else if (EC > this.state.ranges[`${name}ECRanges`].warningHigh || EC <= this.state.ranges[`${name}ECRanges`].criticalLow) {
-            return 'rgb(250, 90, 90)'
-        }
+            return 'rgb(10, 222, 7)' //green//
+        } else if (EC > this.state.ranges[`${name}ECRanges`].normal && EC <= this.state.ranges[`${name}ECRanges`].warningHigh) {
+            return 'rgb(237, 237, 7)' //yellow//
+        } else if (EC > this.state.ranges[`${name}ECRanges`].warningHigh) {
+            return 'rgb(237, 7, 7)' //red//
+        } else if (EC <= this.state.ranges[`${name}ECRanges`].warningLow && EC > this.state.ranges[`${name}ECRanges`].criticalLow) {
+            return 'rgb(197, 7, 222)'//purple//
+        } else if (EC <= this.state.ranges[`${name}ECRanges`].criticalLow)
+            return 'rgb(7, 7, 222)' //blue//
 
     }
 
     determinePHColor = (pH, name) => {
         if (pH > this.state.ranges[`${name}pHRanges`].warningLow && pH <= this.state.ranges[`${name}pHRanges`].normal) {
-            return 'rgb(75,190,50)'
-        } else if ((pH > this.state.ranges[`${name}pHRanges`].normal && pH <= this.state.ranges[`${name}pHRanges`].warningHigh) || (pH <= this.state.ranges[`${name}pHRanges`].warningLow && pH > this.state.ranges[`${name}pHRanges`].criticalLow)) {
-            return 'rgb(210, 200, 75)'
-        } else if (pH > this.state.ranges[`${name}pHRanges`].warningHigh || pH <= this.state.ranges[`${name}pHRanges`].criticalLow) {
-            return 'rgb(250, 90, 90)'
+            return 'rgb(10, 222, 7)'//green//
+        } else if (pH > this.state.ranges[`${name}pHRanges`].normal && pH <= this.state.ranges[`${name}pHRanges`].warningHigh) {
+            return 'rgb(237, 237, 7)'//yellow//
+        } else if (pH > this.state.ranges[`${name}pHRanges`].warningHigh) {
+            return 'rgb(237, 7, 7)'//red//
+        } else if (pH <= this.state.ranges[`${name}pHRanges`].warningLow && pH > this.state.ranges[`${name}pHRanges`].criticalLow) {
+            return 'rgb(197, 7, 222)'//purple//
+        } else if (pH <= this.state.ranges[`${name}pHRanges`].criticalLow) {
+            return 'rgb(7, 7, 222)' //blue//
         }
 
-    }
-// Gauge color change functions
-    changeGaugeColorTemp = (temp) => {
-        if (temp > this.state.tempRanges.warningLow && temp <= this.state.tempRanges.normal) {
-            return 'rgb(75,190,50)'
-        } else if ((temp > this.state.tempRanges.normal && temp <= this.state.tempRanges.warningHigh) || (temp <= this.state.tempRanges.warningLow && temp > this.state.tempRanges.criticalLow)) {
-            return 'rgb(210, 200, 75)'
-        } else if (temp > this.state.tempRanges.warningHigh || temp <= this.state.tempRanges.criticalLow) {
-            return 'rgb(250, 90, 90)'
-        }
-    }
-
-    changeGaugeColorHum = (hum) => {
-        if (hum > this.state.humRanges.warningLow && hum <= this.state.humRanges.normal) {
-            return 'rgb(75,190,50)'
-        } else if ((hum > this.state.humRanges.normal && hum <= this.state.humRanges.warningHigh) || (hum <= this.state.humRanges.warningLow && hum > this.state.humRanges.criticalLow)) {
-            return 'rgb(210, 200, 75)'
-        } else if (hum > this.state.humRanges.warningHigh || hum <= this.state.humRanges.criticalLow) {
-            return 'rgb(250, 90, 90)'
-        }
     }
 
     componentWillUnmount() {
@@ -518,9 +513,9 @@ function SensorOne(props) {
                     <h2>{props.sensor.num}</h2>
                 </div>
                 <div className='gauges'>
-                <Gauge id='s1-temp' min={props.ranges.tempRanges.criticalLow - 4} max={props.ranges.tempRanges.warningHigh + 4} value={parseFloat(props.sensor.temperature)} width={250} height={175} label={`Temperature °F ${trendOne}`} />
-                <Gauge id='s1-hum' min={props.ranges.humRanges.criticalLow - 4} max={props.ranges.humRanges.warningHigh + 4} value={parseFloat(props.sensor.humidity)} width={250} height={175} label={`Humidity % rh ${trendTwo}`} />
-            </div>
+                    <Gauge id='s1-temp' min={props.ranges.tempRanges.criticalLow - 4} max={props.ranges.tempRanges.warningHigh + 4} color={props.sensor.tempColor} backgroundColor='grey' value={parseFloat(props.sensor.temperature)} font-size="smaller" width={250} height={175} label={`Temperature °F ${trendOne}`} />
+                    <Gauge id='s1-hum' min={props.ranges.humRanges.criticalLow - 4} max={props.ranges.humRanges.warningHigh + 4} backgroundColor='grey' value={parseFloat(props.sensor.humidity)} width={250} height={175} label={`Humidity % rh ${trendTwo}`} />
+                </div>
                 <h3><span style={{ color: props.sensor.tempColor }}>{props.sensor.temperature}°F {trendOne}</span> <span> - </span> <span style={{ color: props.sensor.humColor }}>{props.sensor.humidity}% rh {trendTwo}</span></h3>
             </div>
         )
@@ -531,9 +526,9 @@ function SensorOne(props) {
                     <h2>{props.sensor.num}</h2>
                 </div>
                 {/*<div className='gauges'>
-                <Gauge id='s1-EC' min={props.ECRanges.criticalLow - 4} max={props.tempRanges.warningHigh + 4} value={parseFloat(props.temperature)} width={250} height={175} label={`Temperature °F ${trendOne}`} />
-                <Gauge id='s1-pH' min={props.humRanges.criticalLow - 4} max={props.humRanges.warningHigh + 4} value={parseFloat(props.humidity)} width={250} height={175} label={`Humidity % rh ${trendTwo}`} />
-            </div>*/}
+                    <Gauge id='s1-EC' min={props.ECRanges.criticalLow - 4} max={props.  tempRanges.warningHigh + 4} backgroundColor='grey' value={parseFloat  (props.temperature)} width={250} height={175} label={`Temperature °F $    {trendOne}`} />
+                    <Gauge id='s1-pH' min={props.humRanges.criticalLow - 4} max={props. humRanges.warningHigh + 4} value={parseFloat(props.humidity)} width= {250} height={175} label={`Humidity % rh ${trendTwo}`} />
+                </div>*/}
                 <h3><span style={{ color: props.sensor.ECColor }}>{props.sensor.EC} EC {trendOne}</span> <span> - </span> <span style={{ color: props.sensor.pHColor }}>{props.sensor.pH} pH {trendTwo}</span></h3>
             </div>
         )
@@ -564,7 +559,7 @@ function SensorTwo(props) {
                 <div className='sensor-header'>
                     <h2>{props.sensor.num}</h2>
                 </div>
-                 {/*<div className='gaugesSide'>
+                {/*<div className='gaugesSide'>
                 <Gauge id='s1-EC' min={props.ECRanges.criticalLow - 4} max={props.tempRanges.warningHigh + 4} value={parseFloat(props.temperature)} width={250} height={175} label={`Temperature °F ${trendOne}`} />
                 <Gauge id='s1-pH' min={props.humRanges.criticalLow - 4} max={props.humRanges.warningHigh + 4} value={parseFloat(props.humidity)} width={250} height={175} label={`Humidity % rh ${trendTwo}`} />
             </div>*/}
@@ -598,7 +593,7 @@ function SensorThree(props) {
                 <div className='sensor-header'>
                     <h2>{props.sensor.num}</h2>
                 </div>
-                 {/*<div className='gaugesSide'>
+                {/*<div className='gaugesSide'>
                 <Gauge id='s1-EC' min={props.ECRanges.criticalLow - 4} max={props.tempRanges.warningHigh + 4} value={parseFloat(props.temperature)} width={250} height={175} label={`Temperature °F ${trendOne}`} />
                 <Gauge id='s1-pH' min={props.humRanges.criticalLow - 4} max={props.humRanges.warningHigh + 4} value={parseFloat(props.humidity)} width={250} height={175} label={`Humidity % rh ${trendTwo}`} />
             </div>*/}
