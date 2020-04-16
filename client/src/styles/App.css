@@ -1,26 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Righteous&display=swap');
+
+/* ------ General Formatting ------- */
+html {
+    background: url(./images/basilbackground.png) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    min-height: 100%;
+    z-index: 0;
+}
+
 body{
     height: auto;
     width: auto;
-    background-color: rgb(75,75,75);
+    font-family: bebas neue;
+    letter-spacing: 1.5px;
 }
 
 h2 {
+    font-family: righteous;
     margin: 0;
     padding: 3px 0 3px 0;
 }
 
 h3 {
+    font-family: righteous;
     padding: 10px;
-    background-color: rgb(20, 50, 60);
-    border: 3px solid rgb(20, 100, 135)
 }
 
+/* ------ Static Display Formatting ------ */
 #static {
     display: flex;
     justify-content: space-around;
     height: 87.5vh;
     width: 100%;
     margin-top: 20px;
+    min-width: 1450px;
+    min-height: 650px;
 }
 
 #sensors {
@@ -41,9 +58,8 @@ h3 {
 }
 
 #sensor-critical {
-    width: Calc(57% - 10px);
-    height: Calc(97% - 10px);
-    border: 5px inset rgb(50,50,50);
+    width: 57%;
+    height: 97%;
     margin-left: 2%;
 }
 
@@ -52,7 +68,6 @@ h3 {
 }
 
 #sensor-critical h3 {
-    margin-top: 5%;
     font-size: 3rem;
 }
 
@@ -70,22 +85,19 @@ h3 {
 }
 
 #sensor-mid h3 {
-    margin-top: 5%;
     font-size: 1.8rem;
 }
 
 .mid-sensors {
-    width: Calc(100% - 10px);
+    width: 100%;
     height: 47%;
-    border: 5px inset rgb(50,50,50);
 }
 
 #sensor-bottom {
     display: flex;
     width: 100%;
-    height: 27%;
+    height: Calc(27% + 5px);
     padding-top: 1.5%;
-    border-top: 5px dashed rgb(20, 100, 135);
 }
 
 #sensor-bottom h2 {
@@ -93,16 +105,13 @@ h3 {
 }
 
 #sensor-bottom h3 {
-    margin-top: 2%;
     font-size: 1.5rem;
-    margin-bottom: 17.5%;
 }
 
 .bottom-sensors {
-    width: Calc(30.66% - 10px);
-    height: Calc(100% - 10px);
+    width: 30.66%;
+    height: 100%;
     margin-left: 2%;
-    border: 5px inset rgb(50,50,50);
 }
 
 .dashboard-cell {
@@ -112,38 +121,100 @@ h3 {
     justify-content: flex-end;
     position: relative;
     height: 100%;
-    background-color: rgb(100,100,100);
+    background-color: rgb(25,25,25, .85);
+    border-radius: 10px;
+    box-shadow: 0 0 10px whitesmoke;
 }
 
 .sensor-header {
     position: absolute;
-    top: 0;
+    top: 2.5%;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    width: Calc(100% - 6px);
+    justify-content: space-around;
+    width: 95%;
     height: 17.5%;
-    border: 3px solid rgb(20, 100, 135);
-    background-color: rgb(20, 50, 60);
-    color: rgb(100, 240, 165);
+    color: whitesmoke;
+    padding-bottom: 10px;
+    border-bottom: 3px solid whitesmoke;
     text-align: center;
+}
+
+.symbol-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+}
+
+.temp-sym, .hum-sym, .ec-sym, .ph-sym {
+    height: 90%;
+    opacity: .75;
+}
+
+.symbol-image {
+    height: 100%;
+    width: auto;
+    filter: invert(100)
+}
+
+.sensor-text-wrapper-123 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    height: 20%;
+    margin-bottom: 2.5%;
+}
+
+.sensor-text-wrapper-456 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    height: 20%;
+    margin-bottom: 15%;
+}
+
+.white-bar {
+    height: 100%;
+    width: 1.5%;
+    border-radius: 5px;
+    background-color: whitesmoke;
+}
+
+#white-bar-break {
+    width: 5px;
+    background-color: whitesmoke;
+    border-radius: 10px;
 }
 
 #manage {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: Calc(25% - 10px);
-    margin-right: 1.5%;
-    border: 5px inset rgb(50,50,50);
-    background-color: rgb(25,25,25);
+    justify-content: space-between;
+    width: 20%;
+    margin-right: .5%;
 }
 
 .manage-cell {
-    height: 33.33%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 30%;
     width: 100%;
     text-align: center;
+    background-color: rgb(25,25,25, .85);
+    border-radius: 10px;
+    box-shadow: 0 0 10px whitesmoke;
+    padding-bottom: 5px;
+}
+
+.manage-cell p {
+    margin: 1px;
 }
 
 .manage-header {
@@ -151,19 +222,22 @@ h3 {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: Calc(100% - 6px);
-    border: 3px solid rgb(20, 100, 135);
-    background-color: rgb(20, 50, 60);
-    color: rgb(100, 240, 165);
+    width: 95%;
+    border-bottom: 3px solid whitesmoke;
+    color: whitesmoke;
+    padding-bottom: 5px;
 }
 
 .manage-data{
-    color: white;
-    font-family: monospace;
-    font-size: 1.4rem;
+    width: 95%;
+    font-size: 1.2rem;
+    background-color: rgb(168, 152, 138);
+    border: 1px solid black;
+    border-radius: 10px;
+    box-shadow: 0 0 2px whitesmoke;
 }
 
-/* Query form formatting */
+/* ------- Query form formatting ------- */
 
 #user {
     position: relative;
@@ -172,10 +246,13 @@ h3 {
     display: flex;
     justify-content: space-around;
     margin-top: 15px;
+    min-height: 800px;
+    min-width: 1200px;
 }
 
 #query-form {
     width: 45%;
+    height: 99%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -184,13 +261,26 @@ h3 {
 
 #query-params {
     width: Calc(98% + 6px);
-    border: 2px solid black;
-    margin-bottom: 10px;
+    height: 17.5%;
+    margin-top: 10px;
     display: flex;
     flex-direction: column;
-    background-color: rgb(20, 50, 60);
-    color: rgb(100, 240, 165);
-    font-weight: bold;
+    color: whitesmoke;
+    font-size: 1.3rem;
+    background-color: rgb(25,25,25, .85);
+    border-radius: 10px;
+    box-shadow: 0 0 10px whitesmoke;
+    order: 3;
+}
+
+#query-params p {
+    margin: 1.5px;
+}
+
+.query-text {
+    width: 40%;
+    display: flex;
+    justify-content: space-between;
 }
 
 #calendar-time {
@@ -204,21 +294,34 @@ h3 {
     width: 45%;
     height: auto;
     padding: 2%;
-    border: 2px solid black;
+    color: whitesmoke;
+    text-align: center;
+    background-color: rgb(25,25,25, .85);
+    border-radius: 10px;
+    box-shadow: 0 0 10px whitesmoke;
 }
 
 .DayPicker {
     width: Calc(100% - 4px);
-    background-color: rgb(20, 50, 60);
+    background-color: rgb(133, 118, 110);
     border: 2px solid black;
-    color: rgb(100, 240, 165);
+    border-radius: 10px;
+    color: rgb(23, 84, 14);
     font-weight: bold;
+    font-size: 1.1rem;
 }
 
 .query-field {
     display: flex;
     justify-content: space-around;
-    border-bottom: 2px dashed black;
+    border-bottom: 2px dashed rgb(168, 152, 138);
+}
+
+.white-bar-query {
+    height: 70%;
+    width: 3px;
+    margin-top: 5px;
+    background-color: whitesmoke;
 }
 
 .query-field p {
@@ -229,7 +332,10 @@ h3 {
     display: flex;
     justify-content: space-between;
     width: Calc(98% - 14px);
-    border: 2px solid black;
+    color: white;
+    background-color: rgb(25,25,25, .85);
+    border-radius: 10px;
+    box-shadow: 0 0 10px whitesmoke;
     margin-top: 10px;
     padding: 10px;
 }
@@ -245,7 +351,7 @@ input[type='radio'] {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    font-weight: bold;
+    font-size: 1.1rem;
 }
 
 #measurement-radio {
@@ -256,15 +362,33 @@ input[type='radio'] {
     height: 100%;
 }
 
+#form-submit-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
 #form-submit {
-    background-color: slategray;
-    border: 2px solid rgb(20, 100, 135);
+    background-color: rgb(168, 152, 138);
+    border: 2px solid rgb(133, 118, 110);
+    border-radius: 10px;
+    width: 50%;
     font-weight: bold;
     color: black;
     font-size: 1.25rem;
 }
 
+#form-submit:hover {
+    cursor: pointer;
+    background-color: rgb(133, 118, 110);
+    border: 2px solid rgb(168, 152, 138);
+}
+
 #form-submit:disabled {
+    cursor: auto;
     color: gray;
     background-color: lightgray;
 }
@@ -274,8 +398,10 @@ input[type='radio'] {
     position: relative;
     overflow: hidden;
     width: 45%;
-    height: 100%;
-    border: 2px solid black;
+    height: 99%;
+    background-color: rgb(25,25,25, .85);
+    border-radius: 10px;
+    box-shadow: 0 0 10px whitesmoke;
 }
 
 #all-sensor-scroll {
@@ -295,14 +421,15 @@ input[type='radio'] {
     align-items: center;
     width: 95%;
     height: 100px;
-    background-color: slategray;
+    background-color: rgb(168, 152, 138);
     border: 2px solid black;
+    border-radius: 10px;
     margin: 5px 0 5px 0;
 }
 
 .sensor-list-container:hover {
     cursor: pointer;
-    background-color: rgb(20, 100, 135);
+    background-color: rgb(107, 162, 91);;
 }
 
 .sensor-list-item {
@@ -315,8 +442,8 @@ input[type='radio'] {
 }
 
 .sensor-list-item p {
-    font-size: 1.25rem;
-    font-weight: bold;
+    font-size: 1.6rem;
+    margin: 2px;
 }
 
 .sensor-item-container {
@@ -332,13 +459,13 @@ input[type='radio'] {
     align-items: center;
     width: 45%;
     height: 90%;
-    border: 2px solid rgb(20, 100, 135);
-    background-color: rgb(20, 50, 60);
-    color: rgb(100, 240, 165)
+    border-radius: 10px;
+    background-color: rgb(62, 88, 58);
+    color: rgb(247, 219, 195)
 }
 
 .sensor-item-measurement p {
-    margin: 4px;
+    margin: 2px;
 }
 
 
@@ -350,8 +477,10 @@ input[type='radio'] {
     position: relative;
     width: 100%;
     text-align: center;
-    height: 150px;
+    height: 120px;
     overflow: hidden;
+    border-radius: 10px;
+    margin-top: 5px;
 }
 
 .time-scroll {
@@ -359,31 +488,31 @@ input[type='radio'] {
     top: 0;
     width: Calc(100% + 20px);
     overflow: auto;
-    height: 150px;
+    height: 120px;
 }
 
 .time-click {
     border-bottom: 1px dashed black;
-    background: slategray;
+    background: rgb(168, 152, 138);
     margin: 1px 0 1px 0;
     padding: 0;
     font-weight: bold;
+    font-size: 1.2rem;
 }
 
 .time-click p {
+    color: black;
     margin: 0;
     padding: 10px;
     pointer-events: none;
 }
 
 .selected-time {
-    background-color: rgb(20, 50, 60);
-    color: rgb(100, 240, 165);
+    background-color: rgb(107, 162, 91);
 }
 
 .time-click:hover {
-    background-color: rgb(20, 50, 60);
-    color: rgb(100, 240, 165);
+    background-color: rgb(107, 162, 91);
     cursor: pointer;
 }
 /* ------------------------------------ */
@@ -393,7 +522,8 @@ input[type='radio'] {
     position: relative;
     width: 70%;
     text-align: center;
-    height: 150px;
+    height: 125px;
+    border-radius: 10px;
     overflow: hidden;
 }
 
@@ -422,31 +552,32 @@ input[type='radio'] {
     top: 0;
     width: Calc(100% + 20px);
     overflow: auto;
-    height: 150px;
+    height: 125px;
 }
 
 .sensor-click {
     border-bottom: 1px dashed black;
-    background: slategray;
+    background: rgb(168, 152, 138);
     margin: 1px 0 1px 0;
     padding: 0;
     font-weight: bold;
+    font-size: 1.2rem;
 }
 
 .sensor-click p {
+    color: black;
     margin: 0;
     padding: 10px;
     pointer-events: none;
 }
 
 .selected-sensor {
-    background-color: rgb(20, 50, 60);
-    color: rgb(100, 240, 165);
+    background-color: rgb(107, 162, 91);
 }
 
 .sensor-click:hover {
-    background-color: rgb(20, 50, 60);
-    color: rgb(100, 240, 165);
+    background-color: rgb(107, 162, 91);
+    box-shadow: 0 0 5px rgb(100, 240, 165);
     cursor: pointer;
 }
 /* ------------------------------------ */
@@ -455,32 +586,38 @@ input[type='radio'] {
 /* ------ Chart Modal Formatting ------ */
 #chart-modal {
     position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     z-index: 10;
     top: 10vh;
     left: 12.5vw;
-    background: whitesmoke;
+    background: rgb(247, 219, 195);
     border: 5px solid black;
+    box-shadow: 0 0 20px whitesmoke;
+    border-radius: 10px;
     width: 75vw;
     height: 75vh;
 }
 
 #chart-head {
     height: 10%;
-    border-bottom: 3px dashed slategray;
+    width: Calc(100% - 20px);
+    border-bottom: 3px dashed rgb(168, 152, 138);
     display: flex;
     justify-content: space-between;
     align-items: center;
     overflow: hidden;
     min-height: 50px;
     padding: 0 10px 0 10px;
-    background-color: rgb(20, 50, 60);
-    color: rgb(100, 240, 165);
+    background-color: rgb(62, 88, 58);
     font-size: 1.75rem;
     font-weight: bold;
 }
 
 #chart {
-    height: Calc(90% - 40px);
+    height: Calc(85% - 40px);
+    width: 75%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -499,4 +636,106 @@ input[type='radio'] {
     color: rgb(100, 240, 165);
     padding: 3px;
     margin-top: 1px;
+}
+
+.chart-close-container {
+    width: 15%;
+}
+
+.chart-close {
+    background-color: rgb(168, 152, 138);
+    border: 2px solid rgb(133, 118, 110);
+    border-radius: 10px;
+    width: 100%;
+    font-weight: bold;
+    color: black;
+    font-size: 1.25rem;
+}
+
+.chart-close:hover {
+    cursor: pointer;
+    background-color: rgb(133, 118, 110);
+    border: 2px solid rgb(168, 152, 138);
+}
+
+
+
+@media (max-width: 768px) {
+
+    body {
+        width: auto;
+        height: auto;
+    }
+    
+    #user {
+        height: auto;
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: center;
+        min-width: 100px;
+        min-height: 100px;
+    }
+
+    #query-form {
+        width: 90%
+    }
+
+    #query-params {
+        font-size: 1rem;
+        height: 120px;
+        order: 4;
+    }
+
+    .query-text {
+        width: 48%;
+    }
+
+    #calendar-time {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .cal-time {
+        width: 95%;
+        margin-bottom: 20px;
+    }
+
+    #all-sensors {
+        width: 90%;
+        height: 400px;
+        margin-bottom: 20px;
+    }
+
+    .sensor-list-container {
+        width: 90%;
+        margin-right: 20px;
+        height: 75px;
+    }
+
+    .sensor-list-item h2 {
+        font-size: 1.5rem;
+    }
+
+    .sensor-item-measurement p {
+        font-size: 1rem
+    }
+
+    #form-measurements {
+        margin-bottom: 20px;
+    }
+
+    #radio-form {
+        height: 100%;
+        justify-content: space-between;
+        font-size: 1rem;
+    }
+
+    .sensor-wheel {
+        width: 55%;
+    }
+
+    #measurement-radio {
+        height: 125px;
+        width: 40%;
+    }
 }
