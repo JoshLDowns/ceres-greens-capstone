@@ -503,3 +503,7 @@ input[type='radio'] {
     
 }
 
+.Gauge.s1-temp{
+    font-family:'calibri';
+    font-size: 'smaller';
+}
