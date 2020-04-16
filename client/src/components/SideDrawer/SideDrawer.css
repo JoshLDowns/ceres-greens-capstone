@@ -3,7 +3,7 @@
     overflow: scroll;
     position: fixed;
     background: rgb(63,118,58);
-background: linear-gradient(180deg, rgba(63,118,58,1) 31%, rgba(23,84,14,1) 95%);
+    background: linear-gradient(180deg, rgba(63,118,58,1) 31%, rgba(23,84,14,1) 95%);
     box-shadow: 2px 0px 5px rgba(0,0,0,0.5);
     top: 0;
     left: 0;
