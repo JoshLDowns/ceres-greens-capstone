@@ -1,10 +1,11 @@
 import React from 'react';
 import './DrawerButton.css';
 
+
 function DrawerButton(props) {
     return(
         <div>
-        <button className="drawer-button" onClick={props.click}>
+        <button className="drawer-button">
             <div className="button-line"/>
             <div className="button-line"/>
             <div className="button-line"/>

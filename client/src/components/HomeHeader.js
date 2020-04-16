@@ -11,7 +11,7 @@ import DrawerButton from './SideDrawer/DrawerButton.js'
 const HomeHeader = (props) => {
     return (
         <div className="home-header">
-            <DrawerButton click={props.drawerClickHandler}/>
+            <DrawerButton click={props.toggleDrawer}/>
         <div className="links">
             <Link to={"/"}>
                 <button id="home-button">Home</button>
