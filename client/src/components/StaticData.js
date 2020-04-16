@@ -1,5 +1,9 @@
 import React from 'react'
 import Gauge from 'react-svg-gauge'
+import tempsym from '../styles/images/tempsymbol.png'
+import humsym from '../styles/images/humsymbol.png'
+import phsym from '../styles/images/phsymbol.png'
+import ecsym from '../styles/images/ecsymbol.png'
 
 class StaticData extends React.Component {
     constructor(props) {
@@ -315,14 +319,16 @@ class StaticData extends React.Component {
                     warningArray.push(count)
                 }
             } else {
-                if ((data[sensor].EC <= this.state.ranges[`${sensor}ECRanges`].normal && data[sensor].EC > this.state.ranges[`${sensor}ECRanges`].warningLow) && (data[sensor].pH <= this.state.ranges[`${sensor}pHRanges`].normal && data[sensor].pH > this.state.ranges[`${sensor}pHRanges`].warningLow)) {
-                    normalArray.push(count)
-                } else if (data[sensor].EC <= this.state.ranges[`${sensor}ECRanges`].criticalLow || data[sensor].EC > this.state.ranges[`${sensor}ECRanges`].warningHigh) {
-                    criticalArray.push(count)
-                } else if (data[sensor].pH <= this.state.ranges[`${sensor}pHRanges`].criticalLow || data[sensor].pH > this.state.ranges[`${sensor}pHRanges`].warningHigh) {
-                    criticalArray.push(count)
-                } else {
-                    warningArray.push(count)
+                if (this.state.ranges[`${sensor}ECRanges`]) {
+                    if ((data[sensor].EC <= this.state.ranges[`${sensor}ECRanges`].normal && data[sensor].EC > this.state.ranges[`${sensor}ECRanges`].warningLow) && (data[sensor].pH <= this.state.ranges[`${sensor}pHRanges`].normal && data[sensor].pH > this.state.ranges[`${sensor}pHRanges`].warningLow)) {
+                        normalArray.push(count)
+                    } else if (data[sensor].EC <= this.state.ranges[`${sensor}ECRanges`].criticalLow || data[sensor].EC > this.state.ranges[`${sensor}ECRanges`].warningHigh) {
+                        criticalArray.push(count)
+                    } else if (data[sensor].pH <= this.state.ranges[`${sensor}pHRanges`].criticalLow || data[sensor].pH > this.state.ranges[`${sensor}pHRanges`].warningHigh) {
+                        criticalArray.push(count)
+                    } else {
+                        warningArray.push(count)
+                    }
                 }
             }
             count++
@@ -424,7 +430,7 @@ class StaticData extends React.Component {
                 <div id='sensors'>
                     <div id='sensor-top'>
                         <div id='sensor-critical'>
-                            <SensorOne sensor={this.state.sensor1} />
+                            <SensorOne sensor={this.state.sensor1} ranges={this.state.ranges} />
                         </div>
                         <div id='sensor-mid'>
                             <div className='mid-sensors' id='sensor-mid-1'>
@@ -447,6 +453,7 @@ class StaticData extends React.Component {
                         </div>
                     </div>
                 </div>
+                <div id='white-bar-break'></div>
                 <div id='manage'>
                     <div id='fans' className='manage-cell'>
                         <div className='manage-header'>
@@ -506,12 +513,24 @@ function SensorOne(props) {
             <div className='dashboard-cell'>
                 <div className='sensor-header'>
                     <h2>{props.sensor.num}</h2>
+                    <div className='symbol-wrapper'>
+                        <div className='temp-sym'>
+                            <img src={tempsym} className='symbol-image' alt='temp-symbol' />
+                        </div>
+                        <div className='hum-sym'>
+                            <img src={humsym} className='symbol-image' alt='humidity-symbol' />
+                        </div>
+                    </div>
                 </div>
                 {/*<div className='gauges'>
                 <Gauge id='s1-temp' min={props.tempRanges.criticalLow - 4} max={props.tempRanges.warningHigh + 4} value={parseFloat(props.temperature)} width={250} height={175} label={`Temperature °F ${trendOne}`} />
                 <Gauge id='s1-hum' min={props.humRanges.criticalLow - 4} max={props.humRanges.warningHigh + 4} value={parseFloat(props.humidity)} width={250} height={175} label={`Humidity % rh ${trendTwo}`} />
             </div>*/}
-                <h3><span style={{ color: props.sensor.tempColor }}>{props.sensor.temperature}°F {trendOne}</span> <span> - </span> <span style={{ color: props.sensor.humColor }}>{props.sensor.humidity}% rh {trendTwo}</span></h3>
+                <div className='sensor-text-wrapper-123'>
+                    <h3><span style={{ color: props.sensor.tempColor }}>{props.sensor.temperature}°F {trendOne}</span></h3>
+                    <div className='white-bar'></div>
+                    <h3><span style={{ color: props.sensor.humColor }}>{props.sensor.humidity}% rh {trendTwo}</span></h3>
+                </div>
             </div>
         )
     } else {
@@ -519,12 +538,24 @@ function SensorOne(props) {
             <div className='dashboard-cell'>
                 <div className='sensor-header'>
                     <h2>{props.sensor.num}</h2>
+                    <div className='symbol-wrapper'>
+                        <div className='ec-sym'>
+                            <img src={ecsym} className='symbol-image' alt='EC-symbol' />
+                        </div>
+                        <div className='ph-sym'>
+                            <img src={phsym} className='symbol-image' alt='pH-symbol' />
+                        </div>
+                    </div>
                 </div>
                 {/*<div className='gauges'>
                 <Gauge id='s1-EC' min={props.ECRanges.criticalLow - 4} max={props.tempRanges.warningHigh + 4} value={parseFloat(props.temperature)} width={250} height={175} label={`Temperature °F ${trendOne}`} />
                 <Gauge id='s1-pH' min={props.humRanges.criticalLow - 4} max={props.humRanges.warningHigh + 4} value={parseFloat(props.humidity)} width={250} height={175} label={`Humidity % rh ${trendTwo}`} />
             </div>*/}
-                <h3><span style={{ color: props.sensor.ECColor }}>{props.sensor.EC} EC {trendOne}</span> <span> - </span> <span style={{ color: props.sensor.pHColor }}>{props.sensor.pH} pH {trendTwo}</span></h3>
+                <div className='sensor-text-wrapper-123'>
+                    <h3><span style={{ color: props.sensor.ECColor }}>{props.sensor.EC} EC {trendOne}</span></h3>
+                    <div className='white-bar'></div>
+                    <h3><span style={{ color: props.sensor.pHColor }}>{props.sensor.pH} pH {trendTwo}</span></h3>
+                </div>
             </div>
         )
     }
@@ -540,8 +571,20 @@ function SensorTwo(props) {
             <div className='dashboard-cell'>
                 <div className='sensor-header'>
                     <h2>{props.sensor.num}</h2>
+                    <div className='symbol-wrapper'>
+                        <div className='temp-sym'>
+                            <img src={tempsym} className='symbol-image' alt='temp-symbol' />
+                        </div>
+                        <div className='hum-sym'>
+                            <img src={humsym} className='symbol-image' alt='humidity-symbol' />
+                        </div>
+                    </div>
                 </div>
-                <h3><span style={{ color: props.sensor.tempColor }}>{props.sensor.temperature}°F {trendOne}</span> <span> - </span> <span style={{ color: props.sensor.humColor }}>{props.sensor.humidity}% rh {trendTwo}</span></h3>
+                <div className='sensor-text-wrapper-123'>
+                    <h3><span style={{ color: props.sensor.tempColor }}>{props.sensor.temperature}°F {trendOne}</span></h3>
+                    <div className='white-bar'></div>
+                    <h3><span style={{ color: props.sensor.humColor }}>{props.sensor.humidity}% rh {trendTwo}</span></h3>
+                </div>
             </div>
         )
     } else {
@@ -549,8 +592,20 @@ function SensorTwo(props) {
             <div className='dashboard-cell'>
                 <div className='sensor-header'>
                     <h2>{props.sensor.num}</h2>
+                    <div className='symbol-wrapper'>
+                        <div className='ec-sym'>
+                            <img src={ecsym} className='symbol-image' alt='EC-symbol' />
+                        </div>
+                        <div className='ph-sym'>
+                            <img src={phsym} className='symbol-image' alt='pH-symbol' />
+                        </div>
+                    </div>
                 </div>
-                <h3><span style={{ color: props.sensor.ECColor }}>{props.sensor.EC} EC {trendOne}</span> <span> - </span> <span style={{ color: props.sensor.pHColor }}>{props.sensor.pH} pH {trendTwo}</span></h3>
+                <div className='sensor-text-wrapper-123'>
+                    <h3><span style={{ color: props.sensor.ECColor }}>{props.sensor.EC} EC {trendOne}</span></h3>
+                    <div className='white-bar'></div>
+                    <h3><span style={{ color: props.sensor.pHColor }}>{props.sensor.pH} pH {trendTwo}</span></h3>
+                </div>
             </div>
         )
     }
@@ -566,8 +621,20 @@ function SensorThree(props) {
             <div className='dashboard-cell'>
                 <div className='sensor-header'>
                     <h2>{props.sensor.num}</h2>
+                    <div className='symbol-wrapper'>
+                        <div className='temp-sym'>
+                            <img src={tempsym} className='symbol-image' alt='temp-symbol' />
+                        </div>
+                        <div className='hum-sym'>
+                            <img src={humsym} className='symbol-image' alt='humidity-symbol' />
+                        </div>
+                    </div>
                 </div>
-                <h3><span style={{ color: props.sensor.tempColor }}>{props.sensor.temperature}°F {trendOne}</span> <span> - </span> <span style={{ color: props.sensor.humColor }}>{props.sensor.humidity}% rh {trendTwo}</span></h3>
+                <div className='sensor-text-wrapper-123'>
+                    <h3><span style={{ color: props.sensor.tempColor }}>{props.sensor.temperature}°F {trendOne}</span></h3>
+                    <div className='white-bar'></div>
+                    <h3><span style={{ color: props.sensor.humColor }}>{props.sensor.humidity}% rh {trendTwo}</span></h3>
+                </div>
             </div>
         )
     } else {
@@ -575,8 +642,20 @@ function SensorThree(props) {
             <div className='dashboard-cell'>
                 <div className='sensor-header'>
                     <h2>{props.sensor.num}</h2>
+                    <div className='symbol-wrapper'>
+                        <div className='ec-sym'>
+                            <img src={ecsym} className='symbol-image' alt='EC-symbol' />
+                        </div>
+                        <div className='ph-sym'>
+                            <img src={phsym} className='symbol-image' alt='pH-symbol' />
+                        </div>
+                    </div>
                 </div>
-                <h3><span style={{ color: props.sensor.ECColor }}>{props.sensor.EC} EC {trendOne}</span> <span> - </span> <span style={{ color: props.sensor.pHColor }}>{props.sensor.pH} pH {trendTwo}</span></h3>
+                <div className='sensor-text-wrapper-123'>
+                    <h3><span style={{ color: props.sensor.ECColor }}>{props.sensor.EC} EC {trendOne}</span></h3>
+                    <div className='white-bar'></div>
+                    <h3><span style={{ color: props.sensor.pHColor }}>{props.sensor.pH} pH {trendTwo}</span></h3>
+                </div>
             </div>
         )
     }
@@ -592,8 +671,20 @@ function SensorFour(props) {
             <div className='dashboard-cell'>
                 <div className='sensor-header'>
                     <h2>{props.sensor.num}</h2>
+                    <div className='symbol-wrapper'>
+                        <div className='temp-sym'>
+                            <img src={tempsym} className='symbol-image' alt='temp-symbol' />
+                        </div>
+                        <div className='hum-sym'>
+                            <img src={humsym} className='symbol-image' alt='humidity-symbol' />
+                        </div>
+                    </div>
                 </div>
-                <h3><span style={{ color: props.sensor.tempColor }}>{props.sensor.temperature}°F {trendOne}</span> <span> - </span> <span style={{ color: props.sensor.humColor }}>{props.sensor.humidity}% rh {trendTwo}</span></h3>
+                <div className='sensor-text-wrapper-456'>
+                    <h3><span style={{ color: props.sensor.tempColor }}>{props.sensor.temperature}°F {trendOne}</span></h3>
+                    <div className='white-bar'></div>
+                    <h3><span style={{ color: props.sensor.humColor }}>{props.sensor.humidity}% rh {trendTwo}</span></h3>
+                </div>
             </div>
         )
     } else {
@@ -601,8 +692,20 @@ function SensorFour(props) {
             <div className='dashboard-cell'>
                 <div className='sensor-header'>
                     <h2>{props.sensor.num}</h2>
+                    <div className='symbol-wrapper'>
+                        <div className='ec-sym'>
+                            <img src={ecsym} className='symbol-image' alt='EC-symbol' />
+                        </div>
+                        <div className='ph-sym'>
+                            <img src={phsym} className='symbol-image' alt='pH-symbol' />
+                        </div>
+                    </div>
                 </div>
-                <h3><span style={{ color: props.sensor.ECColor }}>{props.sensor.EC} EC {trendOne}</span> <span> - </span> <span style={{ color: props.sensor.pHColor }}>{props.sensor.pH} pH {trendTwo}</span></h3>
+                <div className='sensor-text-wrapper-456'>
+                    <h3><span style={{ color: props.sensor.ECColor }}>{props.sensor.EC} EC {trendOne}</span></h3>
+                    <div className='white-bar'></div>
+                    <h3><span style={{ color: props.sensor.pHColor }}>{props.sensor.pH} pH {trendTwo}</span></h3>
+                </div>
             </div>
         )
     }
@@ -618,8 +721,20 @@ function SensorFive(props) {
             <div className='dashboard-cell'>
                 <div className='sensor-header'>
                     <h2>{props.sensor.num}</h2>
+                    <div className='symbol-wrapper'>
+                        <div className='temp-sym'>
+                            <img src={tempsym} className='symbol-image' alt='temp-symbol' />
+                        </div>
+                        <div className='hum-sym'>
+                            <img src={humsym} className='symbol-image' alt='humidity-symbol' />
+                        </div>
+                    </div>
                 </div>
-                <h3><span style={{ color: props.sensor.tempColor }}>{props.sensor.temperature}°F {trendOne}</span> <span> - </span> <span style={{ color: props.sensor.humColor }}>{props.sensor.humidity}% rh {trendTwo}</span></h3>
+                <div className='sensor-text-wrapper-456'>
+                    <h3><span style={{ color: props.sensor.tempColor }}>{props.sensor.temperature}°F {trendOne}</span></h3>
+                    <div className='white-bar'></div>
+                    <h3><span style={{ color: props.sensor.humColor }}>{props.sensor.humidity}% rh {trendTwo}</span></h3>
+                </div>
             </div>
         )
     } else {
@@ -627,8 +742,20 @@ function SensorFive(props) {
             <div className='dashboard-cell'>
                 <div className='sensor-header'>
                     <h2>{props.sensor.num}</h2>
+                    <div className='symbol-wrapper'>
+                        <div className='ec-sym'>
+                            <img src={ecsym} className='symbol-image' alt='EC-symbol' />
+                        </div>
+                        <div className='ph-sym'>
+                            <img src={phsym} className='symbol-image' alt='pH-symbol' />
+                        </div>
+                    </div>
                 </div>
-                <h3><span style={{ color: props.sensor.ECColor }}>{props.sensor.EC} EC {trendOne}</span> <span> - </span> <span style={{ color: props.sensor.pHColor }}>{props.sensor.pH} pH {trendTwo}</span></h3>
+                <div className='sensor-text-wrapper-456'>
+                    <h3><span style={{ color: props.sensor.ECColor }}>{props.sensor.EC} EC {trendOne}</span></h3>
+                    <div className='white-bar'></div>
+                    <h3><span style={{ color: props.sensor.pHColor }}>{props.sensor.pH} pH {trendTwo}</span></h3>
+                </div>
             </div>
         )
     }
@@ -644,8 +771,20 @@ function SensorSix(props) {
             <div className='dashboard-cell'>
                 <div className='sensor-header'>
                     <h2>{props.sensor.num}</h2>
+                    <div className='symbol-wrapper'>
+                        <div className='temp-sym'>
+                            <img src={tempsym} className='symbol-image' alt='temp-symbol' />
+                        </div>
+                        <div className='hum-sym'>
+                            <img src={humsym} className='symbol-image' alt='humidity-symbol' />
+                        </div>
+                    </div>
                 </div>
-                <h3><span style={{ color: props.sensor.tempColor }}>{props.sensor.temperature}°F {trendOne}</span> <span> - </span> <span style={{ color: props.sensor.humColor }}>{props.sensor.humidity}% rh {trendTwo}</span></h3>
+                <div className='sensor-text-wrapper-456'>
+                    <h3><span style={{ color: props.sensor.tempColor }}>{props.sensor.temperature}°F {trendOne}</span></h3>
+                    <div className='white-bar'></div>
+                    <h3><span style={{ color: props.sensor.humColor }}>{props.sensor.humidity}% rh {trendTwo}</span></h3>
+                </div>
             </div>
         )
     } else {
@@ -653,8 +792,20 @@ function SensorSix(props) {
             <div className='dashboard-cell'>
                 <div className='sensor-header'>
                     <h2>{props.sensor.num}</h2>
+                    <div className='symbol-wrapper'>
+                        <div className='ec-sym'>
+                            <img src={ecsym} className='symbol-image' alt='EC-symbol' />
+                        </div>
+                        <div className='ph-sym'>
+                            <img src={phsym} className='symbol-image' alt='pH-symbol' />
+                        </div>
+                    </div>
                 </div>
-                <h3><span style={{ color: props.sensor.ECColor }}>{props.sensor.EC} EC {trendOne}</span> <span> - </span> <span style={{ color: props.sensor.pHColor }}>{props.sensor.pH} pH {trendTwo}</span></h3>
+                <div className='sensor-text-wrapper-456'>
+                    <h3><span style={{ color: props.sensor.ECColor }}>{props.sensor.EC} EC {trendOne}</span></h3>
+                    <div className='white-bar'></div>
+                    <h3><span style={{ color: props.sensor.pHColor }}>{props.sensor.pH} pH {trendTwo}</span></h3>
+                </div>
             </div>
         )
     }

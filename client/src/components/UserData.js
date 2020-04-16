@@ -31,7 +31,6 @@ class UserData extends React.Component {
     }
 
     clickQuery = (event) => {
-        console.log(event.target.id)
         if (event.target.id.includes('sensor')) {
             let queryObj = {
                 sensor: `Sensor ${event.target.id[6]}${event.target.id[7] ? event.target.id[7] : ''}`,
@@ -75,7 +74,6 @@ class UserData extends React.Component {
                 },
                 body: JSON.stringify({ sensor: `${event.target.id}`, type: 'ECpH' })
             }).then(res => res.json()).then((obj) => {
-                console.log(obj)
                 obj.forEach((item) => {
                     if (item['_field'] === 'pH') {
                         queryObj.ypH.push(item['_value'])
@@ -84,7 +82,6 @@ class UserData extends React.Component {
                         queryObj.yEC.push(item['_value'])
                     }
                 })
-                console.log(queryObj)
                 this.setState({
                     data: queryObj,
                     clickChartModal: true
@@ -111,7 +108,6 @@ class UserData extends React.Component {
             },
             body: JSON.stringify({ queryString: queryString, sensor: `${this.state.sensor}`, measurement: `${this.state.measurement}` })
         }).then(res => res.json()).then((obj) => {
-            console.log(obj)
             obj.forEach((item) => {
                 queryObj.x.push(format(new Date(item['_time']), 'MM/dd/yyyy HH:mm:ss'))
                 queryObj.y.push(item['_value'])
@@ -119,11 +115,9 @@ class UserData extends React.Component {
             let newObj = queryObj
             return newObj
         }).then((obj) => {
-            console.log(obj);
             let lastDivisor;
             if (obj.x.length > 2016) {
                 lastDivisor = obj.x.length % 12
-                console.log(lastDivisor)
                 while (obj.x.length > 0) {
                     tempYLength = obj.y.length;
                     tempYAr.push(parseFloat(((obj.y.splice(0, 12).reduce((a, b) => parseFloat(a) + parseFloat(b))) / (tempYLength >= 12 ? 12 : lastDivisor)).toFixed(2)))
@@ -133,7 +127,6 @@ class UserData extends React.Component {
                 obj.y = tempYAr.map((value) => value)
             } else if (obj.x.length > 288) {
                 lastDivisor = obj.x.length % 6
-                console.log(lastDivisor)
                 while (obj.x.length > 0) {
                     tempYLength = obj.y.length;
                     tempYAr.push(parseFloat(((obj.y.splice(0, 6).reduce((a, b) => parseFloat(a) + parseFloat(b))) / (tempYLength >= 6 ? 6 : lastDivisor)).toFixed(2)))
@@ -143,13 +136,10 @@ class UserData extends React.Component {
                 obj.y = tempYAr.map((value) => value)
             } else if (obj.x.length > 24) {
                 lastDivisor = obj.x.length % 3
-                console.log(lastDivisor)
                 while (obj.x.length > 0) {
                     tempYLength = obj.y.length;
-                    //console.log(obj.slice(0,3))
                     tempYAr.push(parseFloat(((obj.y.splice(0, 3).reduce((a, b) => parseFloat(a) + parseFloat(b))) / (tempYLength >= 3 ? 3 : lastDivisor)).toFixed(2)))
                     tempXAr.push(obj.x.length >= 3 ? obj.x.splice(0, 3)[2] : obj.x.splice(0)[lastDivisor - 1])
-                    //tempXAr.push(obj.x.splice(0, 3)[2])
                 }
                 obj.x = tempXAr.map((value) => value)
                 obj.y = tempYAr.map((value) => value)
@@ -316,7 +306,6 @@ class UserData extends React.Component {
 
     componentDidMount() {
         fetch('/getRanges').then(res => res.json()).then((obj) => {
-            console.log(obj);
             this.setState({
                 ranges: obj
             })
@@ -357,18 +346,41 @@ class UserData extends React.Component {
                 <div id='query-form'>
                     <div id='query-params'>
                         <div id='query-dates' className='query-field'>
-                            <p>Start Date: {this.state.startDate && (this.state.startDate).toLocaleDateString()}</p>
-                            <p>End Date: {this.state.endDate && (this.state.endDate).toLocaleDateString()}</p>
+                            <div className='query-text'>
+                                <p>Start Date:</p>
+                                <p>{this.state.startDate && (this.state.startDate).toLocaleDateString()}</p>
+                            </div>
+                            <div className='white-bar-query'></div>
+                            <div className='query-text'>
+                                <p>End Date:</p>
+                                <p>{this.state.endDate && (this.state.endDate).toLocaleDateString()}</p>
+                            </div>
                         </div>
                         <div id='query-times' className='query-field'>
-                            <p>Start Time: {this.state.startTime && format(setHours(new Date(), parseFloat(this.state.startTime.slice(6))), 'hh a')}</p>
-                            <p>End Time: {this.state.endTime && format(setHours(new Date(), parseFloat(this.state.endTime.slice(4))), 'hh a')}</p>
+                            <div className='query-text'>
+                                <p>Start Time:</p>
+                                <p>{this.state.startTime && format(setHours(new Date(), parseFloat(this.state.startTime.slice(6))), 'hh a')}</p>
+                            </div>
+                            <div className='white-bar-query'></div>
+                            <div className='query-text'>
+                                <p>End Time:</p>
+                                <p>{this.state.endTime && format(setHours(new Date(), parseFloat(this.state.endTime.slice(4))), 'hh a')}</p>
+                            </div>
                         </div>
                         <div id='query-measurements' className='query-field'>
-                            <p>Sensor: {this.state.sensor}</p>
-                            <p>Measurement: {this.state.measurement}</p>
+                            <div className='query-text'>
+                                <p>Sensor:</p>
+                                <p>{this.state.sensor}</p>
+                            </div>
+                            <div className='white-bar-query'></div>
+                            <div className='query-text'>
+                                <p>Measurement:</p>
+                                <p>{this.state.measurement}</p>
+                            </div>
                         </div>
-                        <button id='form-submit' onClick={this.submitQuery} disabled={this.isDisabled()}>Submit</button>
+                        <div id='form-submit-container'>
+                            <button id='form-submit' onClick={this.submitQuery} disabled={this.isDisabled()}>Submit</button>
+                        </div>
                     </div>
                     <div id='calendar-time'>
                         <div id='range-start' className='cal-time'>
@@ -430,8 +442,10 @@ function ClickChartModal(props) {
 
         <div id='chart-modal'>
             <div id='chart-head'>
-                <p>{props.data.sensor}</p>
-                <button onClick={props.closeModal}>Close</button>
+                <h2>{props.data.sensor}</h2>
+                <div className='chart-close-container'>
+                    <button className='chart-close' onClick={props.closeModal}>Close</button>
+                </div>
             </div>
             <div id='chart'>
                 <Line options={{ responsive: true, legend: { labels: { fontStyle: 'bold' } }, scales: { xAxes: [{ ticks: { autoSkip: true, maxRotation: 90, minRotation: 90, fontStyle: 'bold' } }] } }} data={{ labels: props.data.x, datasets: [{ label: props.data.labels[1], backgroundColor: "slateBlue", data: props.data.yHum ? props.data.yHum : props.data.yEC }, { label: props.data.labels[0], backgroundColor: "slategrey", data: props.data.yTemp ? props.data.yTemp : props.data.ypH }] }} />
@@ -444,8 +458,10 @@ function QueryChartModal(props) {
     return (
         <div id='chart-modal'>
             <div id='chart-head'>
-                <p>{props.data.sensor}: {props.data.measurement}</p>
-                <button onClick={props.closeModal}>Close</button>
+                <h2>{props.data.sensor}: {props.data.measurement}</h2>
+                <div className='chart-close-container'>
+                    <button className='chart-close' onClick={props.closeModal}>Close</button>
+                </div>
             </div>
             <div id='chart'>
                 <Line options={{ responsive: true, legend: { labels: { fontStyle: 'bold' } }, scales: { xAxes: [{ ticks: { autoSkip: true, maxRotation: 90, minRotation: 90, fontStyle: 'bold' } }] } }} data={{ labels: props.data.x, datasets: [{ label: `${props.data.sensor}: ${props.data.measurement}`, backgroundColor: "slategrey", data: props.data.y }] }} />
@@ -463,7 +479,7 @@ function SensorListItem(props) {
 
         return (
             <div className='sensor-list-item'>
-                <p>{props.sensorObj.sensor}</p>
+                <h2>{props.sensorObj.sensor}</h2>
                 <div className='sensor-item-container'>
                     <div className='sensor-item-measurement'>
                         <p>Temp - {trendOne}</p>
@@ -479,7 +495,7 @@ function SensorListItem(props) {
     } else {
         return (
             <div className='sensor-list-item'>
-                <p>{props.sensorObj.sensor}</p>
+                <h2>{props.sensorObj.sensor}</h2>
                 <div className='sensor-item-container'>
                     <div className='sensor-item-measurement'>
                         <p>EC - {trendOne}</p>
