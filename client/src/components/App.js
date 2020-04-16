@@ -8,27 +8,10 @@ import SideDrawer from './SideDrawer/SideDrawer.js'
 import Backdrop from './Backdrop/Backdrop.js'
 
 class App extends React.Component {
-  state = {
-    sideDrawerOpen: false
-  };
-  drawerButtonClickHandler = () => {
-    this.setState((prevState) => {
-      return {sideDrawerOpen: !prevState.sideDrawerOpen}
-    })
-  };
-
-  backdropClickHandler = () => {
-    this.setState({sideDrawerOpen: false});
-  }
+  
 
   render() {
-    let sideDrawer = null;
-    let backdrop = null;
-
-    if (this.state.sideDrawerOpen) {
-      sideDrawer = <SideDrawer />
-      backdrop = <Backdrop click={this.backdropClickHandler}/>
-    }
+    
     return (
       <div id='body'>
         {/* anything static to the page will go here */}
@@ -37,8 +20,7 @@ class App extends React.Component {
         </div>
         
         <div>
-          {sideDrawer}
-          {backdrop}
+          <SideDrawer/>
           <Route exact path='/' >
             <StaticData />
           </Route>
