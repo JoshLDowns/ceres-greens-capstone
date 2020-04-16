@@ -175,6 +175,7 @@ h3 {
     width: 90%;
     height: 20%;
     margin-bottom: 15%;
+    font-size: x-large;
 }
 
 .white-bar {
@@ -630,15 +631,14 @@ input[type='radio'] {
 }
 
 /*----------------Gauges----------------*/
-.gauges{
+#gauges{
     display: flex;
-    border: 3px solid rgb(20, 100, 135);
-    background-color: rgb(20, 50, 60);
-    color: rgb(100, 240, 165);
+    justify-content: space-between;
     padding: 3px;
     margin-top: 1px;
     
 }
+
 
 .chart-close-container {
     width: 15%;
@@ -741,7 +741,4 @@ input[type='radio'] {
         width: 40%;
     }
 }
-.Gauge.s1-temp{
-    font-family:'calibri';
-    font-size: 'smaller';
-}
+
