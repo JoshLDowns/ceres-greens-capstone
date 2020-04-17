@@ -21,4 +21,5 @@
     width: 30px;
     height: 2px;
     background: white;
+    z-index: 10;
 }

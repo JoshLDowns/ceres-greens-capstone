@@ -7,7 +7,8 @@ class PHSubMenu extends React.Component {
           pHCritLow: null,
           pHWarnLow: null,
           pHWarnHigh: null,
-          pHCritHigh: null
+          pHCritHigh: null, 
+          zone: undefined
         };
     
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -16,9 +17,10 @@ class PHSubMenu extends React.Component {
       handleInputChange(event) {
         const target = event.target;
         const name = target.name;
-    
-        
-        
+        this.setState({
+          [`${name}`]: target.value
+        })
+        console.log(this.state[`${name}`])
       }
     
     render() {
@@ -46,7 +48,7 @@ class PHSubMenu extends React.Component {
                         </option>
                     </select>
                 </label>
-                <input type="submit" value="Submit"></input>
+                <input type="submit" value="Submit" className='chart-close'></input>
             </form>
 
     )

@@ -4,10 +4,11 @@ class CurrentSubMenu extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          CurrentCritLow: null,
-          CurrentWarnLow: null,
-          CurrentWarnHigh: null,
-          CurrentCritHigh: null
+          currentCritLow: null,
+          currentWarnLow: null,
+          currentWarnHigh: null,
+          currentCritHigh: null,
+          zone: undefined
         };
     
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -16,9 +17,10 @@ class CurrentSubMenu extends React.Component {
       handleInputChange(event) {
         const target = event.target;
         const name = target.name;
-    
-        
-        
+        this.setState({
+          [`${name}`]: target.value
+        })
+        console.log(this.state[`${name}`])
       }
     
     render() {
@@ -46,7 +48,7 @@ class CurrentSubMenu extends React.Component {
                         </option>
                     </select>
                 </label>
-                <input type="submit" value="Submit"></input>
+                <input type="submit" value="Submit" className='chart-close'></input>
             </form>
 
     )
