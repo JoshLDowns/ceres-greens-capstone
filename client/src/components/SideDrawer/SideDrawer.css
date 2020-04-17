@@ -1,51 +1,58 @@
 .side-drawer {
     height: 100%;
-    background: rgb(12,83,105);
-    background: linear-gradient(180deg, rgba(12,83,105,1) 21%, black 100%);
-    box-shadow: 2px 0px 5px rgba(0,0,0,0.5);
+    overflow: scroll;
     position: fixed;
+    background: rgb(63,118,58);
+    background: linear-gradient(180deg, rgba(63,118,58,1) 31%, rgba(23,84,14,1) 95%);
+    box-shadow: 2px 0px 5px rgba(0,0,0,0.5);
     top: 0;
     left: 0;
     width: 70%;
     max-width: 400px;
     z-index: 200;
     padding: 0;
-}
-
-.side-drawer ul {
-    height: 100%;
-    list-style: none;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    padding: 0;
+   
+
 }
 
-.side-drawer li {
+#side-drawer-items {
+    background-color: #6ba25b;
     margin: 1rem;
     border: 2px  white solid;
-  border-radius: 5px;
+    border-radius: 5px;
     width: 70%;
-    height: 6vh;
+    height: auto;
+    text-align: center;
+    padding: .5rem;
+}
+
+#side-drawer-items:hover {
+    background-color: #17540e;
+}
+#side-drawer-items:active {
+    background-color: #17540e;
+}
+
+#side-drawer-items-content {
+    font-family: "Baloo Bhai", cursive;
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+.sub-menu {
+    background-color:#17540e;
+    border-radius: 5px;
+    width: 100vw;
     text-align: center;
     padding: 2rem;
 }
 
-.side-drawer li:hover {
-    background-color: rgb(79,81,82);
-}
-
-.side-drawer a {
+.sub-menu-content {
     font-family: "Baloo Bhai", cursive;
     color: white;
     text-decoration: none;
-    font-size: 1.4rem;
-    
-  
-    
-}
-
-.side-drawer a:hover,
-.side-drawer a:active {
-    color: black;
+    font-size: .7rem;
 }
