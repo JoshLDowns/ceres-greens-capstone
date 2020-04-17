@@ -72,7 +72,7 @@ export default function SideDrawer(props) {
                                 <Typography id="side-drawer-items-content">Add Phone Number (SMS)</Typography>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
-                                    <SMSSubMenu handleSubmit={props.handleSubmit}/>
+                                    <SMSSubMenu handleSMS={props.handleSMS}/>
                             </ExpansionPanelDetails>
                         </ExpansionPanel>
             </List>

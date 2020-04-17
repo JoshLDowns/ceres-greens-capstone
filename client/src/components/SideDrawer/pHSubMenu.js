@@ -10,38 +10,38 @@ class PHSubMenu extends React.Component {
             warningHigh: '',
             option: 'germRm'
         };
-    
+
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleOption = this.handleOption.bind(this);
         this.resetForm = this.resetForm.bind(this);
-      }
-    
-      handleInputChange(event) {
+    }
+
+    handleInputChange(event) {
         const target = event.target;
         const name = target.name;
         this.setState({
-          [`${name}`]: target.value
+            [`${name}`]: target.value
         })
-      }
+    }
 
-      handleOption(event) {
-          this.setState({
-              option: event.target.value
-          })
-      }
-
-      resetForm() {
-        this.setState ({
-          criticalLow: '',
-          warningLow: '',
-          normal: '',
-          warningHigh: ''
+    handleOption(event) {
+        this.setState({
+            option: event.target.value
         })
-      }
-    
+    }
+
+    resetForm() {
+        this.setState({
+            criticalLow: '',
+            warningLow: '',
+            normal: '',
+            warningHigh: ''
+        })
+    }
+
     render() {
-    return(
-      
+        return (
+
             <form className="sub-menu">
                 <label className="sub-menu-content">Low Critical pH:<input name="criticalLow" onChange={this.handleInputChange} value={this.state.criticalLow} /></label>
                 <label className="sub-menu-content">Low Warning pH:<input name="warningLow" onChange={this.handleInputChange} value={this.state.warningLow} /></label>
@@ -64,10 +64,10 @@ class PHSubMenu extends React.Component {
                         </option>
                     </select>
                 </label>
-                <input type="submit" className='chart-close' id='pHRanges' onClick={(event)=>{this.props.handleSubmit(event, this.state.criticalLow, this.state.warningLow, this.state.normal, this.state.warningHigh, this.state.option); this.resetForm()}}></input>
+                <input type="submit" className='chart-close' id='pHRanges' onClick={(event) => { this.props.handleSubmit(event, this.state.criticalLow, this.state.warningLow, this.state.normal, this.state.warningHigh, this.state.option); this.resetForm() }}></input>
             </form>
 
-    )
+        )
     }
 }
 
