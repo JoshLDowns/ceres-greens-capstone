@@ -423,9 +423,20 @@ class StaticData extends React.Component {
 
     }
 
+    componentDidUpdate() {
+        let objectOne = this.state.ranges;
+        let objectTwo = this.props.ranges;
+        if (this.props.ranges.tempRanges && JSON.stringify(objectOne) !== JSON.stringify(objectTwo)) {
+            this.setState({
+                ranges: this.props.ranges
+            })
+        }
+    }
+
     componentWillUnmount() {
         clearInterval(this.state.intervalMachines)
         clearInterval(this.state.intervalSensors)
+        setTimeout(()=>{},100)
     }
 
     render() {
@@ -435,26 +446,26 @@ class StaticData extends React.Component {
                 <div id='sensors'>
                     <div id='sensor-top'>
                         <div id='sensor-critical'>
-                            <SensorOne sensor={this.state.sensor1} ranges={this.state.ranges} />
+                            {this.state.sensor1.num ? <SensorOne sensor={this.state.sensor1} /> : <p>...Loading</p>}
                         </div>
                         <div id='sensor-mid'>
                             <div className='mid-sensors' id='sensor-mid-1'>
-                                <SensorTwo sensor={this.state.sensor2} />
+                                {this.state.sensor2.num ? <SensorTwo sensor={this.state.sensor2} /> : <p>...Loading</p>}
                             </div>
                             <div className='mid-sensors' id='sensor-mid-2'>
-                                <SensorThree sensor={this.state.sensor3} />
+                                {this.state.sensor3.num ? <SensorThree sensor={this.state.sensor3} /> : <p>...Loading</p>}
                             </div>
                         </div>
                     </div>
                     <div id='sensor-bottom'>
                         <div className='bottom-sensors' id='sensor-bottom-1'>
-                            <SensorFour sensor={this.state.sensor4} />
+                            {this.state.sensor4.num ? <SensorFour sensor={this.state.sensor4} /> : <p>...Loading</p>}
                         </div>
                         <div className='bottom-sensors' id='sensor-bottom-2'>
-                            <SensorFive sensor={this.state.sensor5} />
+                            {this.state.sensor5.num ? <SensorFive sensor={this.state.sensor5} /> : <p>...Loading</p>}
                         </div>
                         <div className='bottom-sensors' id='sensor-bottom-3'>
-                            <SensorSix sensor={this.state.sensor6} />
+                            {this.state.sensor6.num ? <SensorSix sensor={this.state.sensor6} /> : <p>...Loading</p>}
                         </div>
                     </div>
                 </div>
@@ -527,16 +538,16 @@ function SensorOne(props) {
                         </div>
                     </div>
                 </div>
-                <div id='gauges'>
-                    <Gauge className='s1-temp' min={props.ranges.tempRanges.criticalLow - 4} max={props.ranges.tempRanges.warningHigh + 4} color={props.sensor.tempColor} backgroundColor={'black'} value={props.sensor.temperature} width={350} height={275} label={`Temperature °F ${trendOne}`} />
-                    <Gauge id='s1-hum' min={props.ranges.humRanges.criticalLow - 4} max={props.ranges.humRanges.warningHigh + 4} color={props.sensor.humColor} backgroundColor={'black'} value={parseFloat(props.sensor.humidity)} width={350} height={275} label={`Humidity % rh ${trendTwo}`} />
+                <div className='gauges'>
+                    <Gauge id='s1-temp' min={62} max={74} color={props.sensor.tempColor} backgroundColor={'black'} value={parseFloat(props.sensor.temperature)} width={325} height={275} label={''} />
+                    <Gauge id='s1-hum' min={46} max={62} color={props.sensor.humColor} backgroundColor={'black'} value={parseFloat(props.sensor.humidity)} width={325} height={275} label={''} />
                 </div>
                 <div className='sensor-text-wrapper-123'>
                     <h3><span style={{ color: props.sensor.tempColor }}>{props.sensor.temperature}°F {trendOne}</span></h3>
                     <div className='white-bar'></div>
                     <h3><span style={{ color: props.sensor.humColor }}>{props.sensor.humidity}% rh {trendTwo}</span></h3>
                 </div>
-                
+
             </div>
         )
     } else {
@@ -553,10 +564,9 @@ function SensorOne(props) {
                         </div>
                     </div>
                 </div>
-                <div id='gauges'>
-                <Gauge id='s1-EC' min={0} max={1} color={props.sensor.ECColor} value={parseFloat(props.sensor.EC)} width={250} height={175} label={`Temperature °F ${trendOne}`} />
-                <Gauge id='s1-pH' min={4} max={8}
-                color={props.sensor.pHColor} value={parseFloat(props.sensor.pH)} width={250} height={175} label={`Humidity % rh ${trendTwo}`} />
+                <div className='gauges'>
+                    <Gauge id='s1-EC' min={0} max={3} color={props.sensor.ECColor} backgroundColor={'black'} value={parseFloat(props.sensor.EC)} width={325} height={175} label={''} />
+                    <Gauge id='s1-pH' min={4} max={8} color={props.sensor.pHColor} backgroundColor={'black'} value={parseFloat(props.sensor.pH)} width={325} height={175} label={''} />
                 </div>
                 <div className='sensor-text-wrapper-123'>
                     <h3><span style={{ color: props.sensor.ECColor }}>{props.sensor.EC} EC {trendOne}</span></h3>
@@ -587,10 +597,10 @@ function SensorTwo(props) {
                         </div>
                     </div>
                 </div>
-                 <div className='sideGauges'>
-                   <Gauge id='s2-temp' min={62} max={74} color={props.sensor.tempColor} backgroundColor='black' value={parseFloat(props.sensor.temperature)} width={200} height={125} label={`Temperature °F ${trendOne}`} />
-                    <Gauge id='s2-hum' min={46} max={62} color={props.sensor.humColor} backgroundColor='black' value={parseFloat(props.sensor.humidity)} width={200} height={125} label={`Humidity % rh ${trendTwo}`} />
-                    </div>
+                <div className='sideGauges'>
+                    <Gauge id='s2-temp' min={62} max={74} color={props.sensor.tempColor} backgroundColor='black' value={parseFloat(props.sensor.temperature)} width={175} height={125} label={''} />
+                    <Gauge id='s2-hum' min={46} max={62} color={props.sensor.humColor} backgroundColor='black' value={parseFloat(props.sensor.humidity)} width={175} height={125} label={''} />
+                </div>
                 <div className='sensor-text-wrapper-123'>
                     <h3><span style={{ color: props.sensor.tempColor }}>{props.sensor.temperature}°F {trendOne}</span></h3>
                     <div className='white-bar'></div>
@@ -612,10 +622,9 @@ function SensorTwo(props) {
                         </div>
                     </div>
                 </div>
-                <div id='sideGauges'>
-                <Gauge id='s2-EC' min={0} max={1} color={props.sensor.ECColor} value={parseFloat(props.sensor.EC)} backgroundColor='black' width={200} height={125} label={`Temperature °F ${trendOne}`} />
-                <Gauge id='s2-pH' min={4} max={8}
-                color={props.sensor.pHColor} value={parseFloat(props.sensor.pH)} backgroundColor='black' width={200} height={125} label={`Humidity % rh ${trendTwo}`} />
+                <div className='sideGauges'>
+                    <Gauge id='s2-EC' min={0} max={3} color={props.sensor.ECColor} value={parseFloat(props.sensor.EC)} backgroundColor='black' width={175} height={125} label={''} />
+                    <Gauge id='s2-pH' min={4} max={8} color={props.sensor.pHColor} value={parseFloat(props.sensor.pH)} backgroundColor='black' width={175} height={125} label={''} />
                 </div>
                 <div className='sensor-text-wrapper-123'>
                     <h3><span style={{ color: props.sensor.ECColor }}>{props.sensor.EC} EC {trendOne}</span></h3>
@@ -647,9 +656,9 @@ function SensorThree(props) {
                     </div>
                 </div>
                 <div className='sideGauges'>
-                   <Gauge id='s3-temp' min={62} max={74} color={props.sensor.tempColor} backgroundColor='black' value={parseFloat(props.sensor.temperature)} width={200} height={125} label={`Temperature °F ${trendOne}`} />
-                    <Gauge id='s3-hum' min={46} max={62} color={props.sensor.humColor} backgroundColor='black' value={parseFloat(props.sensor.humidity)} width={200} height={125} label={`Humidity % rh ${trendTwo}`} />
-                    </div>
+                    <Gauge id='s3-temp' min={62} max={74} color={props.sensor.tempColor} backgroundColor='black' value={parseFloat(props.sensor.temperature)} width={175} height={125} label={''} />
+                    <Gauge id='s3-hum' min={46} max={62} color={props.sensor.humColor} backgroundColor='black' value={parseFloat(props.sensor.humidity)} width={175} height={125} label={''} />
+                </div>
                 <div className='sensor-text-wrapper-123'>
                     <h3><span style={{ color: props.sensor.tempColor }}>{props.sensor.temperature}°F {trendOne}</span></h3>
                     <div className='white-bar'></div>
@@ -671,10 +680,9 @@ function SensorThree(props) {
                         </div>
                     </div>
                 </div>
-                <div id='sideGauges'>
-                <Gauge id='s3-EC' min={0} max={1} color={props.sensor.ECColor} value={parseFloat(props.sensor.EC)} backgroundColor='black' width={200} height={125} label={`Temperature °F ${trendOne}`} />
-                <Gauge id='s3-pH' min={4} max={8}
-                color={props.sensor.pHColor} value={parseFloat(props.sensor.pH)} backgroundColor='black' width={200} height={125} label={`Humidity % rh ${trendTwo}`} />
+                <div className='sideGauges'>
+                    <Gauge id='s3-EC' min={0} max={3} color={props.sensor.ECColor} value={parseFloat(props.sensor.EC)} backgroundColor='black' width={175} height={125} label={''} />
+                    <Gauge id='s3-pH' min={4} max={8} color={props.sensor.pHColor} value={parseFloat(props.sensor.pH)} backgroundColor='black' width={175} height={125} label={''} />
                 </div>
                 <div className='sensor-text-wrapper-123'>
                     <h3><span style={{ color: props.sensor.ECColor }}>{props.sensor.EC} EC {trendOne}</span></h3>
@@ -705,6 +713,10 @@ function SensorFour(props) {
                         </div>
                     </div>
                 </div>
+                <div className='sideGauges'>
+                    <Gauge id='s4-temp' min={62} max={74} color={props.sensor.tempColor} backgroundColor='black' value={parseFloat(props.sensor.temperature)} width={145} height={75} label={''} />
+                    <Gauge id='s4-hum' min={46} max={62} color={props.sensor.humColor} backgroundColor='black' value={parseFloat(props.sensor.humidity)} width={145} height={75} label={''} />
+                </div>
                 <div className='sensor-text-wrapper-456'>
                     <h3><span style={{ color: props.sensor.tempColor }}>{props.sensor.temperature}°F {trendOne}</span></h3>
                     <div className='white-bar'></div>
@@ -725,7 +737,11 @@ function SensorFour(props) {
                             <img src={phsym} className='symbol-image' alt='pH-symbol' />
                         </div>
                     </div>
-                </div> 
+                </div>
+                <div className='sideGauges'>
+                    <Gauge id='s4-EC' min={0} max={3} color={props.sensor.ECColor} value={parseFloat(props.sensor.EC)} backgroundColor='black' width={145} height={125} label={''} />
+                    <Gauge id='s4-pH' min={4} max={8} color={props.sensor.pHColor} value={parseFloat(props.sensor.pH)} backgroundColor='black' width={145} height={125} label={''} />
+                </div>
                 <div className='sensor-text-wrapper-456'>
                     <h3><span style={{ color: props.sensor.ECColor }}>{props.sensor.EC} EC {trendOne}</span></h3>
                     <div className='white-bar'></div>
@@ -755,6 +771,10 @@ function SensorFive(props) {
                         </div>
                     </div>
                 </div>
+                <div className='sideGauges'>
+                    <Gauge id='s5-temp' min={62} max={75} color={props.sensor.tempColor} backgroundColor='black' value={parseFloat(props.sensor.temperature)} width={145} height={75} label={''} />
+                    <Gauge id='s5-hum' min={46} max={62} color={props.sensor.humColor} backgroundColor='black' value={parseFloat(props.sensor.humidity)} width={145} height={75} label={''} />
+                </div>
                 <div className='sensor-text-wrapper-456'>
                     <h3><span style={{ color: props.sensor.tempColor }}>{props.sensor.temperature}°F {trendOne}</span></h3>
                     <div className='white-bar'></div>
@@ -775,6 +795,10 @@ function SensorFive(props) {
                             <img src={phsym} className='symbol-image' alt='pH-symbol' />
                         </div>
                     </div>
+                </div>
+                <div className='sideGauges'>
+                    <Gauge id='s5-EC' min={0} max={3} color={props.sensor.ECColor} value={parseFloat(props.sensor.EC)} backgroundColor='black' width={145} height={125} label={''} />
+                    <Gauge id='s5-pH' min={4} max={8} color={props.sensor.pHColor} value={parseFloat(props.sensor.pH)} backgroundColor='black' width={145} height={125} label={''} />
                 </div>
                 <div className='sensor-text-wrapper-456'>
                     <h3><span style={{ color: props.sensor.ECColor }}>{props.sensor.EC} EC {trendOne}</span></h3>
@@ -805,6 +829,10 @@ function SensorSix(props) {
                         </div>
                     </div>
                 </div>
+                <div className='sideGauges'>
+                    <Gauge id='s6-temp' min={62} max={76} color={props.sensor.tempColor} backgroundColor='black' value={parseFloat(props.sensor.temperature)} width={145} height={75} label={''} />
+                    <Gauge id='s6-hum' min={46} max={62} color={props.sensor.humColor} backgroundColor='black' value={parseFloat(props.sensor.humidity)} width={145} height={75} label={''} />
+                </div>
                 <div className='sensor-text-wrapper-456'>
                     <h3><span style={{ color: props.sensor.tempColor }}>{props.sensor.temperature}°F {trendOne}</span></h3>
                     <div className='white-bar'></div>
@@ -825,6 +853,10 @@ function SensorSix(props) {
                             <img src={phsym} className='symbol-image' alt='pH-symbol' />
                         </div>
                     </div>
+                </div>
+                <div className='sideGauges'>
+                    <Gauge id='s6-EC' min={0} max={3} color={props.sensor.ECColor} value={parseFloat(props.sensor.EC)} backgroundColor='black' width={145} height={125} label={''} />
+                    <Gauge id='s6-pH' min={4} max={8} color={props.sensor.pHColor} value={parseFloat(props.sensor.pH)} backgroundColor='black' width={145} height={125} label={''} />
                 </div>
                 <div className='sensor-text-wrapper-456'>
                     <h3><span style={{ color: props.sensor.ECColor }}>{props.sensor.EC} EC {trendOne}</span></h3>

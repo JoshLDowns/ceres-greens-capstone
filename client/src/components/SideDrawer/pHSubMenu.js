@@ -4,14 +4,16 @@ class PHSubMenu extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          pHCritLow: null,
-          pHWarnLow: null,
-          pHWarnHigh: null,
-          pHCritHigh: null, 
-          zone: undefined
+            criticalLow: '',
+            warningLow: '',
+            normal: '',
+            warningHigh: '',
+            option: 'germRm'
         };
     
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleOption = this.handleOption.bind(this);
+        this.resetForm = this.resetForm.bind(this);
       }
     
       handleInputChange(event) {
@@ -20,35 +22,49 @@ class PHSubMenu extends React.Component {
         this.setState({
           [`${name}`]: target.value
         })
-        console.log(this.state[`${name}`])
+      }
+
+      handleOption(event) {
+          this.setState({
+              option: event.target.value
+          })
+      }
+
+      resetForm() {
+        this.setState ({
+          criticalLow: '',
+          warningLow: '',
+          normal: '',
+          warningHigh: ''
+        })
       }
     
     render() {
     return(
       
             <form className="sub-menu">
-                <label className="sub-menu-content">Low Critical pH:<input name="pHCritLow" onChange={this.handleInputChange}/></label>
-                <label className="sub-menu-content">Low Warning pH:<input name="pHWarnLow" onChange={this.handleInputChange}/></label>
-                <label className="sub-menu-content">High Warning pH:<input name="pHWarnHigh" onChange={this.handleInputChange}/></label>
-                <label className="sub-menu-content">High Critical pH:<input name="pHCritHigh" onChange={this.handleInputChange}/></label>
+                <label className="sub-menu-content">Low Critical pH:<input name="criticalLow" onChange={this.handleInputChange} value={this.state.criticalLow} /></label>
+                <label className="sub-menu-content">Low Warning pH:<input name="warningLow" onChange={this.handleInputChange} value={this.state.warningLow} /></label>
+                <label className="sub-menu-content">High Warning pH:<input name="normal" onChange={this.handleInputChange} value={this.state.normal} /></label>
+                <label className="sub-menu-content">High Critical pH:<input name="warningHigh" onChange={this.handleInputChange} value={this.state.warningHigh} /></label>
                 <label className="sub-menu-content">
                     Select Zone:
-                    <select>
-                        <option>
+                    <select onChange={this.handleOption}>
+                        <option value='germRm'>
                             Germination Room
                         </option>
-                        <option>
+                        <option value='zone1'>
                             Zone 1
                         </option>
-                        <option>
+                        <option value='zone2'>
                             Zone 2
                         </option>
-                        <option>
+                        <option value='zone3'>
                             Zone 3
                         </option>
                     </select>
                 </label>
-                <input type="submit" value="Submit" className='chart-close'></input>
+                <input type="submit" className='chart-close' id='pHRanges' onClick={(event)=>{this.props.handleSubmit(event, this.state.criticalLow, this.state.warningLow, this.state.normal, this.state.warningHigh, this.state.option); this.resetForm()}}></input>
             </form>
 
     )

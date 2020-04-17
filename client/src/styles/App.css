@@ -170,9 +170,9 @@ h3 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 90%;
+    width: 95%;
     height: 20%;
-    margin-bottom: 15%;
+    margin-bottom: 2.5%;
     font-size: x-large;
 }
 
@@ -187,6 +187,20 @@ h3 {
     width: 5px;
     background-color: whitesmoke;
     border-radius: 10px;
+}
+
+.gauges, .sideGauges {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.gauges {
+    margin-bottom: 20px;
+}
+
+text {
+    display: none;
 }
 
 #manage {

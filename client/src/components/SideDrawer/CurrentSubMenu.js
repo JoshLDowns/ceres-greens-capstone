@@ -4,14 +4,16 @@ class CurrentSubMenu extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          currentCritLow: null,
-          currentWarnLow: null,
-          currentWarnHigh: null,
-          currentCritHigh: null,
-          zone: undefined
+            criticalLow: '',
+            warningLow: '',
+            normal: '',
+            warningHigh: '',
+            option: 'germRm'
         };
     
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleOption = this.handleOption.bind(this);
+        this.resetForm = this.resetForm.bind(this);
       }
     
       handleInputChange(event) {
@@ -20,35 +22,49 @@ class CurrentSubMenu extends React.Component {
         this.setState({
           [`${name}`]: target.value
         })
-        console.log(this.state[`${name}`])
+      }
+
+      handleOption(event) {
+          this.setState({
+              option: event.target.value
+          })
+      }
+
+      resetForm() {
+        this.setState ({
+          criticalLow: '',
+          warningLow: '',
+          normal: '',
+          warningHigh: ''
+        })
       }
     
     render() {
     return(
       
             <form className="sub-menu">
-                <label className="sub-menu-content">Low Critical Current:<input name="currentCritLow" onChange={this.handleInputChange}/></label>
-                <label className="sub-menu-content">Low Warning Current:<input name="currentWarnLow" onChange={this.handleInputChange}/></label>
-                <label className="sub-menu-content">High Warning Current:<input name="currentWarnHigh" onChange={this.handleInputChange}/></label>
-                <label className="sub-menu-content">High Critical Current:<input name="currentCritHigh" onChange={this.handleInputChange}/></label>
+                <label className="sub-menu-content">Low Critical EC:<input name="criticalLow" onChange={this.handleInputChange} value={this.state.criticalLow} /></label>
+                <label className="sub-menu-content">Low Warning EC:<input name="warningLow" onChange={this.handleInputChange} value={this.state.warningLow} /></label>
+                <label className="sub-menu-content">High Warning EC:<input name="normal" onChange={this.handleInputChange} value={this.state.normal} /></label>
+                <label className="sub-menu-content">High Critical EC:<input name="warningHigh" onChange={this.handleInputChange} value={this.state.warningHigh} /></label>
                 <label className="sub-menu-content">
                     Select Zone:
-                    <select>
-                        <option>
+                    <select onChange={this.handleOption}>
+                        <option value='germRm'>
                             Germination Room
                         </option>
-                        <option>
+                        <option value='zone1'>
                             Zone 1
                         </option>
-                        <option>
+                        <option value='zone2'>
                             Zone 2
                         </option>
-                        <option>
+                        <option value='zone3'>
                             Zone 3
                         </option>
                     </select>
                 </label>
-                <input type="submit" value="Submit" className='chart-close'></input>
+                <input type="submit" className='chart-close' id='ECRanges' onClick={(event)=>{this.props.handleSubmit(event, this.state.criticalLow, this.state.warningLow, this.state.normal, this.state.warningHigh, this.state.option); this.resetForm()}}></input>
             </form>
 
     )

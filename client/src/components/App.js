@@ -8,6 +8,50 @@ import SideDrawer from './SideDrawer/SideDrawer.js'
 
 
 class App extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      ranges: {}
+    }
+  }
+
+  handleSubmit = (event, critLow, warnLow, norm, warnHigh, zone=false) => {
+    event.preventDefault()
+    let range = zone ? `${zone}${event.target.id}` : event.target.id;
+    console.log(range)
+    let rangeObj = {
+      criticalLow: critLow,
+      warningLow: warnLow,
+      normal: norm,
+      warningHigh: warnHigh
+    }
+    console.log(range, rangeObj)
+    fetch((`/changeRanges:${range}`), {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({update: rangeObj})
+    }).then(res=>res.json()).then((object) => {
+      console.log(object)
+      this.setState({
+        ranges: object.ranges
+      })
+    })
+  }
+
+  handleSMSSubmit = (event, name, email, number) => {
+    event.preventDefault()
+
+  }
+
+  componentDidMount() {
+    fetch('/getRanges').then(res => res.json()).then((obj) => {
+        this.setState({
+            ranges: obj
+        })
+    })
+  }
 
   render() {
     return (
@@ -19,12 +63,12 @@ class App extends React.Component {
         </div>
         
         <div>
-        <SideDrawer/>
+        <SideDrawer handleSubmit={this.handleSubmit} />
           <Route exact path='/' >
-            <StaticData />
+            <StaticData ranges={this.state.ranges}/>
           </Route>
           <Route exact path='/user' >
-            <UserData />
+            <UserData ranges={this.state.ranges}/>
           </Route>
         </div>
       </div>

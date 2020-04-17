@@ -334,8 +334,19 @@ class UserData extends React.Component {
         })
     }
 
+    componentDidUpdate() {
+        let objectOne = this.state.ranges;
+        let objectTwo = this.props.ranges;
+        if (this.props.ranges.tempRanges && JSON.stringify(objectOne) !== JSON.stringify(objectTwo)) {
+            this.setState({
+                ranges: this.props.ranges
+            })
+        }
+    }
+    
     componentWillUnmount() {
         clearInterval(this.state.interval)
+        setTimeout(()=>{},100)
     }
 
     render() {

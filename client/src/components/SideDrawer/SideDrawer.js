@@ -13,7 +13,7 @@ import DrawerButton from './DrawerButton'
 
 
 
-export default function SideDrawer() {
+export default function SideDrawer(props) {
     const [state, setState] = React.useState({
         left: false,
     });
@@ -32,7 +32,7 @@ export default function SideDrawer() {
                                 <Typography id="side-drawer-items-content">Temperature Ranges</Typography>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
-                                    <TempSubMenu/>
+                                    <TempSubMenu handleSubmit={props.handleSubmit}/>
                             </ExpansionPanelDetails>
                         </ExpansionPanel>
                         <ExpansionPanel id="side-drawer-items">
@@ -42,7 +42,7 @@ export default function SideDrawer() {
                                 <Typography id="side-drawer-items-content">Humidity Ranges</Typography>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
-                                    <HumSubMenu/>
+                                    <HumSubMenu handleSubmit={props.handleSubmit}/>
                             </ExpansionPanelDetails>
                         </ExpansionPanel>
                         <ExpansionPanel id="side-drawer-items">
@@ -52,7 +52,7 @@ export default function SideDrawer() {
                                 <Typography id="side-drawer-items-content">Electric Current Ranges</Typography>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
-                                    <CurrentSubMenu/>
+                                    <CurrentSubMenu handleSubmit={props.handleSubmit}/>
                             </ExpansionPanelDetails>
                         </ExpansionPanel>
                         <ExpansionPanel id="side-drawer-items">
@@ -62,7 +62,7 @@ export default function SideDrawer() {
                                 <Typography id="side-drawer-items-content">pH Ranges</Typography>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
-                                    <PHSubMenu/>
+                                    <PHSubMenu handleSubmit={props.handleSubmit}/>
                             </ExpansionPanelDetails>
                         </ExpansionPanel>
                         <ExpansionPanel id="side-drawer-items">
@@ -72,7 +72,7 @@ export default function SideDrawer() {
                                 <Typography id="side-drawer-items-content">Add Phone Number (SMS)</Typography>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
-                                    <SMSSubMenu/>
+                                    <SMSSubMenu handleSubmit={props.handleSubmit}/>
                             </ExpansionPanelDetails>
                         </ExpansionPanel>
             </List>

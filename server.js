@@ -161,7 +161,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.get('/api', getSensorData)
 app.get('/manage', getManagementData)
 app.get('/getRanges', getRanges)
-//app.post('changeRanges', changeRanges)
+app.post('/changeRanges:range', changeRanges)
 app.post('/query', queryInflux)
 app.post('/clickQuery', clickQueryInflux)
 
@@ -389,7 +389,18 @@ async function getStartData() {
   ranges = firstRanges[0].ranges
   let firstNumbers = await Numbers.find({})
   numbers = firstNumbers[0].numbers
-  newDataBase.close()
+  //newDataBase.close()
+}
+
+async function changeRanges(req, res) {
+  let range = req.params.range.slice(1)
+  let update = req.body.update
+  let doc = await Ranges.find({})
+  console.log(range)
+  doc[0].ranges[range]=update
+  console.log(doc[0].ranges[range])
+  await doc[0].save();
+  res.type('application/json').send(JSON.stringify(doc[0]));
 }
 
 //calls at server launch

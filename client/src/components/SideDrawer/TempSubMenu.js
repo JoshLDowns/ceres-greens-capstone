@@ -4,13 +4,14 @@ class TempSubMenu extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          tempCritLow: null,
-          tempWarnLow: null,
-          tempWarnHigh: null,
-          tempCritHigh: null
+          criticalLow: '',
+          warningLow: '',
+          normal: '',
+          warningHigh: ''
         };
     
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.resetForm = this.resetForm.bind(this);
       }
     
       handleInputChange(event) {
@@ -19,18 +20,26 @@ class TempSubMenu extends React.Component {
         this.setState({
           [`${name}`]: target.value
         })
-        console.log(this.state[`${name}`])
       }
-    
+
+      resetForm() {
+        this.setState ({
+          criticalLow: '',
+          warningLow: '',
+          normal: '',
+          warningHigh: ''
+        })
+      }
+
     render() {
     return(
       
             <form className="sub-menu">
-                <label className="sub-menu-content">Low Critical Temp.:<input name="tempCritLow" onChange={this.handleInputChange} value={this.state.tempCritLow} /></label>
-                <label className="sub-menu-content">Low Warning Temp.:<input name="tempWarnLow" onChange={this.handleInputChange} value={this.state.tempWarnLow} /></label>
-                <label className="sub-menu-content">High Warning Temp.:<input name="tempWarnHigh" onChange={this.handleInputChange} value={this.state.tempWarnHigh} /></label>
-                <label className="sub-menu-content">High Critical Temp.:<input name="tempCritHigh" onChange={this.handleInputChange} value={this.state.tempCritHigh} /></label>
-                <input type="submit" className='chart-close'></input>
+                <label className="sub-menu-content">Low Critical Temp.:<input name="criticalLow" onChange={this.handleInputChange} value={this.state.criticalLow} /></label>
+                <label className="sub-menu-content">Low Warning Temp.:<input name="warningLow" onChange={this.handleInputChange} value={this.state.warningLow} /></label>
+                <label className="sub-menu-content">High Warning Temp.:<input name="normal" onChange={this.handleInputChange} value={this.state.normal} /></label>
+                <label className="sub-menu-content">High Critical Temp.:<input name="warningHigh" onChange={this.handleInputChange} value={this.state.warningHigh} /></label>
+                <input type="submit" className='chart-close' id='tempRanges' onClick={(event)=>{this.props.handleSubmit(event, this.state.criticalLow, this.state.warningLow, this.state.normal, this.state.warningHigh); this.resetForm()}}></input>
             </form>
 
     )
