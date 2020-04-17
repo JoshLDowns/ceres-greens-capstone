@@ -56,3 +56,37 @@
     text-decoration: none;
     font-size: .7rem;
 }
+
+.MuiButton-root {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-top: .2rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    box-sizing: border-box;
+    margin-left: 1rem;
+    z-index: 200;
+}
+
+span.MuiButton-label {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 30px;
+    width: 40px;
+}
+
+#drawer-button:focus {
+    outline: none;
+}
+
+.button-line {
+    width: 30px;
+    height: 2px;
+    background: white;
+}

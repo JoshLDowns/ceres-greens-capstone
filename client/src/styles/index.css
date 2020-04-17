@@ -25,6 +25,10 @@ code {
   height: 50px;
   background: rgb(63,118,58);
   background: linear-gradient(180deg, rgba(63,118,58,1) 31%, rgba(23,84,14,1) 95%);
+  z-index: -1;
+}
+
+.home-header {
   z-index: 0;
 }
 
@@ -37,6 +41,7 @@ code {
   border: 2px  white solid;
   border-radius: 5px;
   font-family: "Baloo Bhai", cursive;
+  z-index: 0;
 }
 
 #static-button:hover {
@@ -65,6 +70,7 @@ code {
 
 .links {
   display: flex;
+  z-index: 0;
 }
 
 .spacer {
