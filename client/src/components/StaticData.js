@@ -475,19 +475,19 @@ class StaticData extends React.Component {
                         <div className='manage-header'>
                             <h2>Fans</h2>
                         </div>
-                        {this.state.fans ? this.state.fans.map((fan, i) => (<p className='manage-data' key={i}>{fan}</p>)) : <p>...Loading</p>}
+                        {this.state.fans ? this.state.fans.map((fan, i) => (<p className='manage-data' key={i} style={{color: fan.includes('off') ? 'rgb(237, 7, 7)' : 'rgb(10, 222, 7)'}}>{fan}</p>)) : <p>...Loading</p>}
                     </div>
                     <div id='lights' className='manage-cell'>
                         <div className='manage-header'>
                             <h2>Lighting</h2>
                         </div>
-                        {this.state.lighting ? this.state.lighting.map((light, i) => (<p className='manage-data' key={i}>{light}</p>)) : <p>...Loading</p>}
+                        {this.state.lighting ? this.state.lighting.map((light, i) => (<p className='manage-data' key={i} style={{color: lighting.includes('off') ? 'rgb(237, 7, 7)' : 'rgb(10, 222, 7)'}}>{light}</p>)) : <p>...Loading</p>}
                     </div>
                     <div id='pumps' className='manage-cell'>
                         <div className='manage-header'>
                             <h2>Pumps</h2>
                         </div>
-                        {this.state.pumps ? this.state.pumps.map((pump, i) => (<p className='manage-data' key={i}>{pump}</p>)) : <p>...Loading</p>}
+                        {this.state.pumps ? this.state.pumps.map((pump, i) => (<p className='manage-data' key={i} style={{color: pumps.includes('off') ? 'rgb(237, 7, 7)' : 'rgb(10, 222, 7)'}}>{pump}</p>)) : <p>...Loading</p>}
                     </div>
                 </div>
             </div>
