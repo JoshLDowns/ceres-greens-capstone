@@ -18,14 +18,12 @@ class App extends React.Component {
   handleSubmit = (event, critLow, warnLow, norm, warnHigh, zone=false) => {
     event.preventDefault()
     let range = zone ? `${zone}${event.target.id}` : event.target.id;
-    console.log(range)
     let rangeObj = {
       criticalLow: critLow,
       warningLow: warnLow,
       normal: norm,
       warningHigh: warnHigh
     }
-    console.log(range, rangeObj)
     fetch((`/changeRanges:${range}`), {
       method: 'POST',
       headers: {
@@ -42,7 +40,22 @@ class App extends React.Component {
 
   handleSMSSubmit = (event, name, email, number) => {
     event.preventDefault()
-
+    let smsObject = {
+      name: name,
+      email: email,
+      number: number
+    }
+    fetch('/changeSMS', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({newSMS: smsObject})
+    }).then(res=>res.json()).then((object) => {
+      this.setState({
+        smsData: object.numbers
+      })
+    })
   }
 
   componentDidMount() {
@@ -63,7 +76,7 @@ class App extends React.Component {
         </div>
         
         <div>
-        <SideDrawer handleSubmit={this.handleSubmit} />
+        <SideDrawer handleSubmit={this.handleSubmit} handleSMS={this.handleSMSSubmit}/>
           <Route exact path='/' >
             <StaticData ranges={this.state.ranges}/>
           </Route>

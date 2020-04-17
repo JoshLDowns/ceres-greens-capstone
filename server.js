@@ -162,6 +162,7 @@ app.get('/api', getSensorData)
 app.get('/manage', getManagementData)
 app.get('/getRanges', getRanges)
 app.post('/changeRanges:range', changeRanges)
+app.post('/changeSMS', changeSMS)
 app.post('/query', queryInflux)
 app.post('/clickQuery', clickQueryInflux)
 
@@ -396,9 +397,16 @@ async function changeRanges(req, res) {
   let range = req.params.range.slice(1)
   let update = req.body.update
   let doc = await Ranges.find({})
-  console.log(range)
   doc[0].ranges[range]=update
   console.log(doc[0].ranges[range])
+  await doc[0].save();
+  res.type('application/json').send(JSON.stringify(doc[0]));
+}
+
+async function changeSMS(req, res) {
+  let update = req.body.newSMS
+  let doc = await Numbers.find({})
+  doc[0].numbers.push(update);
   await doc[0].save();
   res.type('application/json').send(JSON.stringify(doc[0]));
 }
