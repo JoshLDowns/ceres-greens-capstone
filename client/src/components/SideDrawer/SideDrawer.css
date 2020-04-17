@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Righteous&display=swap');
+
 .side-drawer {
     height: 100%;
     overflow: scroll;
@@ -13,7 +15,7 @@
     padding: 0;
     display: flex;
     flex-direction: column;
-   
+    justify-content: space-around;
 
 }
 
@@ -35,24 +37,46 @@
     background-color: #17540e;
 }
 
+.MuiExpansionPanelSummary-content {
+    justify-content: center;
+}
+
+.MuiList-root {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.MuiExpansionPanelDetails-root {
+    justify-content: center;
+}
+
 #side-drawer-items-content {
-    font-family: "Baloo Bhai", cursive;
+    font-family: bebas neue;
+    text-align: center;
     color: white;
     text-decoration: none;
-    font-size: 1rem;
+    font-size: 1.5rem;
 }
 
 .sub-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     background-color:#17540e;
     border-radius: 5px;
     width: 100vw;
+    height: 300px;
     text-align: center;
-    padding: 2rem;
+    padding: 1rem;
 }
 
 .sub-menu-content {
-    font-family: "Baloo Bhai", cursive;
+    font-family: bebas neue;
     color: white;
     text-decoration: none;
-    font-size: .7rem;
+    font-size: 1.2rem;
+    height: 60px;
+    margin-bottom: 5px;
 }

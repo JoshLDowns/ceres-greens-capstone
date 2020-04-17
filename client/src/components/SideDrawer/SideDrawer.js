@@ -24,7 +24,7 @@ export default function SideDrawer() {
 
     const list = (anchor) => (
         <div className="side-drawer" role="presentation">
-            <List onMouseLeave={toggleDrawer(anchor, false)}>   
+            <List onMouseLeave={toggleDrawer(anchor, false)} >   
                         <ExpansionPanel id="side-drawer-items">
                             <ExpansionPanelSummary
                                 aria-controls="panel1a-content"

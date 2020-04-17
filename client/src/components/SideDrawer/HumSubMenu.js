@@ -16,9 +16,10 @@ class HumSubMenu extends React.Component {
       handleInputChange(event) {
         const target = event.target;
         const name = target.name;
-    
-        
-        
+        this.setState({
+          [`${name}`]: target.value
+        })
+        console.log(this.state[`${name}`])
       }
     
     render() {
@@ -29,7 +30,7 @@ class HumSubMenu extends React.Component {
                 <label className="sub-menu-content">Low Warning Hum.:<input name="humWarnLow" onChange={this.handleInputChange}/></label>
                 <label className="sub-menu-content">High Warning Hum.:<input name="humWarnHigh" onChange={this.handleInputChange}/></label>
                 <label className="sub-menu-content">High Critical Hum.:<input name="humCritHigh" onChange={this.handleInputChange}/></label>
-                <input type="submit"></input>
+                <input type="submit" className='chart-close'></input>
             </form>
 
     )
