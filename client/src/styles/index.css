@@ -64,6 +64,7 @@ html {
 
 .links {
   display: flex;
+  z-index: 0;
 }
 
 .spacer {
