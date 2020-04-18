@@ -39,8 +39,8 @@ export default function SideDrawer(props) {
                         id="panel1a-header">
                         <Typography id="side-drawer-items-content">Temperature Ranges</Typography>
                     </ExpansionPanelSummary>
-                    <ExpansionPanelDetails disabled="false">
-                        <TempSubMenu />
+                    <ExpansionPanelDetails>
+                        <TempSubMenu handleSubmit={props.handleSubmit}/>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
                 <ExpansionPanel id="side-drawer-items" expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
@@ -49,8 +49,8 @@ export default function SideDrawer(props) {
                         id="panel1a-header">
                         <Typography id="side-drawer-items-content">Humidity Ranges</Typography>
                     </ExpansionPanelSummary>
-                    <ExpansionPanelDetails disabled="false">
-                        <HumSubMenu />
+                    <ExpansionPanelDetails>
+                        <HumSubMenu handleSubmit={props.handleSubmit}/>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
                 <ExpansionPanel id="side-drawer-items" expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
@@ -59,8 +59,8 @@ export default function SideDrawer(props) {
                         id="panel1a-header">
                         <Typography id="side-drawer-items-content">Electric Current Ranges</Typography>
                     </ExpansionPanelSummary>
-                    <ExpansionPanelDetails disabled="false">
-                        <CurrentSubMenu />
+                    <ExpansionPanelDetails>
+                        <CurrentSubMenu handleSubmit={props.handleSubmit}/>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
                 <ExpansionPanel id="side-drawer-items" expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
@@ -69,8 +69,8 @@ export default function SideDrawer(props) {
                         id="panel1a-header">
                         <Typography id="side-drawer-items-content">pH Ranges</Typography>
                     </ExpansionPanelSummary>
-                    <ExpansionPanelDetails disabled="false">
-                        <PHSubMenu />
+                    <ExpansionPanelDetails>
+                        <PHSubMenu handleSubmit={props.handleSubmit}/>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
                 <ExpansionPanel id="side-drawer-items" expanded={expanded === 'panel5'} onChange={handleChange('panel5')}>
@@ -79,8 +79,8 @@ export default function SideDrawer(props) {
                         id="panel1a-header">
                         <Typography id="side-drawer-items-content">Add Phone Number (SMS)</Typography>
                     </ExpansionPanelSummary>
-                    <ExpansionPanelDetails disabled="false">
-                        <SMSSubMenu />
+                    <ExpansionPanelDetails>
+                        <SMSSubMenu handleSMS={props.handleSMS}/>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
             </List>

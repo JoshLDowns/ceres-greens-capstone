@@ -35,7 +35,7 @@ h3 {
     justify-content: space-around;
     height: 87.5vh;
     width: 100%;
-    margin-top: 20px;
+    margin-top: 50px;
     min-width: 1450px;
     min-height: 650px;
 }
@@ -260,7 +260,7 @@ text {
     max-width: 1600px;
     display: flex;
     justify-content: space-around;
-    margin-top: 20px;
+    margin-top: 50px;
     min-height: 800px;
     min-width: 1200px;
 }
@@ -683,6 +683,10 @@ input[type='radio'] {
     body {
         width: auto;
         height: auto;
+    }
+
+    .links, .clock {
+        display: none;
     }
     
     #user {

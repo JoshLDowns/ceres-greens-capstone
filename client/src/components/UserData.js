@@ -357,7 +357,7 @@ class UserData extends React.Component {
     
     componentWillUnmount() {
         clearInterval(this.state.interval)
-        setTimeout(()=>{},100)
+        setTimeout(()=>{},250)
     }
 
     render() {

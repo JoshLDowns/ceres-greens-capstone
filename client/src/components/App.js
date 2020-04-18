@@ -78,10 +78,10 @@ class App extends React.Component {
         <div>
         <SideDrawer handleSubmit={this.handleSubmit} handleSMS={this.handleSMSSubmit}/>
           <Route exact path='/' >
-            <StaticData ranges={this.state.ranges}/>
-          </Route>
-          <Route exact path='/user' >
             <UserData ranges={this.state.ranges}/>
+          </Route>
+          <Route exact path='/static' >
+            <StaticData ranges={this.state.ranges}/>
           </Route>
         </div>
       </div>
