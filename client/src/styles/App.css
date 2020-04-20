@@ -412,8 +412,9 @@ input[type='radio'] {
 /* Sensor List */
 #all-sensors {
     position: relative;
-    overflow: hidden;
-    -webkit-overflow-scrolling: hidden;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
     width: 45%;
     height: 99%;
     max-width: 700px;
@@ -422,12 +423,14 @@ input[type='radio'] {
     box-shadow: 0 0 10px whitesmoke;
 }
 
+#all-sensors::-webkit-scrollbar {
+    display: none
+}
+
 #all-sensor-scroll {
     position: absolute;
-    overflow: auto;
-    -webkit-overflow-scrolling: touch;
     top: 0;
-    width: Calc(100% + 20px);
+    width: 100%;
     height: Calc(100% + 1px);
     display: flex;
     flex-direction: column;
@@ -731,17 +734,10 @@ input[type='radio'] {
         width: 90%;
         height: 400px;
         margin-bottom: 20px;
-        -webkit-overflow-scrolling: hidden;
-    }
-
-    #all-sensor-scroll {
-        overflow: scroll;
-        -webkit-overflow-scrolling: touch;
     }
 
     .sensor-list-container {
         width: 90%;
-        margin-right: 20px;
         height: 75px;
     }
 
