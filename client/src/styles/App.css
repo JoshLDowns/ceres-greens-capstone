@@ -732,6 +732,11 @@ input[type='radio'] {
         margin-bottom: 20px;
     }
 
+    #all-sensor-scroll {
+        overflow: scroll;
+        -webkit-overflow-scrolling: touch;
+    }
+
     .sensor-list-container {
         width: 90%;
         margin-right: 20px;
