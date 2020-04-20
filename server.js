@@ -23,7 +23,7 @@ let numbers;
 
 // when a text is sent, it sets that sensor to true so there won't be multiple text messages
 const hitCritical = {
-  sensor: false,
+  sensor1: false,
   sensor2: false,
   sensor3: false,
   sensor4: false,
@@ -191,16 +191,37 @@ function lightSchedule() {
 }
 //------------------------------------------------------------------------------------------------------//
 
-//Sends SMS message based on sensor in critical range
+// ------------------- Sends SMS message based on sensor in critical range -----------------------------//
 function SMS(variable, value, sensor, numbers) {
   //const body = `${sensor} has a CRITICAL reading\n${variable}: ${value}`
+  if (sensor === 'sensor1') {
+
+    Promise.all(
+      numbers.map(number => {
+        return twilio.messages.create({
+          to: number.number,
+          from: process.env.TWILIO_NUMBER,
+          body: `Hey ${number.name}! ${sensor} has a CRITICAL reading\n${variable}: ${value}`
+        });
+      })
+      )
+      .then(messages => {
+        console.log('Messages sent!');
+      })
+      .catch(err => console.error(err));
+      
+    }
+}
+
+function SMSOk(sensor, numbers) {
+  if (sensor === 'sensor1') {
 
   Promise.all(
     numbers.map(number => {
       return twilio.messages.create({
         to: number.number,
         from: process.env.TWILIO_NUMBER,
-        body: `Hey ${number.name}! ${sensor} has a CRITICAL reading\n${variable}: ${value}`
+        body: `Hey ${number.name}! ${sensor} has returned to an acceptable range`
       });
     })
   )
@@ -208,8 +229,12 @@ function SMS(variable, value, sensor, numbers) {
       console.log('Messages sent!');
     })
     .catch(err => console.error(err));
+  
+  }
 
 }
+//------------------------------------------------------------------------------------------------------//
+
 
 //builds an object that can be sent back to the application to be used for displaying sensor information
 async function getSensorData(req, res) {
@@ -287,29 +312,69 @@ async function getSensorData(req, res) {
               }
             }
             //sends sms if temperature is in critical range
-
-            //   SMS('Temperature', sensorObj[item].temperature, item, numbers)
-            //   hitCritical[item] = true
-            //   setTimeout(()=>{hitCritical[item] = false}, 3600000)
-
+            //if (hitCritical[item] === false) {
+            //  SMS('Temperature', sensorObj[item].temperature, item, numbers)
+            //  hitCritical[item] = true
+            //  setTimeout(()=>{hitCritical[item] = false}, 3600000)
+            //}
+              
           }
           //creates average humidity to send to client
           sensorObj[item].humidity = sensorObj[item].humidity.length > 1 ? parseFloat(((sensorObj[item].humidity.reduce((a, b) => a + b)) / humidLength).toFixed(2)) : sensorObj[item].humidity[0]
+          
           //sends sms if humidity is in critical range
+          //if (sensorObj[item].humidity < ranges.humRanges.criticalLow || sensorObj[item].humidity > ranges.humRanges.warningHigh) {
+          //  if (hitCritical[item] === false) {
+          //    SMS('Humidity', sensorObj[item].humidity, item, numbers)
+          //    hitCritical[item] = true
+          //    setTimeout(()=>{hitCritical[item] = false}, 3600000)
+          //  }
+          //}
 
-          // if (sensorObj[item].humidity < ranges.humRanges.criticalLow || sensorObj[item].humidity > ranges.humRanges.warningHigh) {
-          //   SMS('Humidity', sensorObj[item].humidity, item, numbers)
-          //   hitCritical[item] = true
-          //   setTimeout(()=>{hitCritical[item] = false}, 3600000)
-          // }
+          //sends SMS when range returns to normal
+          //if (hitCritical[item]) {
+          //  if ((sensorObj[item].humidity > ranges.humRanges.warningLow && sensorObj[item].humidity < ranges.humRanges.normal) && (sensorObj[item].temperature > ranges.tempRanges.warningLow && sensorObj[item].temperature < ranges.tempRanges.normal)) {
+          //    SMSOk(item, numbers)
+          //    hitCritical[item] = false;
+          //  }
+          //}
+
         } else {
           //determines length to use as divisor when computing averages of each array
           let ECLength = sensorObj[item].EC.length;
           let pHLength = sensorObj[item].pH.length;
           //creates average EC to send to client
           sensorObj[item].EC = sensorObj[item].EC.length > 1 ? parseFloat(((sensorObj[item].EC.reduce((a, b) => a + b)) / ECLength).toFixed(2)) : sensorObj[item].EC[0]
+
+          //sends SMS if EC hits a critical range
+          //if (sensorObj[item].EC < ranges[`${item}ECRanges`].criticalLow || sensorObj[item].EC > ranges[`${item}ECRanges`].warningHigh) {
+          //  if (hitCritical[item] === false) {
+          //    SMS('EC', sensorObj[item].EC, item, numbers)
+          //    hitCritical[item] = true
+          //    setTimeout(()=>{hitCritical[item] = false}, 3600000)
+          //  }
+          //}
+
           //creates average pH to send to client
           sensorObj[item].pH = sensorObj[item].pH.length > 1 ? parseFloat(((sensorObj[item].pH.reduce((a, b) => a + b)) / pHLength).toFixed(2)) : sensorObj[item].pH[0]
+
+          //sends SMS if pH hits a critical range
+          //if (sensorObj[item].pH < ranges[`${item}pHRanges`].criticalLow || sensorObj[item].pH > ranges[`${item}pHRanges`].warningHigh) {
+          //  if (hitCritical[item] === false) {
+          //    SMS('pH', sensorObj[item].pH, item, numbers)
+          //    hitCritical[item] = true
+          //    setTimeout(()=>{hitCritical[item] = false}, 3600000)
+          //  }
+          //}
+
+          //sends SMS when range returns to normal
+          //if (hitCritical[item]) {
+          //  if ((sensorObj[item].pH > ranges[`${item}pHRanges`].warningLow && sensorObj[item].pH < ranges[`${item}pHRanges`].normal) && (sensorObj[item].EC > ranges[`${item}ECRanges`].warningLow && sensorObj[item].EC < ranges[`${item}ECRanges`].normal)) {
+          //    SMSOk(item, numbers)
+          //    hitCritical[item] = false;
+          //  }
+          //}
+
         }
       }
       res.type('application/json').send(JSON.stringify(sensorObj));
@@ -333,6 +398,7 @@ function getManagementData(req, res) {
   res.type('application/json').send(JSON.stringify(manageObj));
 }
 
+//builds an array of objects based on inquiry paramaters to build a query chart in the client
 async function queryInflux(req, res) {
   let queryArray = []
   let queryRange = req.body.queryString
@@ -357,6 +423,7 @@ async function queryInflux(req, res) {
   })
 }
 
+//builds an array of objects from the previous hour to build a chart in the client
 async function clickQueryInflux(req, res) {
   let queryArray = []
   let querySensor = req.body.sensor
@@ -393,6 +460,7 @@ async function getStartData() {
   //newDataBase.close()
 }
 
+//allows user to update ranges from the client by updating file in MongoDB
 async function changeRanges(req, res) {
   let range = req.params.range.slice(1)
   let update = req.body.update
@@ -403,6 +471,7 @@ async function changeRanges(req, res) {
   res.type('application/json').send(JSON.stringify(doc[0]));
 }
 
+//allows user to update sms numbers from the client by updating file in MongoDB
 async function changeSMS(req, res) {
   let update = req.body.newSMS
   let doc = await Numbers.find({})
@@ -414,6 +483,7 @@ async function changeSMS(req, res) {
 //calls at server launch
 getStartData()
 
+//sets intervals for mock machine schedules
 setInterval(() => fanSchedule(), 120000)
 setInterval(() => pumpSchedule(), 300000)
 setInterval(() => lightSchedule(), 1200000)
