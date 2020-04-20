@@ -57,7 +57,7 @@ export default function SideDrawer(props) {
                     <ExpansionPanelSummary
                         aria-controls="panel1a-content"
                         id="panel1a-header">
-                        <Typography id="side-drawer-items-content">Electric Current Ranges</Typography>
+                        <Typography id="side-drawer-items-content">Electric Conductivity Ranges</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
                         <CurrentSubMenu handleSubmit={props.handleSubmit}/>
