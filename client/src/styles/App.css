@@ -424,6 +424,7 @@ input[type='radio'] {
 #all-sensor-scroll {
     position: absolute;
     overflow: auto;
+    -webkit-overflow-scrolling: auto;
     top: 0;
     width: Calc(100% + 20px);
     height: 100%;

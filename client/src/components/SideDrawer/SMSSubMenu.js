@@ -19,7 +19,6 @@ class SMSSubMenu extends React.Component {
     this.setState({
       [`${name}`]: target.value
     })
-    console.log(this.state[`${name}`])
   }
 
   resetForm() {

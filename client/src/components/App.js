@@ -31,7 +31,6 @@ class App extends React.Component {
       },
       body: JSON.stringify({update: rangeObj})
     }).then(res=>res.json()).then((object) => {
-      console.log(object)
       this.setState({
         ranges: object.ranges
       })
