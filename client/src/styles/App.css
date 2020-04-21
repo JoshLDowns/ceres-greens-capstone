@@ -244,7 +244,7 @@ text {
 .manage-data{
     width: 95%;
     font-size: 1.2rem;
-    background-color: rgb(168, 152, 138);
+    background-color: rgb(48, 56, 46);
     border: 1px solid black;
     border-radius: 10px;
     box-shadow: 0 0 2px whitesmoke;
@@ -483,7 +483,7 @@ input[type='radio'] {
     width: 45%;
     height: 90%;
     border-radius: 10px;
-    background-color: rgb(62, 88, 58);
+    background-color: rgb(48, 56, 46);
     color: rgb(247, 219, 195)
 }
 
@@ -769,6 +769,36 @@ input[type='radio'] {
     #measurement-radio {
         height: 125px;
         width: 40%;
+    }
+
+    #chart-modal {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        z-index: 10;
+        top: -2vh;
+        left: 5vw;
+        background: rgb(247, 219, 195);
+        border: 5px solid black;
+        box-shadow: 0 0 20px whitesmoke;
+        border-radius: 10px;
+        width: 90vw;
+        height: 80vh;
+    }
+
+    .chart-close-container {
+        width: 25%;
+    }
+
+    #chart {
+        height: Calc(85% - 40px);
+        width: 75%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
     }
 
 }

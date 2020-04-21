@@ -7,7 +7,6 @@ import { Line } from 'react-chartjs-2'
 import TimeWheel from './TimeWheel.js'
 import SensorWheel from './SensorWheel.js'
 import MeasurementRadio from './MeasurementRadio.js'
-//import isAfter from 'date-fns/isAfter'
 
 class UserData extends React.Component {
     constructor(props) {
@@ -49,7 +48,7 @@ class UserData extends React.Component {
                 obj.forEach((item) => {
                     if (item['_field'] === 'temperature') {
                         queryObj.yTemp.push(item['_value'])
-                        queryObj.x.push(format(new Date(item['_time']), 'MM/dd/yyyy HH:mm:ss'))
+                        queryObj.x.push(format(new Date(item['_time']), 'HH:mm:ss'))
                     } else {
                         queryObj.yHum.push(item['_value'])
                     }
@@ -227,7 +226,6 @@ class UserData extends React.Component {
         })
 
         for (let sensor in data) {
-            //if (data[sensor].temperature) {
             if (sensor.includes('sensor')) {
                 if (!oldData) {
                     sensorArray.push({ sensor: modKeys[count], temperature: data[sensor].temperature, trendOne: undefined, tempColor: this.determineTempColor(data[sensor].temperature), humidity: data[sensor].humidity, trendTwo: undefined, humColor: this.determineHumColor(data[sensor].humidity) })
@@ -401,7 +399,7 @@ class UserData extends React.Component {
                             </div>
                         </div>
                         <div id='form-submit-container'>
-                            <button id='form-submit' onClick={this.submitQuery} disabled={this.isDisabled()}>Submit</button>
+                            <button id='form-submit' onClick={this.submitQuery} disabled={this.isDisabled()}>Render Data</button>
                         </div>
                     </div>
                     <div id='calendar-time'>
@@ -439,17 +437,17 @@ function determineTrends(temp, hum) {
     let tempTrend;
     let humTrend;
     if (temp === 'up') {
-        tempTrend = '⬆'
+        tempTrend = '↑'
     } else if (temp === 'down') {
-        tempTrend = '⬇'
+        tempTrend = '↓'
     } else {
         tempTrend = ''
     }
 
     if (hum === 'up') {
-        humTrend = '⬆'
+        humTrend = '↑'
     } else if (hum === 'down') {
-        humTrend = '⬇'
+        humTrend = '↓'
     } else {
         humTrend = ''
     }
