@@ -15,11 +15,14 @@ class TempSubMenu extends React.Component {
       }
     
       handleInputChange(event) {
+        let numArray = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
         const target = event.target;
         const name = target.name;
-        this.setState({
-          [`${name}`]: target.value
-        })
+        if (numArray.includes(target.value[target.value.length-1]) || event.target.value === '') {
+          this.setState({
+            [`${name}`]: target.value
+          })
+        }
       }
 
       resetForm() {
@@ -39,7 +42,7 @@ class TempSubMenu extends React.Component {
                 <label className="sub-menu-content">Low Warning Temp.:<input name="warningLow" onChange={this.handleInputChange} value={this.state.warningLow} /></label>
                 <label className="sub-menu-content">High Warning Temp.:<input name="normal" onChange={this.handleInputChange} value={this.state.normal} /></label>
                 <label className="sub-menu-content">High Critical Temp.:<input name="warningHigh" onChange={this.handleInputChange} value={this.state.warningHigh} /></label>
-                <input type="submit" className='chart-close' id='tempRanges' onClick={(event)=>{this.props.handleSubmit(event, this.state.criticalLow, this.state.warningLow, this.state.normal, this.state.warningHigh); this.resetForm()}}></input>
+                <input type="submit" className='chart-close' id='tempRanges' onClick={(event)=>{this.props.handleSubmit(event, this.state.criticalLow, this.state.warningLow, this.state.normal, this.state.warningHigh); this.resetForm()}} disabled={(this.state.criticalLow === '' || this.state.warningLow === '' ||  this.state.warningHigh === '' || this.state.normal === '') ? true : false} ></input>
             </form>
 
     )

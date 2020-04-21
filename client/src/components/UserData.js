@@ -29,6 +29,7 @@ class UserData extends React.Component {
         }
     }
 
+    //builds an object to be passed into the chart modal display based on which sensor was clicked
     clickQuery = (event) => {
         if (event.target.id.includes('sensor')) {
             let queryObj = {
@@ -89,6 +90,7 @@ class UserData extends React.Component {
         }
     }
 
+    //builds an object based on output from the query form, and sends it to the chart modal for display
     submitQuery = () => {
         let tempXAr = [];
         let tempYAr = [];
@@ -151,12 +153,14 @@ class UserData extends React.Component {
         })
     }
 
+    //handles the radio button selection from MeasurementRadio.js
     handleRadio = (event) => {
         this.setState({
             measurement: event.target.value
         })
     }
 
+    // ------- Handlers for selectable Calendars -------- //
     handleStartDayClick = (day, modifiers = {}) => {
         if (modifiers.disabled) {
             return;
@@ -174,7 +178,9 @@ class UserData extends React.Component {
             endDate: modifiers.selected ? undefined : day,
         });
     }
+    // ---------------------------------------------------- //
 
+    // ----- Handlers for the Scrolling Time Wheels ------ //
     handleStartTimeClick = (event) => {
         this.setState({
             startTime: event.target.id
@@ -186,13 +192,16 @@ class UserData extends React.Component {
             endTime: event.target.id
         })
     }
+    // -------------------------------------------------- //
 
+    //Scrollable sensor wheel handeler
     handleSensorClick = (event) => {
         this.setState({
             sensor: event.target.id
         })
     }
 
+    //sets state of modal to false on click to remove it from render
     closeModal = () => {
         this.setState({
             chartModal: false,
@@ -200,6 +209,7 @@ class UserData extends React.Component {
         })
     }
 
+    //takes all the form inputs, and builds a string that influxDB can use to query the database
     buildQueryString = () => {
         let startDate = this.state.startDate;
         let endDate = this.state.endDate;
@@ -211,6 +221,7 @@ class UserData extends React.Component {
         return string
     }
 
+    //creates a readable array of all the sensors that can be mapped into the all sensors scrollable list
     buildSensors = (data, oldData) => {
         let sensorArray = [];
         let dataKeys = Object.keys(data);
@@ -251,6 +262,7 @@ class UserData extends React.Component {
         return sensorArray;
     }
 
+    // ------------------ functions to determine the color of text and guages based on state of the sensor ------------------- //
     determineTempColor = (temp) => {
         if (temp > this.state.ranges.tempRanges.warningLow && temp <= this.state.ranges.tempRanges.normal) {
             return 'rgb(10, 222, 7)'//green//
@@ -305,7 +317,9 @@ class UserData extends React.Component {
             return 'rgb(0, 199, 254)' //blue//
         }
     }
+    // -------------------------------------------------------------------------------------------------------------------------------- //
 
+    // determines if submit button on query form will be disabled based on form being completed
     isDisabled = () => {
         if (this.state.sensor === undefined || this.state.startTime === undefined || this.state.endTime === undefined || this.state.measurement === '') {
             return true
@@ -313,6 +327,7 @@ class UserData extends React.Component {
         return false
     }
 
+    // on mount fetches intial sensor data
     componentDidMount() {
         fetch('/getRanges').then(res => res.json()).then((obj) => {
             this.setState({
@@ -329,6 +344,8 @@ class UserData extends React.Component {
                 prevSensorData: data
             })
         })
+
+        //sets interval to keep sensors up to date
         let newInt = setInterval(() => {
             fetch('/api').then(res => res.json()).then((data) => {
                 let sensorArrayMount = this.buildSensors(data, this.state.prevSensorData);
@@ -342,7 +359,8 @@ class UserData extends React.Component {
             interval: newInt
         })
     }
-
+    
+    //on update checks if the ranges have been updated in mongoDB (based on state of App.js) and updtates if needed
     componentDidUpdate() {
         let objectOne = this.state.ranges;
         let objectTwo = this.props.ranges;
@@ -353,6 +371,7 @@ class UserData extends React.Component {
         }
     }
     
+    //on unmount, clears the interval and gives a brief timeout to allow any extranious fetches to be completed
     componentWillUnmount() {
         clearInterval(this.state.interval)
         setTimeout(()=>{},250)
@@ -433,6 +452,7 @@ class UserData extends React.Component {
     }
 }
 
+//determines the trend of the data, and returns the correct arrow
 function determineTrends(temp, hum) {
     let tempTrend;
     let humTrend;
@@ -455,7 +475,7 @@ function determineTrends(temp, hum) {
     return [tempTrend, humTrend]
 }
 
-
+//conditionally renders the chart from clicking on a sensor in the sensor list
 function ClickChartModal(props) {
 
     return (
@@ -474,6 +494,7 @@ function ClickChartModal(props) {
     )
 }
 
+//conditionally renders the chart based on input from the query for on submit
 function QueryChartModal(props) {
     return (
         <div id='chart-modal'>
@@ -490,6 +511,7 @@ function QueryChartModal(props) {
     )
 }
 
+//renders each item in the sensor list based on props passed down from mapping the sensor array
 function SensorListItem(props) {
     let trends = determineTrends(props.sensorObj.trendOne, props.sensorObj.trendTwo)
     let trendOne = trends[0];

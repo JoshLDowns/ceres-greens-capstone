@@ -2,6 +2,7 @@ import React from 'react'
 import format from 'date-fns/format'
 import setHours from 'date-fns/setHours'
 
+//builds the scrollable time wheels for the query form
 class TimeWheel extends React.Component {
     constructor(props) {
         super(props)

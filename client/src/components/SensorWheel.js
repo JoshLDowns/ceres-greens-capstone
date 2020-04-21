@@ -1,5 +1,6 @@
 import React from 'react'
 
+//renders the scrollable wheel of sensors for the query menu
 function SensorWheel(props) {
     let sensors = ['sensor1', 'sensor2', 'sensor3', 'sensor4', 'sensor5', 'sensor6', 'sensor7', 'sensor8', 'sensor9', 'sensor10', 'sensor11', 'sensor12', 'sensor13', 'sensor14', 'sensor15', 'sensor16', 'germRm', 'zone1', 'zone2', 'zone3']
     return (

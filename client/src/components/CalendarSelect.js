@@ -2,6 +2,7 @@ import React from 'react';
 import DayPicker from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 
+//renders the selectable calendars for user input
 class CalendarSelect extends React.Component {
   constructor(props) {
     super(props);

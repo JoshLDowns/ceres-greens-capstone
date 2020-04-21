@@ -15,6 +15,7 @@ class App extends React.Component {
     }
   }
 
+  //handles form submits in the side drawer, data needs to upsdate state in app so we are passing it down two levels from here
   handleSubmit = (event, critLow, warnLow, norm, warnHigh, zone=false) => {
     event.preventDefault()
     let range = zone ? `${zone}${event.target.id}` : event.target.id;
@@ -36,7 +37,7 @@ class App extends React.Component {
       })
     })
   }
-
+  //handles SMS form submit in the side drawer, data needs to upsdate state in app so we are passing it down two levels from here
   handleSMSSubmit = (event, name, email, number) => {
     event.preventDefault()
     let smsObject = {
@@ -56,7 +57,7 @@ class App extends React.Component {
       })
     })
   }
-
+  //sets the initial ranges from mongoDB on mount
   componentDidMount() {
     fetch('/getRanges').then(res => res.json()).then((obj) => {
         this.setState({
@@ -68,10 +69,9 @@ class App extends React.Component {
   render() {
     return (
       <div id='body'>
-        {/* anything static to the page will go here */}
+        
         <div id='header' >
           <HomeHeader />
-          
         </div>
         
         <div>

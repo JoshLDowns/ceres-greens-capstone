@@ -17,11 +17,14 @@ class CurrentSubMenu extends React.Component {
       }
     
       handleInputChange(event) {
+        let numArray = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
         const target = event.target;
         const name = target.name;
-        this.setState({
-          [`${name}`]: target.value
-        })
+        if (numArray.includes(target.value[target.value.length-1]) || event.target.value === '') {
+          this.setState({
+            [`${name}`]: target.value
+          })
+        }
       }
 
       handleOption(event) {
@@ -64,7 +67,7 @@ class CurrentSubMenu extends React.Component {
                         </option>
                     </select>
                 </label>
-                <input type="submit" className='chart-close' id='ECRanges' onClick={(event)=>{this.props.handleSubmit(event, this.state.criticalLow, this.state.warningLow, this.state.normal, this.state.warningHigh, this.state.option); this.resetForm()}}></input>
+                <input type="submit" className='chart-close' id='ECRanges' onClick={(event)=>{this.props.handleSubmit(event, this.state.criticalLow, this.state.warningLow, this.state.normal, this.state.warningHigh, this.state.option); this.resetForm()}} disabled={(this.state.criticalLow === '' || this.state.warningLow === '' ||  this.state.warningHigh === '' || this.state.normal === '') ? true : false}></input>
             </form>
 
     )

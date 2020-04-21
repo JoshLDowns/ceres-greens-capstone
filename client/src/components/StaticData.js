@@ -5,6 +5,9 @@ import humsym from '../styles/images/humsymbol.png'
 import phsym from '../styles/images/phsymbol.png'
 import ecsym from '../styles/images/ecsymbol.png'
 
+//main farm display page that shows sensors in the worst condition
+//does not display in mobile formats
+
 class StaticData extends React.Component {
     constructor(props) {
         super(props)
@@ -97,6 +100,7 @@ class StaticData extends React.Component {
         }
     }
 
+    //on mount, it fetches initial sensor data, ranges, and machine states
     componentDidMount() {
         fetch('/getRanges').then(res => res.json()).then((obj) => {
             this.setState({
@@ -182,6 +186,7 @@ class StaticData extends React.Component {
                 pumps: obj.pumps
             })
         })
+        //sets the interval to poll the data base every 10 seconds and update state with current ranges
         let sensInt = setInterval(() => {
             fetch('/api').then(res => res.json()).then((data) => {
                 let sensorObjInt = this.buildSensors(data, this.state.previousData)
@@ -268,6 +273,7 @@ class StaticData extends React.Component {
                 })
             })
         }, 10000)
+        //sets the interval to check machine state and update state
         let machInt = setInterval(() => {
             fetch('/manage').then(res => res.json()).then((obj) => {
                 this.setState({
@@ -283,6 +289,7 @@ class StaticData extends React.Component {
         })
     }
 
+    //parses the incoming sensor data into the top 6 sensors based on ones in critical and warning ranges
     buildSensors = (data, oldData) => {
         let newSensorObj = {
             sensor1: {},
@@ -307,6 +314,7 @@ class StaticData extends React.Component {
         let normalArray = []
         let orderArray = []
         let count = 0
+        //first builds an array of all sensors in each range
         for (let sensor in data) {
             if (data[sensor].temperature) {
                 if ((data[sensor].temperature <= this.state.ranges.tempRanges.normal && data[sensor].temperature > this.state.ranges.tempRanges.warningLow) && (data[sensor].humidity <= this.state.ranges.humRanges.normal && data[sensor].humidity > this.state.ranges.humRanges.warningLow)) {
@@ -333,6 +341,7 @@ class StaticData extends React.Component {
             }
             count++
         }
+        //orders the sensors from critical to warning to normal ranges
         criticalArray.forEach(i => orderArray.push(i))
         warningArray.forEach(i => orderArray.push(i))
         normalArray.forEach(i => orderArray.push(i))
@@ -364,6 +373,7 @@ class StaticData extends React.Component {
         return newSensorObj;
     }
 
+    // ------------------ functions to determine the color of text and guages based on state of the sensor ------------------- //
     determineTempColor = (temp) => {
         if (temp > this.state.ranges.tempRanges.warningLow && temp <= this.state.ranges.tempRanges.normal) {
             return 'rgb(10, 222, 7)'//green//
@@ -423,6 +433,9 @@ class StaticData extends React.Component {
 
     }
 
+    // ------------------------------------------------------------------------------------------------------------------------------- //
+
+    //on update, checks if the ranges have been updated in the database (from state of App.js), and updates the ranges if need be
     componentDidUpdate() {
         let objectOne = this.state.ranges;
         let objectTwo = this.props.ranges;
@@ -433,6 +446,7 @@ class StaticData extends React.Component {
         }
     }
 
+    //on unmount, clears the polling intervals and sets a short timeout to allow for any extranious fetch to finish
     componentWillUnmount() {
         clearInterval(this.state.intervalMachines)
         clearInterval(this.state.intervalSensors)
@@ -495,6 +509,7 @@ class StaticData extends React.Component {
     }
 }
 
+//determines the trends of sensor data, and returns correct arrow to render
 function determineTrends(one, two) {
     let trendOne;
     let trendTwo;

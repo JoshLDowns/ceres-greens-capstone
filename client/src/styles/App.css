@@ -276,6 +276,7 @@ text {
 }
 
 #query-params {
+    overflow: hidden;
     width: Calc(98% + 6px);
     height: 17.5%;
     margin-top: 10px;
@@ -675,6 +676,12 @@ input[type='radio'] {
     border: 2px solid rgb(168, 152, 138);
 }
 
+.chart-close:disabled {
+    cursor: auto;
+    color: gray;
+    background-color: lightgray;
+}
+
 /*----------------Gauges----------------*/
 #gauges{
     display: flex;
@@ -686,7 +693,7 @@ input[type='radio'] {
 
 
 
-
+/* ----------- Mobile Formatting ------------ */
 
 @media (max-width: 768px) {
 

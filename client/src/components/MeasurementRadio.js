@@ -1,5 +1,6 @@
 import React from 'react'
 
+//radio form to select measurements for query
 function MeasurementRadio(props) {
     return (
         <div id='measurement-radio'>

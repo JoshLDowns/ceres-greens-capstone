@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import ReactDOM from 'react-dom'
 
 
-
+//builds clock and renders it to client
 class Clock extends React.Component {
   constructor(props) {
     super(props);
@@ -11,6 +11,7 @@ class Clock extends React.Component {
     this.state = { date: new Date() };
   }
 
+  //sets clock interval on mount
   componentDidMount() {
     this.timerID = setInterval(
       () => this.tick(),
@@ -18,10 +19,12 @@ class Clock extends React.Component {
     );
   }
 
+  //clears the interval on unmount
   componentWillUnmount() {
     clearInterval(this.timerID);
   }
 
+  //updates clock on interval
   tick() {
     this.setState({
       date: new Date()
@@ -47,14 +50,11 @@ ReactDOM.render(
 
 
 
-
+//builds the header bar
 const HomeHeader = (props) => {
   return (
     <div className="home-header">
       <div className="links">
-        {/*<Link to={"/"}>
-                <button id="home-button">Home</button>
-    </Link>*/}
         <Link to={'/static'}>
           <button id="static-button">Static Data</button>
         </Link>

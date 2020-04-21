@@ -34,9 +34,9 @@ class SMSSubMenu extends React.Component {
 
       <form className="sub-menu">
         <label className="sub-menu-content">Name:<input name="SMSName" onChange={this.handleInputChange} value={this.state.SMSName} /></label>
-        <label className="sub-menu-content">Email:<input name="SMSEmail" onChange={this.handleInputChange} value={this.state.SMSEmail} /></label>
+        <label className="sub-menu-content">Email:<input name="SMSEmail" type='email' onChange={this.handleInputChange} value={this.state.SMSEmail} /></label>
         <label className="sub-menu-content">Phone Number:<input name="SMSPhoneNum" onChange={this.handleInputChange} value={this.state.SMSPhoneNum} /></label>
-        <input type="submit" className='chart-close' onClick={(event) => { this.props.handleSMS(event, this.state.SMSName, this.state.SMSEmail, this.state.SMSPhoneNum); this.resetForm() }}></input>
+        <input type="submit" className='chart-close' onClick={(event) => { this.props.handleSMS(event, this.state.SMSName, this.state.SMSEmail, this.state.SMSPhoneNum); this.resetForm() }} disabled={(this.state.SMSPhoneNum === '' || this.state.SMSEmail === '' ||  this.SMSName === '') ? true : false}></input>
       </form>
 
     )
