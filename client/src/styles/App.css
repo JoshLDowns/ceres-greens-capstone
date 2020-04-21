@@ -608,19 +608,21 @@ input[type='radio'] {
 
 /* ------ Chart Modal Formatting ------ */
 #chart-modal {
-    position: absolute;
+    position: fixed;
     display: flex;
     flex-direction: column;
     align-items: center;
     z-index: 10;
-    top: 7.5%;
-    left: 7.5%;
+    top: 50%;
+    left: 50%;
+    margin-top: -42.5vh;
+    margin-left: -45vw;
+    width: 90vw;
+    height: 85vh;
     background: rgb(247, 219, 195);
     border: 5px solid black;
     box-shadow: 0 0 20px whitesmoke;
     border-radius: 10px;
-    width: 85%;
-    height: 85%;
 }
 
 #chart-head {
@@ -771,24 +773,12 @@ input[type='radio'] {
         width: 40%;
     }
 
-    #chart-modal {
-        position: absolute;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        z-index: 10;
-        top: -2vh;
-        left: 5vw;
-        background: rgb(247, 219, 195);
-        border: 5px solid black;
-        box-shadow: 0 0 20px whitesmoke;
-        border-radius: 10px;
-        width: 90vw;
-        height: 80vh;
-    }
-
     .chart-close-container {
         width: 25%;
+    }
+
+    #chart-head {
+        font-size: 1rem;
     }
 
     #chart {
